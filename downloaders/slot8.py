@@ -62,7 +62,7 @@ for node in result2:
 print('Data read.')
 print('Saving to slot8.dat...')
 
-with open('data/slot8.dat', 'w', encoding='utf-8') as f:
+with open('../data/slot8.dat', 'w', encoding='utf-8') as f:
 	for line in morph_dict:
 		f.write('%s: %s\n' % line)
 		
