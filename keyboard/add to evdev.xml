@@ -1,0 +1,11 @@
+	<layout>
+      <configItem>
+        <name>ith</name>
+        
+        <shortDescription>ith</shortDescription>
+        <description>Ithkuil</description>
+        <languageList>
+          <iso639Id>ith</iso639Id>
+        </languageList>
+      </configItem>
+    </layout>
