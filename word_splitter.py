@@ -315,30 +315,35 @@ def analyze_formative(parts):
     #now slots I-IV are determined and parts begin with slot V or VII     
         
     #are slots V and VI filled?
-    #search for glottal stop:
-    if 4 in slots and slots[4][-1] == '’':
+    #check format
+    if 12 in slots and slots[12] not in ('a', 'i', 'e', 'u'):
         slots[5] = parts[0]
         slots[6] = parts[1]
-        slots[4] = slots[4][:-1]
+        slots['type5'] = 'Cx'
         parts = parts[2:]
+        
+    #search for glottal stop:
+    if 4 in slots and slots[4][-1] == '’':
+        if 5 not in slots:
+            slots[5] = parts[0]
+            slots[6] = parts[1]
+            slots['type5'] = 'Cv'
+            parts = parts[2:]
+        slots[4] = slots[4][:-1]
     
-    #if there was no glottal stop, check -wë-
+    #if there was no glottal stop or format, check -wë-
     try:
         if 5 not in slots:
             for i in range(len(parts)):
                 if parts[i] == 'w' and parts[i+1] == 'ë' and i != 2:
                     slots[5] = parts[0]
                     slots[6] = parts[1]
+                    slots['type5'] = 'Cv'
                     parts = parts[2:]
                     break
     except:
         pass
     
-    #if there was no glottal stop or -wë-, check format
-    if 5 not in slots and 12 in slots and slots[12] not in ('a', 'i', 'e', 'u'):
-        slots[5] = parts[0]
-        slots[6] = parts[1]
-        parts = parts[2:]
     #now slots V and VII are determined and we are at slot VII
             
     slots[7] = parts[0]
@@ -358,8 +363,9 @@ def analyze_formative(parts):
     if parts[0] in ('w', 'y', 'h', 'hw'):
         if parts[0] == 'hw' and len(slots[8]) > 1 and slots[8][-1] == 'i' and slots[8][-2] != '’':
             slots[9] = 'y' + parts[1]
-        elif parts[0] == 'hw' and len(slots[8]) > 1 and slots[8][-1] == 'u' and slots[8][-2] != '’':
+        elif parts[0] == 'hw' and slots[8] in ('a','e','i','o','ö','ë'):
             slots[9] = 'w' + parts[1]
+            slots[8] = slots[8] + 'u'
         else:
             slots[9] = parts[0] + parts[1]
         parts = parts[2:]

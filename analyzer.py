@@ -27,11 +27,18 @@ def describe_formative(slots):
     for i in list(range(1,15)) + ['stress']:
         if i in slots:
             try:
-                if i == 7:
-                    desc.append(str(slots[i]))
-                    continue
-                if i != 11:
+                if i not in (5, 6, 7, 11):
                     desc.append(slot_dicts[i][slots[i]])
+                elif i in (5,7):
+                    if slots['type5'] == 'Cx':
+                        desc.append(str(slots[i]))
+                    else:
+                        desc.append(slot_dicts[1][slots[i]])
+                elif i == 6:
+                    if slots['type5'] == 'Cx':
+                        desc.append(slot_dicts[i][slots[i]])
+                    else:
+                        desc.append(slot_dicts[2][slots[i]])
                 else:
                     for suf in slots[11]:
                         desc.append('%s_%s' % (slot_dicts[i][suf[1]], slot_dicts[i][suf[0]]))
