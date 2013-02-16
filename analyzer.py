@@ -29,7 +29,7 @@ def describe_formative(slots):
             try:
                 if i not in (5, 6, 7, 11):
                     desc.append(slot_dicts[i][slots[i]])
-                elif i in (5,7):
+                elif i == 5:
                     if slots['type5'] == 'Cx':
                         desc.append(str(slots[i]))
                     else:
@@ -39,6 +39,8 @@ def describe_formative(slots):
                         desc.append(slot_dicts[i][slots[i]])
                     else:
                         desc.append(slot_dicts[2][slots[i]])
+                elif i == 7:
+                    desc.append(str(slots[i]))
                 else:
                     for suf in slots[11]:
                         desc.append('%s_%s' % (slot_dicts[i][suf[1]], slot_dicts[i][suf[0]]))
