@@ -142,7 +142,12 @@ def analyze_stress(parts):
     for i in range(len(parts3)-1, -1, -1):
         p = parts3[i][1]
         if p[0] in acute_vowels:
-            parts_no_stress[parts3[i][0]] = remove_accents(parts_no_stress[parts3[i][0]])
+            part = parts_no_stress[parts3[i][0]]
+            if part.index(p[0]) > 0 and part[part.index(p[0])-1] in ('a','e','i','o','u','ö','ë'):
+                part = part.replace(p[0], grave_vowels[acute_vowels.index(p[0])])
+                parts_no_stress[parts3[i][0]] = part
+            else:
+                parts_no_stress[parts3[i][0]] = remove_accents(parts_no_stress[parts3[i][0]])
             return name_dict[i-len(parts3)], parts_no_stress
         
     for i in range(len(parts3)-1, -1, -1):
