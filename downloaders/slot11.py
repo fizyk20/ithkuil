@@ -32,16 +32,19 @@ print('Reading data...')
 
 def read_table(node):
 	def res(row):
+		result = []
 		txt = row.td[0].__data__
 		txt = txt.replace('-','')
 		txt = txt.replace(' ','')
 		pts = txt.split('/')
 		for p in pts:
-			return (row.td[1].__data__, p)
-	result = [res(node.tr[0])]
+			result.append((row.td[1].__data__, p))
+		return result
+	
+	result = res(node.tr[0])
 	if node.tr[1].td[0].__data__[0] == '-':
 		for row in node.tr:
-			result.append(res(row))
+			result = result + res(row)
 	return result
 
 morph_dict = []
