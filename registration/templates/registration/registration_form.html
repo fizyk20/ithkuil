@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'registration_register' %}" style="margin-left: auto; margin-right: auto; margin-top: 10px; width: 400px;">
+{% csrf_token %}
+<table class="form">
+{{ form }}
+<tr><td colspan="2" class="submit"><input type="submit"/></td></tr>
+</table>
+</form>
+{% endblock %}

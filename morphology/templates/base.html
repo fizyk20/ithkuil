@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="{% static 'morphology/style.css' %}" type="text/css" />
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<div class="login_bar">
+<table>
+<tr>
+{% if user.is_authenticated %}
+<td style="padding-right: 30px;">Logged in as <b>{{ user.username }}</b></td>
+<td> &nbsp;&nbsp;&bullet;&nbsp;&nbsp; <a href="{% url 'auth_logout' %}">Log out</a> &nbsp;&nbsp;&bullet;&nbsp;&nbsp; </td>
+{% else %}
+<td style="padding-right: 30px;">Not logged in</td>
+<td> &nbsp;&nbsp;&bullet;&nbsp;&nbsp; <a href="{% url 'auth_login' %}">Log in</a>
+ &nbsp;&nbsp;&bullet;&nbsp;&nbsp; <a href="{% url 'registration_register' %}">Register</a>
+  &nbsp;&nbsp;&bullet;&nbsp;&nbsp; </td>
+{% endif %}
+</tr>
+</table>
+<div class="breadcrumbs">{% block breadcrumbs %}&nbsp;{% endblock %}</div>
+</div>
+{% block content %}{% endblock %}
+</body>
+</html>

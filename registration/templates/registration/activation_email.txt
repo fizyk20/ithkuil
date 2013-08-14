@@ -1,0 +1,4 @@
+In order to activate your account, use this link:
+http://{{ site.domain }}/accounts/activate/{{ activation_key }}/
+
+If you didn't register on {{ site.name }}, disregard this message.

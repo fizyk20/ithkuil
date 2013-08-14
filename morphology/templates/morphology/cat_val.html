@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Ithkuil - Value: {{ value.name }}{% endblock %}
+
+{% block content %}
+{% if value %}
+	<b>{{ value.name }}</b><br/>
+	<p>{{ value.description }}</p>
+	<a href="{% url 'morphology:category' value.category.id %}">Back to {{ value.category.name }}</a><br/>
+{% else %}
+	<b>BLA</b>
+{% endif %}
+{% endblock %}

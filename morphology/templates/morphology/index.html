@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Ithkuil{% endblock %}
+
+{% block breadcrumbs %}
+&nbsp;&gt;&nbsp;
+<a href="{% url 'morphology:index' %}">Index</a>
+&nbsp;&gt;&nbsp;
+{% endblock %}
+
+{% block content %}
+<h1>Categories</h1>
+{% if categories %}
+<ul>
+{% for cat in categories %}
+	<li><a href="{% url 'morphology:category' cat.id %}">{{ cat.name }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<h1>No categories defined</h1>
+{% endif %}
+{% endblock %}

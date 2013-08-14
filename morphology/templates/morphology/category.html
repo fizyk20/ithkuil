@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Ithkuil - Category: {{ category.name }}{% endblock %}
+
+{% block content %}
+{% if category %}
+	<b>{{ category.name }}</b><br/>
+	<p>{{ category.description }}</p>
+	<b>Values:</b><br/>
+	<ul>
+	{% for val in values %}
+		<li><a href="{% url 'morphology:cat_val' val.id %}">{{ val.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<b>BLA</b>
+{% endif %}
+	<a href="{% url 'morphology:index' %}">Back to index</a><br/>
+{% endblock %}
