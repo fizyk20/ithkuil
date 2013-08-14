@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import http.client
-from table_parser import TableParser, reformat, replace_h
+from downloaders.table_parser import TableParser, reformat, replace_h
+from morphology.models import *
 
 sess = http.client.HTTPConnection('ithkuil.net', 80)
 
@@ -48,8 +49,15 @@ def read_table(node):
 			current_per = reformat(row.td[mod_1].__data__)
 		current_aff = reformat(row.td[mod_1 + mod_2].__data__)
 		for i in range(mod_1 + mod_2 + 1, len(row.td)):
-			name = '%s/%s/%s/%s' % (current_ess_ext, current_per, current_aff, configs[i - mod_1 - mod_2 - 1])
-			result.append((name, replace_h(reformat(row.td[i].__data__))))
+			ess_ext = current_ess_ext.split('/')
+			essence = ess_ext[0]
+			extension = ess_ext[1]
+			result.append({ 'essence': essence,
+							'extension': extension,
+							'perspective': current_per,
+							'affiliation': current_aff,
+							'configuration': configs[i - mod_1 - mod_2 - 1],
+							'slot': replace_h(reformat(row.td[i].__data__)) })
 	return result
 
 morph_dict = []
@@ -57,10 +65,48 @@ for node in result2:
 	morph_dict += read_table(node)
 	
 print('Data read.')
-print('Saving to slot10.dat...')
+print('Saving...')
 
-with open('../data/slot10.dat', 'w', encoding='utf-8') as f:
-	for line in morph_dict:
-		f.write('%s: %s\n' % line)
+def value(code, cat):
+	try:
+		res = CategValue.objects.get(code=code)
+	except CategValue.DoesNotExist:
+		res = CategValue(code=code, category=Category.objects.get(name=cat))
+		res.save()
+	return res
+	
+try:
+	formative = WordType.objects.get(name='Formative')
+except WordType.DoesNotExist:
+	formative = WordType(name='Formative')
+	formative.save()
+	
+try:
+	slot = Slot.objects.filter(word_type__name='Formative', number='X').get(name='Ca')
+except Slot.DoesNotExist:
+	slot = Slot(number='X', name='Ca', word_type=formative)
+	slot.save()
+
+i = 1
+for data in morph_dict:
+	essence = value(data['essence'], 'Essence')
+	extension = value(data['extension'], 'Extension')
+	perspective = value(data['perspective'], 'Perspective')
+	affiliation = value(data['affiliation'], 'Affiliation')
+	configuration = value(data['configuration'], 'Configuration')
+	
+	try:
+		morph = Morpheme.objects.filter(slot__id=slot.id).get(content=data['slot'])
+	except Morpheme.DoesNotExist:
+		morph = Morpheme(content=data['slot'], slot=slot)
+		morph.save()
+		morph.values.add(essence)
+		morph.values.add(extension)
+		morph.values.add(perspective)
+		morph.values.add(affiliation)
+		morph.values.add(configuration)
+		
+	print('%d.' % i, morph.id, ':', morph.content, '-', essence.code, '/', extension.code, '/', perspective.code, '/', affiliation.code, '/', configuration.code)
+	i += 1
 		
 print('Done.')
