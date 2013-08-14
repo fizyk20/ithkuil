@@ -9,7 +9,7 @@
 	<b>Values:</b><br/>
 	<ul>
 	{% for val in values %}
-		<li><a href="{% url 'morphology:cat_val' val.id %}">{{ val.name }}</a></li>
+		<li><a href="{% url 'morphology:cat_val' val.id %}">{% if val.name %}{{ val.name }}{% else %}{{ val.code }}{% endif %}</a></li>
 	{% endfor %}
 	</ul>
 {% else %}
