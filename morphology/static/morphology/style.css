@@ -1,0 +1,45 @@
+body {
+	background-color: #FFFFFF;
+	font-family: verdana;
+	font-size: 12pt;
+}
+
+a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #000080;
+}
+
+a:hover {
+	color: #008000;
+}
+
+table.form {
+	border: 1px solid black;
+	border-collapse: true;
+}
+
+table.form tr td.submit {
+	text-align: center;
+}
+
+div.breadcrumbs {
+	padding: 7px;
+}
+
+div.login_bar {
+	margin: 0px 0px 20px 0px;
+	width: 100%;
+	background-color: #FFFFA0;
+}
+
+div.login_bar table {
+	margin-left: auto;
+	margin-right: 0px;
+	padding: 4px;
+	float: right;
+}
+
+div.login_bar table tr td {
+	padding: 0px 10px;
+}
