@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'morphology',
     'registration',
+    'analyzer',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

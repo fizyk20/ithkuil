@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^morph/', include('morphology.urls', namespace='morphology')),
+    url(r'^analyzer/', include('analyzer.urls', namespace='analyzer')),
     url(r'^accounts/', include('registration.backends.default.urls')),
 )

@@ -4,19 +4,15 @@
 
 {% block breadcrumbs %}
 &nbsp;&gt;&nbsp;
-<a href="{% url 'morphology:index' %}">Index</a>
+<a href="{% url 'home' %}">Index</a>
 &nbsp;&gt;&nbsp;
 {% endblock %}
 
 {% block content %}
-<h1>Categories</h1>
-{% if categories %}
-<ul>
-{% for cat in categories %}
-	<li><a href="{% url 'morphology:category' cat.id %}">{{ cat.name }}</a></li>
-{% endfor %}
-</ul>
-{% else %}
-<h1>No categories defined</h1>
-{% endif %}
+<center><div width="75%">
+<center><h1>Welcome!</h1></center>
+<p>Welcome to the Ithkuil morphology website. Here you can browse the database of Ithkuil's morphological categories and their values or do an automatic analysis of a sentence.</p>
+<center><a href="{% url 'morphology:index' %}">Morphology database</a><br/>
+<a href="{% url 'analyzer:index' %}">Analyzer</a></center>
+</div></center>
 {% endblock %}
