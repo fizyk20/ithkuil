@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Ithkuil Analyzer{% endblock %}
+
+{% block breadcrumbs %}
+&nbsp;&gt;&nbsp;
+<a href="{% url 'home' %}">Index</a>
+&nbsp;&gt;&nbsp;
+<a href="{% url 'analyzer:index' %}">Analyzer</a>
+&nbsp;&gt;&nbsp;
+{% endblock %}
+
+{% block content %}
+<center><h1>Analyzer</h1></center>
+<form method="post" action="{% url 'analyzer:index' %}" style="margin-top: 30px;">
+{% csrf_token %}
+<center>Sentence: <input type="text" name="sentence" id="sentence" style="width: 80%;"/> <br/>
+<br/><br/><input type="submit" value="Analyze" style="width: 30%;"/></center>
+</form>
+{% endblock %}
