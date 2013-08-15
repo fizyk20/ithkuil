@@ -1,34 +1,35 @@
-vowels = ['a','â','e','ê','ë','i','î','o','ô','ö','u','û','ü',
-          'á', 'é', 'í', 'ó', 'ú', 'à', 'è', 'ì', 'ò', 'ù']
+#-*- coding: utf-8 -*-
+vowels = [u'a',u'â',u'e',u'ê',u'ë',u'i',u'î',u'o',u'ô',u'ö',u'u',u'û',u'ü',
+          u'á', u'é', u'í', u'ó', u'ú', u'à', u'è', u'ì', u'ò', u'ù']
 
-bare_vowels = ['a', 'e', 'i', 'o', 'u']
-acute_vowels = ['á', 'é', 'í', 'ó', 'ú']
-grave_vowels = ['à', 'è', 'ì', 'ò', 'ù']
+bare_vowels = [u'a', u'e', u'i', u'o', u'u']
+acute_vowels = [u'á', u'é', u'í', u'ó', u'ú']
+grave_vowels = [u'à', u'è', u'ì', u'ò', u'ù']
 
-consonants_s = ['b', 'c', 'č', 'ç', 'd', 'f', 'g', 'h', 'j', 
-              'k', 'l', 'ļ', 'm', 'n', 'ň', 'p', 'q', 
-              'r', 'ř', 's', 'š', 't', 'ţ', 'v', 'w', 'x', 'y', 'z', 
-              'ż', 'ž']
-consonants_d = ['c’', 'cʰ', 'č’', 'čʰ', 'dh', 'k’', 'kʰ', 'p’', 'pʰ', 
-                'q’', 'qʰ', 't’', 'tʰ', 'xh']
-geminated = ['l', 'm', 'n', 'ň', 'r']
-tones = ['_','/','ˇ','^','¯']
+consonants_s = [u'b', u'c', u'č', u'ç', u'd', u'f', u'g', u'h', u'j', 
+              u'k', u'l', u'ļ', u'm', u'n', u'ň', u'p', u'q', 
+              u'r', u'ř', u's', u'š', u't', u'ţ', u'v', u'w', u'x', u'y', u'z', 
+              u'ż', u'ž']
+consonants_d = [u'c’', u'cʰ', u'č’', u'čʰ', u'dh', u'k’', u'kʰ', u'p’', u'pʰ', 
+                u'q’', u'qʰ', u't’', u'tʰ', u'xh']
+geminated = [u'l', u'm', u'n', u'ň', u'r']
+tones = [u'_',u'/',u'ˇ',u'^',u'¯']
 
 def remove_accents(s, preserve=False):
-    s = s.replace('á', 'a')
-    s = s.replace('é', 'e')
-    s = s.replace('í', 'i')
-    s = s.replace('ó', 'o')
-    s = s.replace('ú', 'u')
-    s = s.replace('à', 'a')
-    s = s.replace('è', 'e')
-    s = s.replace('ò', 'o')
-    s = s.replace('ì', 'i')
-    s = s.replace('ù', 'u')
+    s = s.replace(u'á', u'a')
+    s = s.replace(u'é', u'e')
+    s = s.replace(u'í', u'i')
+    s = s.replace(u'ó', u'o')
+    s = s.replace(u'ú', u'u')
+    s = s.replace(u'à', u'a')
+    s = s.replace(u'è', u'e')
+    s = s.replace(u'ò', u'o')
+    s = s.replace(u'ì', u'i')
+    s = s.replace(u'ù', u'u')
     return s
 
 def validation(s):
-    if s in ('h','w','y','hw','hh','hr','hm','hn','lw','ly','rw','ry','řw','řy'):
+    if s in (u'h',u'w',u'y',u'hw',u'hh',u'hr',u'hm',u'hn',u'lw',u'ly',u'rw',u'ry',u'řw',u'řy'):
         return True
     return False
 
@@ -54,7 +55,7 @@ def is_personal_adjunct(parts):
         if parts[-2] in ('w','y','h','hw'):
             return True
     else:
-        if '’' in parts[-2] and parts[-3] in ('w','y','h','hw'):
+        if u'’' in parts[-2] and parts[-3] in ('w','y','h','hw'):
             return True
     return False
 
@@ -84,15 +85,15 @@ def split_word(s):
         return []
     elif s[0] in tones:
         return [s[0]] + split_word(s[1:])
-    elif s[0] in consonants_s + ['’', 'ʰ', '-']:
+    elif s[0] in consonants_s + [u'’', u'ʰ', u'-']:
         part = ''
-        while s and s[0] in consonants_s + ['’', 'ʰ', '-']:
+        while s and s[0] in consonants_s + [u'’', u'ʰ', u'-']:
             part += s[0]
             s = s[1:]
         return [part] + split_word(s)
-    elif s[0] in vowels + ['’']:
+    elif s[0] in vowels + [u'’']:
         part = ''
-        while s and s[0] in vowels + ['’']:
+        while s and s[0] in vowels + [u'’']:
             part += s[0]
             s = s[1:]
         return [part] + split_word(s)
@@ -108,7 +109,7 @@ def analyze_stress(parts):
             
     parts3 = []
     for p in parts2:
-        parts4 = p.split('’')
+        parts4 = p.split(u'’')
         i = parts.index(p)
         for p4 in parts4:
             if p4: 
@@ -136,7 +137,7 @@ def analyze_stress(parts):
         p = parts3[i][1]
         if p[0] in acute_vowels:
             part = parts_no_stress[parts3[i][0]]
-            if p[0] in ('í', 'ú') and part.index(p[0]) > 0 and part[part.index(p[0])-1] in ('a','e','i','o','u','ö','ë'):
+            if p[0] in (u'í', u'ú') and part.index(p[0]) > 0 and part[part.index(p[0])-1] in (u'a',u'e',u'i',u'o',u'u',u'ö',u'ë'):
                 part = part.replace(p[0], grave_vowels[acute_vowels.index(p[0])])
                 parts_no_stress[parts3[i][0]] = part
             else:
@@ -194,7 +195,7 @@ def analyze_bias_adjunct(parts):
 def analyze_verbal_adjunct(parts):
     slots = {'type': 'Verbal adjunct'}
     
-    if len(parts)>2 and parts[-2][-1] == '’':
+    if len(parts)>2 and parts[-2][-1] == u'’':
         parts[-2] = parts[-2][:-1]
         slots['G'] = parts[-1]
         parts = parts[:-1]
@@ -234,16 +235,16 @@ def analyze_personal_adjunct(parts):
     if parts[-2] in ('w', 'y', 'h', 'hw'):
         slots['Cz'] = parts[-2]
         slots['Vz'] = parts[-1]
-        if parts[-3][-1] == '’':
+        if parts[-3][-1] == u'’':
             parts[-3] = parts[-3][:-1]
-            slots['Cz'] = '’' + slots['Cz']
+            slots['Cz'] = u'’' + slots['Cz']
         parts = parts[:-2]
         
     slots['C1'] = parts[-2]
     slots['V1'] = parts[-1]
     parts = parts[:-2]
     
-    if (len(slots['C1']) == 1 and slots['C1'] not in ('g', 'd', 'j', 'ż', 'c', 'b')) or slots['C1'] == 'xh':
+    if (len(slots['C1']) == 1 and slots['C1'] not in (u'g', u'd', u'j', u'ż', u'c', u'b')) or slots['C1'] == u'xh':
         #single-referent
         slots['CsVs'] = []
         if len(parts) == 1:
@@ -277,7 +278,7 @@ def analyze_formative(parts):
         parts = parts[1:]
         
     #bias
-    if parts[-2][-1] == '’':
+    if parts[-2][-1] == u'’':
         slots[13] = parts[-1]
         parts[-2] = parts[-2][:-1]
         slots[12] = parts[-2]
@@ -321,7 +322,7 @@ def analyze_formative(parts):
         parts = parts[2:]
         
     #search for glottal stop:
-    if 4 in slots and slots[4][-1] == '’':
+    if 4 in slots and slots[4][-1] == u'’':
         if 5 not in slots:
             slots[5] = parts[0]
             slots[6] = parts[1]
@@ -333,7 +334,7 @@ def analyze_formative(parts):
     try:
         if 5 not in slots:
             for i in range(len(parts)):
-                if parts[i] == 'w' and parts[i+1] == 'ë' and i != 2:
+                if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
                     slots[5] = parts[0]
                     slots[6] = parts[1]
                     slots['type5'] = 'Cv'
@@ -349,19 +350,19 @@ def analyze_formative(parts):
     parts = parts[2:]
     #now we know slots VII and VIII
     
-    if '’' in slots[8] and slots[8][-1] != '’':
+    if u'’' in slots[8] and slots[8][-1] != u'’':
         #handle xx'V case
-        pts = slots[8].split('’')
-        if pts[1] != 'a' or 4 not in slots:
+        pts = slots[8].split(u'’')
+        if pts[1] != u'a' or 4 not in slots:
             slots[4] = pts[1]
-        elif pts[1] != 'a' and 4 in slots:
+        elif pts[1] != u'a' and 4 in slots:
             raise Exception('wtf')
-        slots[8] = pts[0] + '’V'
+        slots[8] = pts[0] + u'’V'
     
     if parts[0] in ('w', 'y', 'h', 'hw'):
-        if parts[0] == 'hw' and len(slots[8]) > 1 and slots[8][-1] == 'i' and slots[8][-2] != '’':
+        if parts[0] == 'hw' and len(slots[8]) > 1 and slots[8][-1] == 'i' and slots[8][-2] != u'’':
             slots[9] = 'y' + parts[1]
-        elif parts[0] == 'hw' and slots[8] in ('a','e','i','o','ö','ë'):
+        elif parts[0] == 'hw' and slots[8] in (u'a',u'e',u'i',u'o',u'ö',u'ë'):
             slots[9] = 'w' + parts[1]
             slots[8] = slots[8] + 'u'
         else:
@@ -382,7 +383,8 @@ def analyze_formative(parts):
     return slots
     
 def analyze_word(word):
-    word = word.replace('\'','’')
+    word = unicode(word)
+    word = word.replace('\'', u'’')
     
     parts_stress = split_word(word.lower())
     stress, parts = analyze_stress(parts_stress)
