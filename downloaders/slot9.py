@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import http.client
-from table_parser import TableParser, reformat, replace_h
+from downloaders.table_parser import TableParser, reformat, replace_h
+from morphology.models import *
 
 sess = http.client.HTTPConnection('ithkuil.net', 80)
 
@@ -45,7 +46,7 @@ def read_table(node):
 			slots = node.tr[i].td[j].__data__.replace(' ','').replace('-','').split('/')
 			for s in slots:
 				if s != '—':
-					result.append(('%s/%s'%(mood,ill), s))
+					result.append({'mood': mood, 'illocution': ill, 'slot': s})
 	return result
 
 morph_dict = []
@@ -53,10 +54,40 @@ for node in result2:
 	morph_dict += read_table(node)
 	
 print('Data read.')
-print('Saving to slot9.dat...')
+print('Saving...')
 
-with open('../data/slot9.dat', 'w', encoding='utf-8') as f:
-	for line in morph_dict:
-		f.write('%s: %s\n' % line)
+def value(code, cat):
+	try:
+		res = CategValue.objects.get(code=code)
+	except CategValue.DoesNotExist:
+		res = CategValue(code=code, category=Category.objects.get(name=cat))
+		res.save()
+	return res
+	
+try:
+	formative = WordType.objects.get(name='Formative')
+except WordType.DoesNotExist:
+	formative = WordType(name='Formative')
+	formative.save()
+	
+try:
+	slot = Slot.objects.filter(word_type__name='Formative', number='IX').get(name='Ci+Vi')
+except Slot.DoesNotExist:
+	slot = Slot(number='IX', name='Ci+Vi', word_type=formative)
+	slot.save()
+
+for data in morph_dict:
+	mood = value(data['mood'], 'Mood')
+	ill = value(data['illocution'], 'Illocution')
+	
+	try:
+		morph = Morpheme.objects.filter(slot__id=slot.id).get(content=data['slot'])
+	except Morpheme.DoesNotExist:
+		morph = Morpheme(content=data['slot'], slot=slot)
+		morph.save()
+		morph.values.add(mood)
+		morph.values.add(ill)
+		
+	print(morph.id, ':', morph.content)
 		
 print('Done.')
