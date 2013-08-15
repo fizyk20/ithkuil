@@ -4,6 +4,10 @@ body {
 	font-size: 12pt;
 }
 
+h1 {
+	margin-top: 0px;
+}
+
 a {
 	font-weight: bold;
 	text-decoration: none;

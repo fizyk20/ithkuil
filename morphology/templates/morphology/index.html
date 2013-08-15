@@ -9,10 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<center><div width="75%">
 <center><h1>Welcome!</h1></center>
 <p>Welcome to the Ithkuil morphology website. Here you can browse the database of Ithkuil's morphological categories and their values or do an automatic analysis of a sentence.</p>
 <center><a href="{% url 'morphology:index' %}">Morphology database</a><br/>
 <a href="{% url 'analyzer:index' %}">Analyzer</a></center>
-</div></center>
 {% endblock %}
