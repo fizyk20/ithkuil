@@ -106,7 +106,8 @@ def describe_formative(slots):
 			if 'Format' in desc['categories']: del desc['categories']['Format']
 			special = suf
 			break
-	desc['suffixes'].remove(special)
+			
+	if special: desc['suffixes'].remove(special)
 	
 	cats = desc['categories'].items()	
 	cats.sort(key = lambda x: categories.index(x[0]) if x[0] in categories else 2000)

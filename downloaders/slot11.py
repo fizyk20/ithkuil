@@ -19,7 +19,7 @@ parser.feed(str(html))
 
 def test_table(node):
 	try:
-		return node.tr[0].td[0].__data__[0] == '-'
+		return reformat(node.tr[0].td[0].__data__)[0] == '-'
 	except:
 		return False
 	
@@ -84,6 +84,7 @@ for data in morph_dict:
 		morph = Morpheme(content=data['slot'], slot=slot)
 		morph.save()
 		morph.values.add(suf)
+		print('Creating...')
 		
 	print(morph.id, ':', morph.content)
 		
