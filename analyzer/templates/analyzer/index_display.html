@@ -31,6 +31,7 @@
 </tr>
 {% endfor %}
 </table><br/>
+{% if r.suffixes %}
 Suffixes:<br/>
 <table class="analysis">
 {% for suf in r.suffixes %}
@@ -40,6 +41,7 @@ Suffixes:<br/>
 <td>{{ suf.degree.name }}</td></tr>
 {% endfor %}
 </table>
+{% endif %}
 </li>
 {% endfor %}
 </ul>
