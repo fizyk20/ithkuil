@@ -2,6 +2,16 @@
 
 {% block title %}Ithkuil - Category: {{ category.name }}{% endblock %}
 
+{% block breadcrumbs %}
+&nbsp;&gt;&nbsp;
+<a href="{% url 'home' %}">Index</a>
+&nbsp;&gt;&nbsp;
+<a href="{% url 'morphology:index' %}">Morphology</a>
+&nbsp;&gt;&nbsp;
+<a href="{% url 'morphology:category' category.id %}">{{ category.name }}</a>
+&nbsp;&gt;&nbsp;
+{% endblock %}
+
 {% block content %}
 {% if category %}
 	<b>{{ category.name }}</b><br/>
