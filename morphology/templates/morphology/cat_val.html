@@ -10,7 +10,7 @@
 &nbsp;&gt;&nbsp;
 <a href="{% url 'morphology:category' value.category.id %}">{{ value.category.name }}</a>
 &nbsp;&gt;&nbsp;
-<a href="{% url 'morphology:cat_val' value.id %}">{{ value.name }}</a>
+<a href="{% url 'morphology:cat_val' value.id %}">{% firstof value.name value.code %}</a>
 &nbsp;&gt;&nbsp;
 {% endblock %}
 

@@ -85,6 +85,7 @@ def describe_formative(slots):
 			desc['categories'][val.category.name + mod] = val
 	
 	# special suffixes
+	special = None
 	for suf in desc['suffixes']:
 		if re.match('FE\d+', suf['suffix'].code):
 			num = int(suf['suffix'].code[2:])
@@ -103,9 +104,12 @@ def describe_formative(slots):
 			y = case%12
 			desc['categories']['Case (inc)'] = cases[y*6 + x]
 			if 'Format' in desc['categories']: del desc['categories']['Format']
+			special = suf
+			break
+	desc['suffixes'].remove(special)
 	
 	cats = desc['categories'].items()	
-	cats.sort(key = lambda x: categories.index(x[0]))
+	cats.sort(key = lambda x: categories.index(x[0]) if x[0] in categories else 2000)
 	desc['categories'] = cats
 	return desc
 			

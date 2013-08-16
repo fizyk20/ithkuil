@@ -30,7 +30,17 @@
 </td>
 </tr>
 {% endfor %}
-</table></li>
+</table><br/>
+Suffixes:<br/>
+<table class="analysis">
+{% for suf in r.suffixes %}
+<tr><td><a href="{% url 'morphology:cat_val' suf.suffix.id %}">
+{% firstof suf.suffix.name suf.suffix.code %}
+</a></td>
+<td>{{ suf.degree.name }}</td></tr>
+{% endfor %}
+</table>
+</li>
 {% endfor %}
 </ul>
 {% endblock %}
