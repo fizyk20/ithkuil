@@ -386,30 +386,38 @@ def analyze_word(word):
 	word = unicode(word)
 	word = word.replace('\'', u'’')
     
-	parts_stress = split_word(word.lower())
-	stress, parts = analyze_stress(parts_stress)
+	try:
+		parts_stress = split_word(word.lower())
+	except:
+		return {'error': 'Couldn\'t split word: %s' % word}
+		
+	try:
+		stress, parts = analyze_stress(parts_stress)
+	except:
+		return {'error': 'Couldn\'t analyze stress in word: %s' % word}
 
-	if is_bias_adjunct(parts):
-		slots = analyze_bias_adjunct(parts)
+	try:
+		if is_bias_adjunct(parts):
+			slots = analyze_bias_adjunct(parts)
 	
-	elif is_aspectual_adjunct(parts):
-		slots = analyze_aspectual_adjunct(parts)
-    
-	elif is_verbal_adjunct(parts):
-		slots = analyze_verbal_adjunct(parts)
+		elif is_aspectual_adjunct(parts):
+			slots = analyze_aspectual_adjunct(parts)
+		
+		elif is_verbal_adjunct(parts):
+			slots = analyze_verbal_adjunct(parts)
 	
-	elif is_affixual_adjunct(parts):
-		slots = analyze_affixual_adjunct(parts)
+		elif is_affixual_adjunct(parts):
+			slots = analyze_affixual_adjunct(parts)
 
-	elif is_personal_adjunct(parts):
-		slots = analyze_personal_adjunct(parts)
-		slots['[stress]'] = stress
-    
-	else:
-		try:
+		elif is_personal_adjunct(parts):
+			slots = analyze_personal_adjunct(parts)
+			slots['[stress]'] = stress
+		
+		else:
 			slots = analyze_formative(parts)
-		except:
-			slots = {'error': 'Couldn\'t analyze word: %s' % word}
-		slots['XV'] = stress
+			slots['XV'] = stress
+	
+	except:
+		slots = {'error': 'Couldn\'t analyze word: %s' % word}
         
 	return slots
