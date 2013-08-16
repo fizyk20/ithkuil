@@ -14,7 +14,7 @@ def index(request):
 		for word in words:
 			slots = analyze_word(word)
 			if 'error' in slots:
-				return render(request, 'index_error.html', slots)
+				return render(request, 'analyzer/index_error.html', slots)
 			slots['word'] = word
 			result.append(slots)
 		data['result'] = []
