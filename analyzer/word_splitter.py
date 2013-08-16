@@ -274,111 +274,111 @@ def analyze_formative(parts):
     #first, we determine slots XII and XIII
     #tone
     if parts[0] in tones:
-        slots[14] = parts[0]
+        slots['XIV'] = parts[0]
         parts = parts[1:]
         
     #bias
     if parts[-2][-1] == u'’':
-        slots[13] = parts[-1]
+        slots['XIII'] = parts[-1]
         parts[-2] = parts[-2][:-1]
-        slots[12] = parts[-2]
+        slots['XII'] = parts[-2]
         parts = parts[:-2]
         
     if parts[-1][0] in vowels:
-        slots[12] = parts[-1]
+        slots['XII'] = parts[-1]
         parts = parts[:-1]    
     #slots XII and XIII are now determined
     
     #now we determine if slots I-III are filled
     if parts[0][0] in vowels:
         if validation(parts[1]) or '-' in parts[1]:
-            slots[2] = parts[0]
-            slots[3] = parts[1]
-            slots[4] = parts[2]
+            slots['II'] = parts[0]
+            slots['III'] = parts[1]
+            slots['IV'] = parts[2]
             parts = parts[3:]
         else:
-            slots[4] = parts[0]
+            slots['IV'] = parts[0]
             parts = parts[1:]
     else:
         if validation(parts[0]) or '-' in parts[0]:
-            slots[3] = parts[0]
-            slots[4] = parts[1]
+            slots['III'] = parts[0]
+            slots['IV'] = parts[1]
             parts = parts[2:]
         else:
             if '-' in parts[2]:
-                slots[1] = parts[0]
-                slots[2] = parts[1]
-                slots[3] = parts[2]
-                slots[4] = parts[3]
+                slots['I'] = parts[0]
+                slots['II'] = parts[1]
+                slots['III'] = parts[2]
+                slots['IV'] = parts[3]
                 parts = parts[4:]
     #now slots I-IV are determined and parts begin with slot V or VII     
         
     #are slots V and VI filled?
     #check format
-    if 12 in slots and slots[12] not in ('a', 'i', 'e', 'u'):
-        slots[5] = parts[0]
-        slots[6] = parts[1]
+    if 'XII' in slots and slots['XII'] not in ('a', 'i', 'e', 'u'):
+        slots['V'] = parts[0]
+        slots['VI'] = parts[1]
         slots['type5'] = 'Cx'
         parts = parts[2:]
         
     #search for glottal stop:
-    if 4 in slots and slots[4][-1] == u'’':
-        if 5 not in slots:
-            slots[5] = parts[0]
-            slots[6] = parts[1]
+    if 'IV' in slots and slots['IV'][-1] == u'’':
+        if 'V' not in slots:
+            slots['V'] = parts[0]
+            slots['VI'] = parts[1]
             slots['type5'] = 'Cv'
             parts = parts[2:]
-        slots[4] = slots[4][:-1]
+        slots['IV'] = slots['IV'][:-1]
     
     #if there was no glottal stop or format, check -wë-
     try:
-        if 5 not in slots:
+        if 'V' not in slots:
             for i in range(len(parts)):
                 if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
-                    slots[5] = parts[0]
-                    slots[6] = parts[1]
+                    slots['V'] = parts[0]
+                    slots['VI'] = parts[1]
                     slots['type5'] = 'Cv'
                     parts = parts[2:]
                     break
     except:
         pass
     
-    #now slots V and VII are determined and we are at slot VII
+    #now slots V and VI are determined and we are at slot VII
             
-    slots[7] = parts[0]
-    slots[8] = parts[1]
+    slots['VII'] = parts[0]
+    slots['VIII'] = parts[1]
     parts = parts[2:]
     #now we know slots VII and VIII
     
-    if u'’' in slots[8] and slots[8][-1] != u'’':
+    if u'’' in slots['VIII'] and slots['VIII'][-1] != u'’':
         #handle xx'V case
-        pts = slots[8].split(u'’')
-        if pts[1] != u'a' or 4 not in slots:
-            slots[4] = pts[1]
-        elif pts[1] != u'a' and 4 in slots:
+        pts = slots['VIII'].split(u'’')
+        if pts[1] != u'a' or 'IV' not in slots:
+            slots['IV'] = pts[1]
+        elif pts[1] != u'a' and 'IV' in slots:
             raise Exception('wtf')
-        slots[8] = pts[0] + u'’V'
+        slots['VIII'] = pts[0] + u'’V'
     
     if parts[0] in ('w', 'y', 'h', 'hw'):
-        if parts[0] == 'hw' and len(slots[8]) > 1 and slots[8][-1] == 'i' and slots[8][-2] != u'’':
-            slots[9] = 'y' + parts[1]
-        elif parts[0] == 'hw' and slots[8] in (u'a',u'e',u'i',u'o',u'ö',u'ë'):
-            slots[9] = 'w' + parts[1]
-            slots[8] = slots[8] + 'u'
+        if parts[0] == 'hw' and len(slots['VIII']) > 1 and slots['VIII'][-1] == 'i' and slots['VIII'][-2] != u'’':
+            slots['IX'] = 'y' + parts[1]
+        elif parts[0] == 'hw' and slots['VIII'] in (u'a',u'e',u'i',u'o',u'ö',u'ë'):
+            slots['IX'] = 'w' + parts[1]
+            slots['VIII'] = slots['VIII'] + 'u'
         else:
-            slots[9] = parts[0] + parts[1]
+            slots['IX'] = parts[0] + parts[1]
         parts = parts[2:]
         
-    slots[10] = parts[0]
+    slots['X'] = parts[0]
     parts = parts[1:]
     
-    slots[11] = []
+    slots['XI'] = []
     while parts:
-        slots[11].append((parts[0], parts[1]))
+        slots['XI'].append((parts[0], parts[1]))
         parts = parts[2:]
     
-    if 4 not in slots:
-        slots[4] = 'a'
+    if 'IV' not in slots:
+        slots['IV'] = 'a'
     
     return slots
     

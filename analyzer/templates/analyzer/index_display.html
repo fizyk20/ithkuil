@@ -14,7 +14,7 @@
 <center><h1>Analyzer</h1></center>
 <ul>
 {% for r in result %}
-<li>{{ r }}</li>
+<li>{% for o in r %}{{ o.key }}: {{ o.value }}<br/>{% endfor %}</li>
 {% endfor %}
 </ul>
 {% endblock %}
