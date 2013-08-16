@@ -113,7 +113,9 @@ def analyze_stress(parts):
         i = parts.index(p)
         for p4 in parts4:
             if p4: 
-                if len(p4) == 2 and remove_accents(p4[1]) not in ('i','u'):
+                if len(p4) == 2 and p4[0] == p4[1]:
+                    parts3.append((i, p4))
+                elif len(p4) == 2 and remove_accents(p4[1]) not in ('i','u'):
                     parts3.append((i, p4[0]))
                     parts3.append((i, p4[1]))
                 elif len(p4) == 2 and p4[1] in grave_vowels:
@@ -122,8 +124,6 @@ def analyze_stress(parts):
                 elif len(p4) == 2 and p4[1] in acute_vowels:
                     parts3.append((i, p4[0]))
                     parts3.append((i, p4[1]))
-                elif len(p4) == 2 and p4[0] == p4[1]:
-                    parts3.append((i, p4))
                 else:
                     parts3.append((i, p4[0]))
     
