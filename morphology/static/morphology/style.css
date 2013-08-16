@@ -47,3 +47,10 @@ div.login_bar table {
 div.login_bar table tr td {
 	padding: 0px 10px;
 }
+
+table.analysis {
+}
+
+table.analysis tr td {
+	padding: 0px 10px;
+}

@@ -14,7 +14,23 @@
 <center><h1>Analyzer</h1></center>
 <ul>
 {% for r in result %}
-<li>{% for o in r %}{{ o.key }}: {{ o.value }}<br/>{% endfor %}</li>
+<li><b>{{ r.word }}</b><br/>
+<b>Type: {{ r.type }}</b><br/>
+<table class="analysis">
+{% for k, v in r.categories %}
+<tr>
+<td>{{ k }}</td> 
+<td>{% if v.id %}
+<a href="{% url 'morphology:cat_val' v.id %}">
+{% endif %}
+{% firstof v.name v.code v %}
+{% if v.id %}
+</a>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table></li>
 {% endfor %}
 </ul>
 {% endblock %}

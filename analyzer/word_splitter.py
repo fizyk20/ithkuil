@@ -224,7 +224,7 @@ def analyze_personal_adjunct(parts):
     slots = {'type': 'Personal adjunct'}
     
     if parts[0] in tones:
-        slots['tone'] = parts[0]
+        slots['[tone]'] = parts[0]
         parts = parts[1:]
         
     if parts[-1][0] not in vowels:
@@ -383,30 +383,33 @@ def analyze_formative(parts):
     return slots
     
 def analyze_word(word):
-    word = unicode(word)
-    word = word.replace('\'', u'’')
+	word = unicode(word)
+	word = word.replace('\'', u'’')
     
-    parts_stress = split_word(word.lower())
-    stress, parts = analyze_stress(parts_stress)
+	parts_stress = split_word(word.lower())
+	stress, parts = analyze_stress(parts_stress)
+
+	if is_bias_adjunct(parts):
+		slots = analyze_bias_adjunct(parts)
+	
+	elif is_aspectual_adjunct(parts):
+		slots = analyze_aspectual_adjunct(parts)
     
-    if is_bias_adjunct(parts):
-        slots = analyze_bias_adjunct(parts)
+	elif is_verbal_adjunct(parts):
+		slots = analyze_verbal_adjunct(parts)
+	
+	elif is_affixual_adjunct(parts):
+		slots = analyze_affixual_adjunct(parts)
+
+	elif is_personal_adjunct(parts):
+		slots = analyze_personal_adjunct(parts)
+		slots['[stress]'] = stress
+    
+	else:
+		try:
+			slots = analyze_formative(parts)
+		except:
+			slots = {'error': 'Couldn\'t analyze word: %s' % word}
+		slots['XV'] = stress
         
-    elif is_aspectual_adjunct(parts):
-        slots = analyze_aspectual_adjunct(parts)
-    
-    elif is_verbal_adjunct(parts):
-        slots = analyze_verbal_adjunct(parts)
-        
-    elif is_affixual_adjunct(parts):
-        slots = analyze_affixual_adjunct(parts)
-    
-    elif is_personal_adjunct(parts):
-        slots = analyze_personal_adjunct(parts)
-        slots['stress'] = stress
-    
-    else:
-        slots = analyze_formative(parts)
-        slots['stress'] = stress
-        
-    return slots
+	return slots
