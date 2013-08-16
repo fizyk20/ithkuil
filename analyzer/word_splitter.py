@@ -268,8 +268,10 @@ def analyze_personal_adjunct(parts):
             
     return slots
 
-def analyze_formative(parts):
+def analyze_formative(parts, force_cx=False):
 	slots = {'type': 'Formative'}
+	if not force_cx:
+		save_parts = parts[:]
     
     #first, we determine slots XII (Vf) and XIII (Cb)
     #tone
@@ -319,32 +321,37 @@ def analyze_formative(parts):
 				parts = parts[4:]
 	#now slots I-IV are determined and parts begin with slot V or VII     
     
-	#are slots V and VI filled?
-	#check format
-	if 'Vf' in slots and slots['Vf'] not in ('a', 'i', 'e', 'u'):
+	#are slots V and VI filled?	
+	if force_cx:
 		slots['Cx'] = parts[0]
 		slots['Vp'] = parts[1]
 		parts = parts[2:]
-
-	#search for glottal stop:
-	if 'Vr' in slots and slots['Vr'][-1] == u'’':
-		if 'Cx' not in slots:
-			slots['Cv'] = parts[0]
-			slots['Vl'] = parts[1]
+	else:
+		#check format
+		if 'Vf' in slots and slots['Vf'] not in ('a', 'i', 'e', 'u'):
+			slots['Cx'] = parts[0]
+			slots['Vp'] = parts[1]
 			parts = parts[2:]
-		slots['Vr'] = slots['Vr'][:-1]
 
-	#if there was no glottal stop or format, check -wë-
-	try:
-		if 'Cx' not in slots and 'Cv' not in slots:
-			for i in range(len(parts)):
-				if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
-					slots['Cv'] = parts[0]
-					slots['Vl'] = parts[1]
-					parts = parts[2:]
-					break
-	except:
-		pass
+		#search for glottal stop:
+		if 'Vr' in slots and slots['Vr'][-1] == u'’':
+			if 'Cx' not in slots:
+				slots['Cv'] = parts[0]
+				slots['Vl'] = parts[1]
+				parts = parts[2:]
+			slots['Vr'] = slots['Vr'][:-1]
+
+		#if there was no glottal stop or format, check -wë-
+		try:
+			if 'Cx' not in slots and 'Cv' not in slots:
+				for i in range(len(parts)):
+					if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
+						slots['Cv'] = parts[0]
+						slots['Vl'] = parts[1]
+						parts = parts[2:]
+						break
+		except:
+			pass
 
 	#now slots V and VI are determined and we are at slot VII
         
@@ -379,6 +386,13 @@ def analyze_formative(parts):
 	while parts:
 		slots['VxC'].append((parts[0], parts[1]))
 		parts = parts[2:]
+		
+	if not force_cx:
+		for deg, typ in slots['VxC']:
+			if typ in [u'tt', u'pk', u'qq', u'tk',
+						u'st’', u'sp’', u'sq’', u'sk’',
+						u'št’', u'šp’', u'šq’', u'šk’']:
+				return analyze_formative(save_parts, True)
 
 	if 'Vr' not in slots:
 		slots['Vr'] = 'a'

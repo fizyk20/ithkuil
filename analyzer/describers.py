@@ -1,4 +1,46 @@
 from morphology.models import *
+import re
+
+categories = [
+	'Root',
+	'Stem and Pattern',
+	'Designation',
+	'Incorporated root',
+	'Stem and Pattern (inc)',
+	'Designation (inc)',
+	'Perspective (inc)',
+	'Configuration (inc)',
+	'Case (inc)',
+	'Format',
+	'Relation',
+	'Function',
+	'Case',
+	'Essence',
+	'Extension',
+	'Perspective',
+	'Affiliation',
+	'Configuration',
+	'Context',
+	'Aspect',
+	'Mood',
+	'Phase',
+	'Sanction',
+	'Illocution',
+	'Version',
+	'Valence',
+	'Bias'
+]
+
+formats = [
+	'',
+	'SCH',
+	'ISR',
+	'ATH',
+	'RSL',
+	'SBQ',
+	'CCM',
+	'OBJ'
+]
 
 def morpheme(word_type, slot, content):
 	morphemes = Morpheme.objects.filter(slot__word_type__name=word_type).filter(slot__name=slot).filter(content=content).all()
@@ -10,15 +52,15 @@ def morpheme(word_type, slot, content):
 		return morphemes[0]
 
 def describe_formative(slots):
-	desc = {'type': 'Formative'}
+	desc = {'type': 'Formative', 'categories': {}}
 	del slots['type']
 	# describe each category
-	desc['categories'] = [('Root', slots['Cr'])]
+	desc['categories']['Root'] = slots['Cr']
 	desc['suffixes'] = []
 	del slots['Cr']
 	
 	if 'Cx' in slots:
-		desc['categories'].append(('Incorporated root', slots['Cx']))
+		desc['categories']['Incorporated root'] = slots['Cx']
 		del slots['Cx']
 	
 	for k in slots:
@@ -29,18 +71,42 @@ def describe_formative(slots):
 				msuf = morpheme('Formative', 'VxC', suf)
 				if not msuf or not mdeg:
 					return {'error': 'Invalid suffix or degree: %s%s' % (deg, suf)}
-				desc['suffixes'].append({'suffix': msuf, 'degree': mdeg})
+				desc['suffixes'].append({'suffix': msuf.values.all()[0], 'degree': mdeg.values.all()[0]})
 			continue
 		
 		morph = morpheme('Formative', k, slots[k])
 		if not morph:
-			desc['categories'].append((k, slots[k]))
+			desc['categories'][k] = slots[k]
 			continue
 		for val in morph.values.all():
 			mod = ''
 			if k == 'Vp':
 				mod = ' (inc)'
-			desc['categories'].append((val.category.name + mod, val))
+			desc['categories'][val.category.name + mod] = val
+	
+	# special suffixes
+	for suf in desc['suffixes']:
+		if re.match('FE\d+', suf['suffix'].code):
+			num = int(suf['suffix'].code[2:])
+			degs = suf['degree'].code.split('/')
+			typ = int(degs[0])
+			deg = int(degs[1])
+			p = ['M', 'U', 'N', 'A']
+			conf = ['UNI', 'DPX', 'DCT', 'AGG', 'SEG', 'CPN', 'COH', 'CST', 'MLT']
+			desc['categories']['Perspective (inc)'] = CategValue.objects.get(code=p[(num-1) % 4])
+			desc['categories']['Configuration (inc)'] = CategValue.objects.get(code=conf[(num-1) / 4 + (typ-1)])
+			cases = CategValue.objects.filter(category__name='Case').order_by('id').all()
+			form = desc['categories']['Format'].code if 'Format' in desc['categories'] else ''
+			case = formats.index(form)*9 + deg-1
+			# BEWARE: database-dependent code
+			x = case/12
+			y = case%12
+			desc['categories']['Case (inc)'] = cases[y*6 + x]
+			if 'Format' in desc['categories']: del desc['categories']['Format']
+	
+	cats = desc['categories'].items()	
+	cats.sort(key = lambda x: categories.index(x[0]))
+	desc['categories'] = cats
 	return desc
 			
 def describe_word(slots):
