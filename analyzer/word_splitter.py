@@ -1,48 +1,48 @@
 #-*- coding: utf-8 -*-
 vowels = [u'a',u'â',u'e',u'ê',u'ë',u'i',u'î',u'o',u'ô',u'ö',u'u',u'û',u'ü',
-          u'á', u'é', u'í', u'ó', u'ú', u'à', u'è', u'ì', u'ò', u'ù']
+			u'á', u'é', u'í', u'ó', u'ú', u'à', u'è', u'ì', u'ò', u'ù']
 
 bare_vowels = [u'a', u'e', u'i', u'o', u'u']
 acute_vowels = [u'á', u'é', u'í', u'ó', u'ú']
 grave_vowels = [u'à', u'è', u'ì', u'ò', u'ù']
 
 consonants_s = [u'b', u'c', u'č', u'ç', u'd', u'f', u'g', u'h', u'j', 
-              u'k', u'l', u'ļ', u'm', u'n', u'ň', u'p', u'q', 
-              u'r', u'ř', u's', u'š', u't', u'ţ', u'v', u'w', u'x', u'y', u'z', 
-              u'ż', u'ž']
+			u'k', u'l', u'ļ', u'm', u'n', u'ň', u'p', u'q', 
+			u'r', u'ř', u's', u'š', u't', u'ţ', u'v', u'w', u'x', u'y', u'z', 
+			u'ż', u'ž']
 consonants_d = [u'c’', u'cʰ', u'č’', u'čʰ', u'dh', u'k’', u'kʰ', u'p’', u'pʰ', 
-                u'q’', u'qʰ', u't’', u'tʰ', u'xh']
+				u'q’', u'qʰ', u't’', u'tʰ', u'xh']
 geminated = [u'l', u'm', u'n', u'ň', u'r']
 tones = [u'_',u'/',u'ˇ',u'^',u'¯']
 
 def remove_accents(s, preserve=False):
-    s = s.replace(u'á', u'a')
-    s = s.replace(u'é', u'e')
-    s = s.replace(u'í', u'i')
-    s = s.replace(u'ó', u'o')
-    s = s.replace(u'ú', u'u')
-    s = s.replace(u'à', u'a')
-    s = s.replace(u'è', u'e')
-    s = s.replace(u'ò', u'o')
-    s = s.replace(u'ì', u'i')
-    s = s.replace(u'ù', u'u')
-    return s
+	s = s.replace(u'á', u'a')
+	s = s.replace(u'é', u'e')
+	s = s.replace(u'í', u'i')
+	s = s.replace(u'ó', u'o')
+	s = s.replace(u'ú', u'u')
+	s = s.replace(u'à', u'a')
+	s = s.replace(u'è', u'e')
+	s = s.replace(u'ò', u'o')
+	s = s.replace(u'ì', u'i')
+	s = s.replace(u'ù', u'u')
+	return s
 
 def validation(s):
-    if s in (u'h',u'w',u'y',u'hw',u'hh',u'hr',u'hm',u'hn',u'lw',u'ly',u'rw',u'ry',u'řw',u'řy'):
-        return True
-    return False
+	if s in (u'h',u'w',u'y',u'hw',u'hh',u'hr',u'hm',u'hn',u'lw',u'ly',u'rw',u'ry',u'řw',u'řy'):
+		return True
+	return False
 
 def is_verbal_adjunct(parts):
-    if parts[-1][0] in vowels:
-        if '-' in parts[-2]:
-            return True
-    else:
-        if '-' in parts[-1]:
-            return True
-        if len(parts) > 2 and '-' in parts[-3]:
-            return True
-    return False
+	if parts[-1][0] in vowels:
+		if '-' in parts[-2]:
+			return True
+	else:
+		if '-' in parts[-1]:
+			return True
+		if len(parts) > 2 and '-' in parts[-3]:
+			return True
+	return False
 
 def is_personal_adjunct(parts):
     count_consonants = 0
@@ -269,118 +269,121 @@ def analyze_personal_adjunct(parts):
     return slots
 
 def analyze_formative(parts):
-    slots = {'type': 'Formative'}
+	slots = {'type': 'Formative'}
     
-    #first, we determine slots XII and XIII
+    #first, we determine slots XII (Vf) and XIII (Cb)
     #tone
-    if parts[0] in tones:
-        slots['XIV'] = parts[0]
-        parts = parts[1:]
+	if parts[0] in tones:
+		slots['[tone]'] = parts[0]
+		parts = parts[1:]
         
     #bias
-    if parts[-2][-1] == u'’':
-        slots['XIII'] = parts[-1]
-        parts[-2] = parts[-2][:-1]
-        slots['XII'] = parts[-2]
-        parts = parts[:-2]
+	if parts[-2][-1] == u'’':
+		slots['Cb'] = parts[-1]
+		parts[-2] = parts[-2][:-1]
+		slots['Vf'] = parts[-2]
+		parts = parts[:-2]
         
-    if parts[-1][0] in vowels:
-        slots['XII'] = parts[-1]
-        parts = parts[:-1]    
+	if parts[-1][0] in vowels:
+		slots['Vf'] = parts[-1]
+		parts = parts[:-1]    
     #slots XII and XIII are now determined
     
     #now we determine if slots I-III are filled
-    if parts[0][0] in vowels:
-        if validation(parts[1]) or '-' in parts[1]:
-            slots['II'] = parts[0]
-            slots['III'] = parts[1]
-            slots['IV'] = parts[2]
-            parts = parts[3:]
-        else:
-            slots['IV'] = parts[0]
-            parts = parts[1:]
-    else:
-        if validation(parts[0]) or '-' in parts[0]:
-            slots['III'] = parts[0]
-            slots['IV'] = parts[1]
-            parts = parts[2:]
-        else:
-            if '-' in parts[2]:
-                slots['I'] = parts[0]
-                slots['II'] = parts[1]
-                slots['III'] = parts[2]
-                slots['IV'] = parts[3]
-                parts = parts[4:]
-    #now slots I-IV are determined and parts begin with slot V or VII     
+	if parts[0][0] in vowels:
+		if validation(parts[1]) or '-' in parts[1]:
+			slots['Vl'] = parts[0]
+			if validation(parts[1]):
+				slots['Cg'] = parts[1]
+			else:
+				slots['Cs'] = parts[1]
+			slots['Vr'] = parts[2]
+			parts = parts[3:]
+		else:
+			slots['Vr'] = parts[0]
+			parts = parts[1:]
+	else:
+		if validation(parts[0]) or '-' in parts[0]:
+			if validation(parts[0]):
+				slots['Cg'] = parts[0]
+			else:
+				slots['Cs'] = parts[0]
+			slots['Vr'] = parts[1]
+			parts = parts[2:]
+		else:
+			if '-' in parts[2]:
+				slots['Cv'] = parts[0]
+				slots['Vl'] = parts[1]
+				slots['Cs'] = parts[2]
+				slots['Vr'] = parts[3]
+				parts = parts[4:]
+	#now slots I-IV are determined and parts begin with slot V or VII     
+    
+	#are slots V and VI filled?
+	#check format
+	if 'Vf' in slots and slots['Vf'] not in ('a', 'i', 'e', 'u'):
+		slots['Cx'] = parts[0]
+		slots['Vp'] = parts[1]
+		parts = parts[2:]
+
+	#search for glottal stop:
+	if 'Vr' in slots and slots['Vr'][-1] == u'’':
+		if 'Cx' not in slots:
+			slots['Cv'] = parts[0]
+			slots['Vl'] = parts[1]
+			parts = parts[2:]
+		slots['Vr'] = slots['Vr'][:-1]
+
+	#if there was no glottal stop or format, check -wë-
+	try:
+		if 'Cx' not in slots and 'Cv' not in slots:
+			for i in range(len(parts)):
+				if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
+					slots['Cv'] = parts[0]
+					slots['Vl'] = parts[1]
+					parts = parts[2:]
+					break
+	except:
+		pass
+
+	#now slots V and VI are determined and we are at slot VII
         
-    #are slots V and VI filled?
-    #check format
-    if 'XII' in slots and slots['XII'] not in ('a', 'i', 'e', 'u'):
-        slots['V'] = parts[0]
-        slots['VI'] = parts[1]
-        slots['type5'] = 'Cx'
-        parts = parts[2:]
+	slots['Cr'] = parts[0]
+	slots['Vc'] = parts[1]
+	parts = parts[2:]
+	#now we know slots VII and VIII
+
+	if u'’' in slots['Vc'] and slots['Vc'][-1] != u'’':
+		#handle xx'V case
+		pts = slots['Vc'].split(u'’')
+		if pts[1] != u'a' or 'Vr' not in slots:
+			slots['Vr'] = pts[1]
+		elif pts[1] != u'a' and 'Vr' in slots:
+			raise Exception('wtf')
+		slots['Vc'] = pts[0] + u'’V'
+
+	if parts[0] in ('w', 'y', 'h', 'hw'):
+		if parts[0] == 'hw' and len(slots['Vc']) > 1 and slots['Vc'][-1] == 'i' and slots['Vc'][-2] != u'’':
+			slots['Ci+Vi'] = 'y' + parts[1]
+		elif parts[0] == 'hw' and slots['Vc'] in (u'a',u'e',u'i',u'o',u'ö',u'ë'):
+			slots['Ci+Vi'] = 'w' + parts[1]
+			slots['Vc'] = slots['Vc'] + 'u'
+		else:
+			slots['Ci+Vi'] = parts[0] + parts[1]
+		parts = parts[2:]
         
-    #search for glottal stop:
-    if 'IV' in slots and slots['IV'][-1] == u'’':
-        if 'V' not in slots:
-            slots['V'] = parts[0]
-            slots['VI'] = parts[1]
-            slots['type5'] = 'Cv'
-            parts = parts[2:]
-        slots['IV'] = slots['IV'][:-1]
-    
-    #if there was no glottal stop or format, check -wë-
-    try:
-        if 'V' not in slots:
-            for i in range(len(parts)):
-                if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
-                    slots['V'] = parts[0]
-                    slots['VI'] = parts[1]
-                    slots['type5'] = 'Cv'
-                    parts = parts[2:]
-                    break
-    except:
-        pass
-    
-    #now slots V and VI are determined and we are at slot VII
-            
-    slots['VII'] = parts[0]
-    slots['VIII'] = parts[1]
-    parts = parts[2:]
-    #now we know slots VII and VIII
-    
-    if u'’' in slots['VIII'] and slots['VIII'][-1] != u'’':
-        #handle xx'V case
-        pts = slots['VIII'].split(u'’')
-        if pts[1] != u'a' or 'IV' not in slots:
-            slots['IV'] = pts[1]
-        elif pts[1] != u'a' and 'IV' in slots:
-            raise Exception('wtf')
-        slots['VIII'] = pts[0] + u'’V'
-    
-    if parts[0] in ('w', 'y', 'h', 'hw'):
-        if parts[0] == 'hw' and len(slots['VIII']) > 1 and slots['VIII'][-1] == 'i' and slots['VIII'][-2] != u'’':
-            slots['IX'] = 'y' + parts[1]
-        elif parts[0] == 'hw' and slots['VIII'] in (u'a',u'e',u'i',u'o',u'ö',u'ë'):
-            slots['IX'] = 'w' + parts[1]
-            slots['VIII'] = slots['VIII'] + 'u'
-        else:
-            slots['IX'] = parts[0] + parts[1]
-        parts = parts[2:]
-        
-    slots['X'] = parts[0]
-    parts = parts[1:]
-    
-    slots['XI'] = []
-    while parts:
-        slots['XI'].append((parts[0], parts[1]))
-        parts = parts[2:]
-    
-    if 'IV' not in slots:
-        slots['IV'] = 'a'
-    
-    return slots
+	slots['Ca'] = parts[0]
+	parts = parts[1:]
+
+	slots['VxC'] = []
+	while parts:
+		slots['VxC'].append((parts[0], parts[1]))
+		parts = parts[2:]
+
+	if 'Vr' not in slots:
+		slots['Vr'] = 'a'
+
+	return slots
     
 def analyze_word(word):
 	word = unicode(word)
@@ -415,7 +418,7 @@ def analyze_word(word):
 		
 		else:
 			slots = analyze_formative(parts)
-			slots['XV'] = stress
+			slots['[stress]'] = stress
 	
 	except:
 		slots = {'error': 'Couldn\'t analyze word: %s' % word}

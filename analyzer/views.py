@@ -25,3 +25,4 @@ def index(request):
 		return render(request, 'analyzer/index_display.html', data)
 	else:
 		return render(request, 'analyzer/index_form.html', data)
+		
