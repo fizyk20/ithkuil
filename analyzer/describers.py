@@ -82,6 +82,9 @@ def describe_formative(slots):
 			mod = ''
 			if k == 'Vp':
 				mod = ' (inc)'
+			# Assertive illocution in Cv functions as unmarked
+			if k == 'Cv' and val.category.name == 'Illocution' and val.code == 'ASR':
+				continue
 			desc['categories'][val.category.name + mod] = val
 	
 	# special suffixes
