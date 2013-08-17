@@ -280,7 +280,7 @@ def analyze_formative(parts, force_cx=False):
 		parts = parts[1:]
         
     #bias
-	if parts[-2][-1] == u'’':
+	if parts[-2][-1] == u'’' and len(parts) > 4:
 		slots['Cb'] = parts[-1]
 		parts[-2] = parts[-2][:-1]
 		slots['Vf'] = parts[-2]
