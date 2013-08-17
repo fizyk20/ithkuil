@@ -10,7 +10,7 @@ def index(request):
 	data = {}
 	if 'sentence' in request.POST:
 		sentence = request.POST['sentence']
-		words = sentence.split()
+		words = sentence.replace('.','').replace('!','').replace('?','').lower().split()
 		data['result'] = []
 		for word in words:
 			slots = analyze_word(word)

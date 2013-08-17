@@ -401,12 +401,12 @@ def analyze_formative(parts, force_cx=False):
     
 def analyze_word(word):
 	word = unicode(word)
-	word = word.replace('\'', u'’')
+	word = word.replace('\'', u'’').replace('‾','¯')
     
 	try:
 		parts_stress = split_word(word.lower())
 	except:
-		return {'error': 'Couldn\'t split word: %s' % word}
+		return {'error': 'Couldn\'t split word: %s (maybe it contained illegal characters?)' % word}
 		
 	try:
 		stress, parts = analyze_stress(parts_stress)
