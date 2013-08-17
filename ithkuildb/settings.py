@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'morphology',
     'registration',
     'analyzer',
+    'constructor',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

@@ -10,7 +10,8 @@
 
 {% block content %}
 <center><h1>Welcome!</h1></center>
-<p>Welcome to the Ithkuil morphology website. Here you can browse the database of Ithkuil's morphological categories and their values or do an automatic analysis of a sentence.</p>
+<p>Welcome to the Ithkuil morphology website. Here you can browse the database of Ithkuil's morphological categories and their values, do an automatic analysis of a sentence or construct a sentence by inputting proper roots and categories.</p>
 <center><a href="{% url 'morphology:index' %}">Morphology database</a><br/>
-<a href="{% url 'analyzer:index' %}">Analyzer</a></center>
+<a href="{% url 'analyzer:index' %}">Analyzer</a><br/>
+<a href="{% url 'constructor:index' %}">Constructor</a></center>
 {% endblock %}

@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^morph/', include('morphology.urls', namespace='morphology')),
     url(r'^analyzer/', include('analyzer.urls', namespace='analyzer')),
+    url(r'^constructor/', include('constructor.urls', namespace='constructor')),
     url(r'^accounts/', include('registration.backends.default.urls')),
 )

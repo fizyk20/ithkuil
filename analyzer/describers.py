@@ -121,5 +121,5 @@ def describe_word(slots):
 	if slots['type'] == 'Formative':
 		return describe_formative(slots)
 	else:
-		return slots
+		return {'categories': slots.items()}
 	
