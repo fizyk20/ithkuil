@@ -273,25 +273,12 @@ def analyze_formative(parts, force_cx=False):
 	if not force_cx:
 		save_parts = parts[:]
     
-    #first, we determine slots XII (Vf) and XIII (Cb)
-    #tone
+    # tone
 	if parts[0] in tones:
 		slots['[tone]'] = parts[0]
 		parts = parts[1:]
-        
-    #bias
-	if parts[-2][-1] == u'’' and len(parts) > 4:
-		slots['Cb'] = parts[-1]
-		parts[-2] = parts[-2][:-1]
-		slots['Vf'] = parts[-2]
-		parts = parts[:-2]
-        
-	if parts[-1][0] in vowels:
-		slots['Vf'] = parts[-1]
-		parts = parts[:-1]    
-    #slots XII and XIII are now determined
     
-    #now we determine if slots I-III are filled
+    # first, we determine if slots I-III are filled
 	if parts[0][0] in vowels:
 		if validation(parts[1]) or '-' in parts[1]:
 			slots['Vl'] = parts[0]
@@ -305,70 +292,75 @@ def analyze_formative(parts, force_cx=False):
 			slots['Vr'] = parts[0]
 			parts = parts[1:]
 	else:
-		if validation(parts[0]) or '-' in parts[0]:
+		# is slot I filled?
+		if '-' in parts[2]:
+			slots['Cv'] = parts[0]
+			slots['Vl'] = parts[1]
+			slots['Cs'] = parts[2]
+			slots['Vr'] = parts[3]
+			parts = parts[4:]
+		# if not, do we begin with slot III?
+		elif validation(parts[0]) or '-' in parts[0]:
 			if validation(parts[0]):
 				slots['Cg'] = parts[0]
 			else:
 				slots['Cs'] = parts[0]
 			slots['Vr'] = parts[1]
 			parts = parts[2:]
-		else:
-			if '-' in parts[2]:
-				slots['Cv'] = parts[0]
-				slots['Vl'] = parts[1]
-				slots['Cs'] = parts[2]
-				slots['Vr'] = parts[3]
-				parts = parts[4:]
-	#now slots I-IV are determined and parts begin with slot V or VII     
+	# now slots I-IV are determined and parts begin with slot V or VII     
     
-	#are slots V and VI filled?	
-	if force_cx:
-		slots['Cx'] = parts[0]
-		slots['Vp'] = parts[1]
+	# are slots V and VI filled?
+	# check for glottal stop:
+	if 'Vr' in slots and slots['Vr'][-1] == u'’':
+		slots[5] = parts[0]
+		slots[6] = parts[1]
 		parts = parts[2:]
+		slots['Vr'] = slots['Vr'][:-1]
+
+	# if there was no glottal stop, check -wë-
+	try:
+		if 5 not in slots:
+			for i in range(len(parts)):
+				if parts[i] in ('w', 'y', 'h', 'hw') and i != 2:
+					slots[5] = parts[0]
+					slots[6] = parts[1]
+					parts = parts[2:]
+					break
+	except:
+		pass
+		
+	# last - check format
+	if parts[-1][0] in vowels:
+		slots['Vf'] = parts[-1]
+		parts = parts[:-1]
+	elif parts[-2][-1] == u'’' and len(parts)-2 > 1:
+		slots['Vf'] = parts[-2][:-1]
+		slots['Cb'] = parts[-1]
+		parts = parts[:-2]
 	else:
-		#check format
-		if 'Vf' in slots and slots['Vf'] not in ('a', 'i', 'e', 'u'):
-			slots['Cx'] = parts[0]
-			slots['Vp'] = parts[1]
-			parts = parts[2:]
+		slots['Vf'] = 'a'
+		
+	if 5 not in slots and (slots['Vf'] not in ('a', 'i', 'e', 'u') or force_cx):
+		slots[5] = parts[0]
+		slots[6] = parts[1]
+		parts = parts[2:]
 
-		#search for glottal stop:
-		if 'Vr' in slots and slots['Vr'][-1] == u'’':
-			if 'Cx' not in slots:
-				slots['Cv'] = parts[0]
-				slots['Vl'] = parts[1]
-				parts = parts[2:]
-			slots['Vr'] = slots['Vr'][:-1]
-
-		#if there was no glottal stop or format, check -wë-
-		try:
-			if 'Cx' not in slots and 'Cv' not in slots:
-				for i in range(len(parts)):
-					if parts[i] == 'w' and parts[i+1] == u'ë' and i != 2:
-						slots['Cv'] = parts[0]
-						slots['Vl'] = parts[1]
-						parts = parts[2:]
-						break
-		except:
-			pass
-
-	#now slots V and VI are determined and we are at slot VII
-        
+	# now slots V and VI are determined and we are at slot VII    
 	slots['Cr'] = parts[0]
 	slots['Vc'] = parts[1]
 	parts = parts[2:]
-	#now we know slots VII and VIII
+	# now we know slots VII and VIII
 
 	if u'’' in slots['Vc'] and slots['Vc'][-1] != u'’':
-		#handle xx'V case
+		# handle xx'V case
 		pts = slots['Vc'].split(u'’')
 		if pts[1] != u'a' or 'Vr' not in slots:
 			slots['Vr'] = pts[1]
 		elif pts[1] != u'a' and 'Vr' in slots:
-			raise Exception('wtf')
+			raise Exception('Stem and Pattern defined twice: in Vr and Vc')
 		slots['Vc'] = pts[0] + u'’V'
 
+	# check for slot IX
 	if parts[0] in ('w', 'y', 'h', 'hw'):
 		if parts[0] == 'hw' and len(slots['Vc']) > 1 and slots['Vc'][-1] == 'i' and slots['Vc'][-2] != u'’':
 			slots['Ci+Vi'] = 'y' + parts[1]
@@ -378,22 +370,52 @@ def analyze_formative(parts, force_cx=False):
 		else:
 			slots['Ci+Vi'] = parts[0] + parts[1]
 		parts = parts[2:]
-        
+    
+    # slot X    
 	slots['Ca'] = parts[0]
 	parts = parts[1:]
 
+	# suffixes
 	slots['VxC'] = []
-	while parts:
+	while len(parts) > 1:
 		slots['VxC'].append((parts[0], parts[1]))
 		parts = parts[2:]
+	
+	if parts:
+		raise Exception('Unexpected slot after Ca/VxC!')
+	
+	fe_suffix = False
+	for deg, typ in slots['VxC']:
+		if typ in [u'tt', u'pk', u'qq', u'tk',
+					u'st’', u'sp’', u'sq’', u'sk’',
+					u'št’', u'šp’', u'šq’', u'šk’']:
+			fe_suffix = True
+			break
+			
+	if fe_suffix and 5 not in slots:
+		return analyze_formative(save_parts, True)
+	
+	# if there is format or format expansion suffix		
+	if fe_suffix or slots['Vf'] not in ('a', 'i', 'e', 'u'):
+		if 5 in slots and 6 in slots:
+			slots['Cx'] = slots[5]
+			slots['Vp'] = slots[6]
+			del slots[6]
+			del slots[5]
+		else:
+			raise Exception('Format was specified but there is no incorporated root!')
+	
+	# if slots V and VI are present, but they are not the incorporated root		
+	if 5 in slots and 6 in slots:
+		if 'Cv' in slots:
+			raise Exception('Cv defined twice (in slot I and V)!')
+		if 'Vl' in slots:
+			raise Exception('Vl defined twice (in slot II and VI)!')
+		slots['Cv'] = slots[5]
+		slots['Vl'] = slots[6]
+		del slots[5]
+		del slots[6]
 		
-	if not force_cx:
-		for deg, typ in slots['VxC']:
-			if typ in [u'tt', u'pk', u'qq', u'tk',
-						u'st’', u'sp’', u'sq’', u'sk’',
-						u'št’', u'šp’', u'šq’', u'šk’']:
-				return analyze_formative(save_parts, True)
-
 	if 'Vr' not in slots:
 		slots['Vr'] = 'a'
 
@@ -434,7 +456,7 @@ def analyze_word(word):
 			slots = analyze_formative(parts)
 			slots['[stress]'] = stress
 	
-	except:
-		slots = {'error': 'Couldn\'t analyze word: %s' % word}
+	except Exception as e:
+		slots = {'error': e.args[0]}
         
 	return slots
