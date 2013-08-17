@@ -401,7 +401,7 @@ def analyze_formative(parts, force_cx=False):
     
 def analyze_word(word):
 	word = unicode(word)
-	word = word.replace('\'', u'’').replace('‾','¯')
+	word = word.replace('\'', u'’').replace(u'‾', u'¯')
     
 	try:
 		parts_stress = split_word(word.lower())
