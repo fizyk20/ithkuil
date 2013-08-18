@@ -455,7 +455,8 @@ def analyze_word(word):
 		else:
 			slots = analyze_formative(parts)
 			slots['[stress]'] = stress
-	
+	except IndexError as e:
+		slots = {'error': 'A filled slot was expected, but it was empty!'}
 	except Exception as e:
 		slots = {'error': e.args[0]}
         
