@@ -27,6 +27,7 @@ def index(request):
 							break
 			else:
 				desc = {'word': word, 'type': '"Carried" word'}
+				previous_carrier = False
 			if 'error' in desc:
 				return render(request, 'analyzer/index_error.html', desc)
 			data['result'].append(desc)
