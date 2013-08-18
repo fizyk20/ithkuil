@@ -16,6 +16,7 @@
 {% for r in result %}
 <li><b>{{ r.word }}</b><br/>
 <b>Type: {{ r.type }}</b><br/>
+<i>{{ r.abbrev }}</i><br/>
 <table class="analysis">
 {% for k, v in r.categories %}
 <tr>
