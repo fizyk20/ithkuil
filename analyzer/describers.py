@@ -121,7 +121,7 @@ def morph_abbrevs_formative(abbrev):
 	return result
 
 def describe_formative(slots):
-	desc = {'type': 'Formative', 'categories': {}}
+	desc = {'type': 'Formative', 'categories': {}, 'suffixes': []}
 	del slots['type']
 	abbrev = {}	# for abbreviations
 	
@@ -130,7 +130,6 @@ def describe_formative(slots):
 		abbrev[k] = {}
 		if k == 'Cr':
 			desc['categories']['Root'] = slots['Cr']
-			desc['suffixes'] = []
 			abbrev['Cr']['root'] = slots['Cr']
 			continue
 			
@@ -143,7 +142,6 @@ def describe_formative(slots):
 		# suffixes
 		if k == 'VxC':
 			abbrev['VxC']['list'] = []
-			desc['suffixes'] = []
 			for deg, suf in slots[k]:
 				mdeg = morpheme('Formative', 'VxC', deg).values.all()[0]
 				msuf = morpheme('Formative', 'VxC', suf).values.all()[0]
