@@ -193,7 +193,10 @@ def describe_formative(slots):
 			
 	if special: desc['suffixes'].remove(special)
 	
-	desc['abbrev'] = morph_abbrevs_formative(abbrev)
+	try:
+		desc['abbrev'] = morph_abbrevs_formative(abbrev)
+	except:
+		desc['abbrev'] = 'Error while generating abbreviated form'
 	
 	cats = desc['categories'].items()	
 	cats.sort(key = lambda x: categories.index(x[0]) if x[0] in categories else 2000)
