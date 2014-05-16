@@ -12,7 +12,7 @@ consonants_s = ['b', 'c', 'č', 'ç', 'd', 'f', 'g', 'h', 'j',
 consonants_d = ['c’', 'cʰ', 'č’', 'čʰ', 'dh', 'k’', 'kʰ', 'p’', 'pʰ', 
 				'q’', 'qʰ', 't’', 'tʰ', 'xh']
 geminated = ['l', 'm', 'n', 'ň', 'r']
-tones = ['_','/','ˇ','^','¯']
+tones = ['\\', '_','/','ˇ','^','¯']
 
 def remove_accents(s):
 	s = s.replace('á', 'a')
