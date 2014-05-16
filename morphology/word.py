@@ -20,7 +20,7 @@ def split(s):
 			part += s[0]
 			s = s[1:]
 		return [part] + split(s)
-	raise Exception('Something went terribly wrong')
+	raise Exception('Something went terribly wrong: %s' % s[0])
 
 def isVerbalAdjunct(parts):
 	if parts[-1][0] in vowels:
@@ -75,8 +75,8 @@ class Word(metaclass=abc.ABCMeta):
 	_slots = None
 	
 	def __init__(self, word):
-		self.word = word
-		self.parts = split(word)
+		self.word = word.lower()
+		self.parts = split(word.lower())
 		self.type = self.wordType.name
 		self.stress = '-2'
 		self.tone = '\\'
@@ -88,7 +88,7 @@ class Word(metaclass=abc.ABCMeta):
 	
 	@staticmethod
 	def fromString(word):
-		parts = split(word)
+		parts = split(word.lower())
 		if isVerbalAdjunct(parts):
 			return VerbalAdjunct(word)
 		elif isPersonalAdjunct(parts):
