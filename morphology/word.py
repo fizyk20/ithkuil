@@ -82,8 +82,6 @@ class Word(metaclass=abc.ABCMeta):
 		self.word = word
 		self.parts = split(word)
 		self.type = self.wordType.name
-		self.stress = '-2'
-		self.tone = '\\'
 		
 	def __getattr__(self, attr):
 		if self._slots and attr in self._slots:
@@ -107,7 +105,11 @@ class Word(metaclass=abc.ABCMeta):
 			return Formative(word)
 	
 	@abc.abstractmethod
-	def describe(self):
+	def abbreviatedDescription(self):
+		pass
+	
+	@abc.abstractmethod
+	def fullDescription(self):
 		pass
 	
 	@abc.abstractmethod
@@ -119,6 +121,24 @@ class Word(metaclass=abc.ABCMeta):
 		if not self._slots:
 			self.analyze()
 		return self._slots
+	
+	@property
+	def tone(self):
+		if '[tone]' in self.slots:
+			return self.slots['[tone]']
+		return '\\'
+	
+	def morpheme(self, slot, content):
+		slotObj = session.query(ithSlot).filter(ithSlot.word_type_id == self.wordType.id).filter(ithSlot.name == slot).all()
+		if len(slotObj) != 1:
+			return content
+		slotObj = slotObj[0]
+		morph = session.query(ithMorpheme).filter(ithMorpheme.slot_id == slotObj.id).filter(ithMorpheme.content == content).all()
+		if len(morph) > 1:
+			return None
+		if len(morph) == 0:
+			return content
+		return morph[0]
 	
 
 class Formative(Word):
@@ -267,11 +287,11 @@ class Formative(Word):
 		
 	def analyze(self, force_cx=False):
 		parts = self.parts[:]
-		self._slots = {}
 		
+		self._slots = { '[stress]': self.stress }
 		# tone
 		if parts[0] in tones:
-			self.tone = parts[0]
+			self._slots['[tone]'] = parts[0]
 			parts = parts[1:]
 		
 		# first, we determine if self._slots I-III are filled
@@ -415,8 +435,51 @@ class Formative(Word):
 		if 'Vr' not in self._slots:
 			self._slots['Vr'] = 'a'
 	
-	def describe(self):
-		return 'Formative'
+	def abbreviatedDescription(self):
+		desc = []
+		
+		def values(morph):
+			if isinstance(morph, str):
+				return morph
+			vals = [x.code for x in morph.values]
+			return '/'.join(vals)
+		
+		def add(slot):
+			if slot in self.slots:
+				desc.append(values(self.morpheme(slot, self.slots[slot])))
+				
+		def suffix(suf):
+			deg = self.morpheme('VxC', suf[0]).values[0].code
+			suf = self.morpheme('VxC', suf[1]).values[0].code
+			desc.append('%s_%s' % (suf, deg))
+		
+		if 'Cx' in self.slots:
+			add('Cv')
+			add('Vl')
+		add('Cg')
+		add('Cs')
+		add('Vr')
+		if 'Cx' in self.slots:
+			add('Cx')
+			add('Vp')
+		else:
+			add('Cv')
+			add('Vl')
+		add('Cr')
+		add('Vc')
+		add('Ci+Vi')
+		add('Ca')
+		if 'VxC' in self.slots:
+			for suf in self.slots['VxC']:
+				suffix(suf)
+		add('Vf')
+		add('Cb')
+		add('[tone]')
+		add('[stress]')
+		return '-'.join(desc)
+	
+	def fullDescription(self):
+		return {'type': 'Formative'}
 	
 	
 class VerbalAdjunct(Word):
@@ -450,8 +513,11 @@ class VerbalAdjunct(Word):
 		if len(parts) > 4:
 			self._slots['A'] = parts[-5]
 	
-	def describe(self):
+	def abbreviatedDescription(self):
 		return 'Verbal adjunct'
+	
+	def fullDescription(self):
+		return {'type': 'Verbal adjunct'}
 	
 
 class PersonalAdjunct(Word):
@@ -463,7 +529,7 @@ class PersonalAdjunct(Word):
 		self._slots = {}
 	
 		if parts[0] in tones:
-			self.tone = parts[0]
+			self._slots['[tone]'] = parts[0]
 			parts = parts[1:]
 			
 		if parts[-1][0] not in vowels:
@@ -505,8 +571,11 @@ class PersonalAdjunct(Word):
 			if parts:
 				self._slots['Vw'] = parts[-1]
 		
-	def describe(self):
+	def abbreviatedDescription(self):
 		return 'Personal adjunct'
+		
+	def fullDescription(self):
+		return {'type': 'Personal adjunct'}
 	
 
 class AffixualAdjunct(Word):
@@ -516,8 +585,11 @@ class AffixualAdjunct(Word):
 	def analyze(self):
 		self._slots = {1: (self.parts[0], self.parts[1])}
 		
-	def describe(self):
+	def abbreviatedDescription(self):
 		return 'Affixual adjunct'
+		
+	def fullDescription(self):
+		return {'type': 'Affixual adjunct'}
 	
 
 class AspectualAdjunct(Word):
@@ -527,8 +599,11 @@ class AspectualAdjunct(Word):
 	def analyze(self):
 		self._slots = {1: self.parts[0]}
 		
-	def describe(self):
+	def abbreviatedDescription(self):
 		return 'Aspectual adjunct'
+		
+	def fullDescription(self):
+		return {'type': 'Aspectual adjunct'}
 	
 
 class BiasAdjunct(Word):
@@ -538,6 +613,9 @@ class BiasAdjunct(Word):
 	def analyze(self):
 		self._slots = {1: self.parts[0]}
 		
-	def describe(self):
+	def abbreviatedDescription(self):
 		return 'Bias adjunct'
+		
+	def fullDescription(self):
+		return {'type': 'Bias adjunct'}
 	
