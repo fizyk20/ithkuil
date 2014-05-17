@@ -1,9 +1,13 @@
 import abc
 from .helpers import *
 from .data import *
+from .exceptions import *
 from morphology import session
 
 def split(s):
+	if not isinstance(s, str):
+		raise TypeError('Word should be a string')
+	s = s.lower()
 	if not s:
 		return []
 	elif s[0] in tones:
@@ -20,7 +24,7 @@ def split(s):
 			part += s[0]
 			s = s[1:]
 		return [part] + split(s)
-	raise Exception('Something went terribly wrong: %s' % s[0])
+	raise InvalidCharacter(s[0])
 
 def isVerbalAdjunct(parts):
 	if parts[-1][0] in vowels:
@@ -75,8 +79,8 @@ class Word(metaclass=abc.ABCMeta):
 	_slots = None
 	
 	def __init__(self, word):
-		self.word = word.lower()
-		self.parts = split(word.lower())
+		self.word = word
+		self.parts = split(word)
 		self.type = self.wordType.name
 		self.stress = '-2'
 		self.tone = '\\'
@@ -88,7 +92,7 @@ class Word(metaclass=abc.ABCMeta):
 	
 	@staticmethod
 	def fromString(word):
-		parts = split(word.lower())
+		parts = split(word)
 		if isVerbalAdjunct(parts):
 			return VerbalAdjunct(word)
 		elif isPersonalAdjunct(parts):
@@ -121,40 +125,90 @@ class Formative(Word):
 	
 	wordType = session.query(ithWordType).filter(ithWordType.name == 'Formative').first()
 	
+	categories = [
+		'Root',
+		'Stem and Pattern',
+		'Designation',
+		'Incorporated root',
+		'Stem and Pattern (inc)',
+		'Designation (inc)',
+		'Perspective (inc)',
+		'Configuration (inc)',
+		'Case (inc)',
+		'Format',
+		'Relation',
+		'Function',
+		'Case',
+		'Essence',
+		'Extension',
+		'Perspective',
+		'Affiliation',
+		'Configuration',
+		'Context',
+		'Aspect',
+		'Mood',
+		'Phase',
+		'Sanction',
+		'Illocution',
+		'Version',
+		'Valence',
+		'Bias'
+	]
+	
+	formats = [
+		'',
+		'SCH',
+		'ISR',
+		'ATH',
+		'RSL',
+		'SBQ',
+		'CCM',
+		'OBJ'
+	]
+	
 	def analyzeStress(self):
 		parts2 = self.parts[:]
 		parts_no_stress = self.parts[:]
 		
+		# drop non-syllabic parts
 		for p in self.parts:
 			if p[0] not in vowels and '-' not in p:
 				parts2.remove(p)
-				
+		
+		# split into syllables	
 		parts3 = []
 		for p in parts2:
-			parts4 = p.split('’')
+			parts4 = p.split('’')	# sometimes a part may consist of more than one syllable
 			i = self.parts.index(p)
 			for p4 in parts4:
 				if p4: 
+					# case: doubled vowel
 					if len(p4) == 2 and p4[0] == p4[1]:
 						parts3.append((i, p4))
+					# case: two vowels, not a diphthong
 					elif len(p4) == 2 and remove_accents(p4[1]) not in ('i','u'):
 						parts3.append((i, p4[0]))
 						parts3.append((i, p4[1]))
+					# case: grave accent on second vowel (marking not a diphthong)
 					elif len(p4) == 2 and p4[1] in grave_vowels:
 						parts3.append((i, p4[0]))
 						parts3.append((i, remove_accents(p4[1])))
+					# case: acute accent on second vowel
 					elif len(p4) == 2 and p4[1] in acute_vowels:
 						parts3.append((i, p4[0]))
 						parts3.append((i, p4[1]))
+					# any other case
 					else:
 						parts3.append((i, p4[0]))
 		
+		# check for the easiest case of doubled vowel
 		for i in range(len(parts3)-1, -1, -1):
 			p = parts3[i][1]
 			if len(p)>1 and p[0] == p[1]:
 				parts_no_stress[parts3[i][0]] = p[0]
 				return str(i-len(parts3)), parts_no_stress
-			
+		
+		# if there is an acute accent somewhere, this is the stressed syllable	
 		for i in range(len(parts3)-1, -1, -1):
 			p = parts3[i][1]
 			if p[0] in acute_vowels:
@@ -165,11 +219,13 @@ class Formative(Word):
 				else:
 					parts_no_stress[parts3[i][0]] = remove_accents(parts_no_stress[parts3[i][0]])
 				return str(i-len(parts3)), parts_no_stress
-			
+		
+		# the hardest case - grave accent	
 		for i in range(len(parts3)-1, -1, -1):
 			p = parts3[i][1]
 			if p[0] in grave_vowels:
 				parts_no_stress[parts3[i][0]] = remove_accents(parts_no_stress[parts3[i][0]])
+				# grave accent on the ultimate syllable
 				if i == len(parts3)-1:
 					try:
 						if parts3[-3][1] not in bare_vowels:
@@ -177,8 +233,9 @@ class Formative(Word):
 						elif parts3[-4][1] not in bare_vowels:
 							return '-4', parts_no_stress
 					except:
-						return 'wtf', []
-					return 'wtf', []
+						pass
+					raise InvalidStress(p)
+				# grave accent on the penultimate syllable
 				elif i == len(parts3)-2:
 					try:
 						if parts3[-1][1] not in bare_vowels:
@@ -188,8 +245,9 @@ class Formative(Word):
 						elif parts3[-4][1] not in bare_vowels:
 							return '-4', parts_no_stress 
 					except:
-						return 'wtf', []
-					return 'wtf', []
+						pass
+					raise InvalidStress(p)
+				# grave accent on the antepenultimate syllable
 				elif i == len(parts3)-3:
 					try:
 						if parts3[-1][1] not in bare_vowels and parts3[-2][1] not in bare_vowels:
@@ -197,9 +255,10 @@ class Formative(Word):
 						else:
 							return '-4', parts_no_stress
 					except:
-						return 'wtf', []
-					return 'wtf', []
-			
+						pass
+					raise InvalidStress(p)
+		
+		# by default, return penultimate stress
 		return '-2', parts_no_stress
 	
 	def __init__(self, word):
