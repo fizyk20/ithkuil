@@ -84,9 +84,9 @@ class Word(metaclass=abc.ABCMeta):
 		self.type = self.wordType.name
 		
 	def __getattr__(self, attr):
-		if self._slots and attr in self._slots:
-			return self._slots[attr]
-		raise AttributeError
+		if self.slots and attr in self.slots:
+			return self.slots[attr]
+		raise AttributeError()
 	
 	@abc.abstractmethod
 	def abbreviatedDescription(self):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from .morphology import Word
+from .morphology import fromString
     
 print('Type \'quit\' to quit.')
 while True:
@@ -10,4 +10,4 @@ while True:
     words = text.split()
     for word in words:
         if not word: continue
-        print('%s: %s' % (word, Word.fromString(word).describe()))
+        print('%s: %s' % (word, fromString(word).abbreviatedDescription()))
