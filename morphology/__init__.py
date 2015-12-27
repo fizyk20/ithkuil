@@ -1,7 +1,10 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 
-engine = sqlalchemy.create_engine('sqlite:///morphology/morphology.db', echo=False)
+import os
+__module_path = os.path.dirname(__file__)
+
+engine = sqlalchemy.create_engine('sqlite:///{0}/morphology.db'.format(__module_path), echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 

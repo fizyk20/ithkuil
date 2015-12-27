@@ -2,7 +2,7 @@ from .word import Word
 from .data import *
 from .helpers import *
 from .exceptions import *
-from morphology import session
+from . import session
 
 class Formative(Word):
 	

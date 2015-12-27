@@ -1,1 +1,1 @@
-import morphology
+from . import morphology

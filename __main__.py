@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from morphology import Word
+from .morphology import Word
     
 print('Type \'quit\' to quit.')
 while True:

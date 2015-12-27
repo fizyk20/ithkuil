@@ -2,7 +2,7 @@ import abc
 from .helpers import *
 from .data import *
 from .exceptions import *
-from morphology import session
+from . import session
 
 def split(s):
 	if not isinstance(s, str):
