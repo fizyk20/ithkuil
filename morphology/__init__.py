@@ -10,9 +10,11 @@ session = Session()
 
 from .data import *
 from .word import *
+from .helpers import handle_special_chars
 from .formative import Formative
 
 def fromString(word):
+	word = handle_special_chars(word)
 	parts = split(word)
 	if isVerbalAdjunct(parts):
 		return VerbalAdjunct(word)

@@ -14,6 +14,19 @@ consonants_d = ['c’', 'cʰ', 'č’', 'čʰ', 'dh', 'k’', 'kʰ', 'p’', 'p�
 geminated = ['l', 'm', 'n', 'ň', 'r']
 tones = ['\\', '_','/','ˇ','^','¯']
 
+def handle_special_chars(s):
+	s = s.replace('\'', '’')
+	s = s.replace('ch', 'cʰ')
+	s = s.replace('kh', 'kʰ')
+	s = s.replace('ph', 'pʰ')
+	s = s.replace('qh', 'qʰ')
+	s = s.replace('th', 'tʰ')
+	if s.startswith('-'):
+		s = '¯' + s[1:]
+	if s.startswith('\\/'):
+		s = 'ˇ' + s[2:]
+	return s
+
 def remove_accents(s):
 	s = s.replace('á', 'a')
 	s = s.replace('é', 'e')
