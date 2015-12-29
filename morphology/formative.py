@@ -351,7 +351,7 @@ class Formative(Word):
 		def values(morph):
 			if isinstance(morph, str):
 				return { 'other': morph }
-			vals = { x.category.name: x.name for x in morph.values }
+			vals = { x.category.name: {'code': x.code, 'name': x.name} for x in morph.values }
 			return vals
 		
 		def add(slot):
