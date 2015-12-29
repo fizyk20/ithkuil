@@ -2,7 +2,7 @@ import abc
 from .helpers import *
 from .data import *
 from .exceptions import *
-from . import session
+from . import Session
 
 def split(s):
 	if not isinstance(s, str):
@@ -113,6 +113,7 @@ class Word(metaclass=abc.ABCMeta):
 		return '\\'
 	
 	def morpheme(self, slot, content):
+		session = Session()
 		slotObj = session.query(ithSlot).filter(ithSlot.word_type_id == self.wordType.id).filter(ithSlot.name == slot).all()
 		if len(slotObj) != 1:
 			return content
@@ -127,7 +128,7 @@ class Word(metaclass=abc.ABCMeta):
 
 class VerbalAdjunct(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Verbal adjunct').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Verbal adjunct').first()
 	
 	def analyze(self):
 		parts = self.parts[:]
@@ -165,7 +166,7 @@ class VerbalAdjunct(Word):
 
 class PersonalAdjunct(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Personal adjunct').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Personal adjunct').first()
 	
 	def analyze(self):
 		parts = self.parts[:]
@@ -223,7 +224,7 @@ class PersonalAdjunct(Word):
 
 class AffixualAdjunct(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Affixual adjunct').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Affixual adjunct').first()
 	
 	def analyze(self):
 		self._slots = {1: (self.parts[0], self.parts[1])}
@@ -237,7 +238,7 @@ class AffixualAdjunct(Word):
 
 class AspectualAdjunct(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Aspectual adjunct').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Aspectual adjunct').first()
 	
 	def analyze(self):
 		self._slots = {1: self.parts[0]}
@@ -251,7 +252,7 @@ class AspectualAdjunct(Word):
 
 class BiasAdjunct(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Bias adjunct').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Bias adjunct').first()
 	
 	def analyze(self):
 		self._slots = {1: self.parts[0]}

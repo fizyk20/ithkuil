@@ -2,11 +2,11 @@ from .word import Word
 from .data import *
 from .helpers import *
 from .exceptions import *
-from . import session
+from . import Session
 
 class Formative(Word):
 	
-	wordType = session.query(ithWordType).filter(ithWordType.name == 'Formative').first()
+	wordType = Session().query(ithWordType).filter(ithWordType.name == 'Formative').first()
 	
 	categories = [
 		'Root',
