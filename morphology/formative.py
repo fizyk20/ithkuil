@@ -236,7 +236,7 @@ class Formative(Word):
 			if pts[1] != 'a' or 'Vr' not in self._slots:
 				self._slots['Vr'] = pts[1]
 			elif pts[1] != 'a' and 'Vr' in self._slots:
-				raise Exception('Stem and Pattern defined twice: in Vr and Vc')
+				raise AnalysisException('Stem and Pattern defined twice: in Vr and Vc')
 			self._slots['Vc'] = pts[0] + '’V'
 	
 		# check for slot IX
@@ -261,7 +261,7 @@ class Formative(Word):
 			parts = parts[2:]
 		
 		if parts:
-			raise Exception('Unexpected slot after Ca/VxC!')
+			raise AnalysisException('Unexpected slot after Ca/VxC!')
 		
 		fe_suffix = False
 		for _, typ in self._slots['VxC']:
@@ -282,14 +282,14 @@ class Formative(Word):
 				del self._slots[6]
 				del self._slots[5]
 			else:
-				raise Exception('Format was specified but there is no incorporated root!')
+				raise AnalysisException('Format was specified but there is no incorporated root!')
 		
 		# if self._slots V and VI are present, but they are not the incorporated root		
 		if 5 in self._slots and 6 in self._slots:
 			if 'Cv' in self._slots:
-				raise Exception('Cv defined twice (in slot I and V)!')
+				raise AnalysisException('Cv defined twice (in slot I and V)!')
 			if 'Vl' in self._slots:
-				raise Exception('Vl defined twice (in slot II and VI)!')
+				raise AnalysisException('Vl defined twice (in slot II and VI)!')
 			self._slots['Cv'] = self._slots[5]
 			self._slots['Vl'] = self._slots[6]
 			del self._slots[5]

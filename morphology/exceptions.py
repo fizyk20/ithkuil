@@ -1,15 +1,17 @@
-class InvalidCharacter(Exception):
+class IthkuilException(Exception):
+	msg = '%s'
 	
 	def __init__(self, val):
 		self.val = val
 		
 	def __str__(self):
-		return 'Invalid character: %s' % self.val
+		return self.msg % self.val
+
+class InvalidCharacter(IthkuilException):
+	msg = 'Invalid character: %s'
 	
-class InvalidStress(Exception):
+class InvalidStress(IthkuilException):
+	msg = 'Invalid stress on syllable: %s'
 	
-	def __init__(self, val):
-		self.val = val
-		
-	def __str__(self):
-		return 'Invalid stress on syllable: %s' % self.val
+class AnalysisException(IthkuilException):
+	msg = 'Word analysis error: %s'
