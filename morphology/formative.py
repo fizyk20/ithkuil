@@ -297,25 +297,8 @@ class Formative(Word):
 			
 		if 'Vr' not in self._slots:
 			self._slots['Vr'] = 'a'
-	
-	def abbreviatedDescription(self):
-		desc = []
-		
-		def values(morph):
-			if isinstance(morph, str):
-				return morph
-			vals = [x.code for x in morph.values]
-			return '/'.join(vals)
-		
-		def add(slot):
-			if slot in self.slots:
-				desc.append(values(self.morpheme(slot, self.slots[slot])))
-				
-		def suffix(suf):
-			deg = self.morpheme('VxC', suf[0]).values[0].code
-			suf = self.morpheme('VxC', suf[1]).values[0].code
-			desc.append('%s_%s' % (suf, deg))
-		
+			
+	def fillResult(self, add, suffix):
 		if 'Cx' in self.slots:
 			add('Cv')
 			add('Vl')
@@ -339,9 +322,69 @@ class Formative(Word):
 		add('Cb')
 		add('[tone]')
 		add('[stress]')
+	
+	def abbreviatedDescription(self):
+		desc = []
+		
+		def values(morph):
+			if isinstance(morph, str):
+				return morph
+			vals = [x.code for x in morph.values]
+			return '/'.join(vals)
+		
+		def add(slot):
+			if slot in self.slots:
+				desc.append(values(self.morpheme(slot, self.slots[slot])))
+				
+		def suffix(suf):
+			deg = self.morpheme('VxC', suf[0]).values[0].code
+			suf = self.morpheme('VxC', suf[1]).values[0].code
+			desc.append('%s_%s' % (suf, deg))
+			
+		self.fillResult(add, suffix)
+		
 		return '-'.join(desc)
 	
 	def fullDescription(self):
-		return {'type': 'Formative'}
+		desc = {'type': 'Formative', 'categories': self.categories }
+		
+		def values(morph):
+			if isinstance(morph, str):
+				return { 'other': morph }
+			vals = { x.category.name: x.name for x in morph.values }
+			return vals
+		
+		def add(slot):
+			if slot in self.slots:
+				vals = values(self.morpheme(slot, self.slots[slot]))
+				# handle roots (primary and incorporated)
+				if 'other' in vals:
+					if slot == 'Cr':
+						desc['Root'] = vals['other']
+						del vals['other']
+					elif slot == 'Cx':
+						desc['Incorporated root'] = vals['other']
+						del vals['other']
+					elif 'other' in desc:
+						desc['other'] = '%s, %s' % (desc['other'], vals['other'])
+						del vals['other']
+				# handle categories for the incorporated root
+				if slot == 'Cx' or slot == 'Vp':
+					keys = list(vals.keys())
+					for k in keys:
+						vals[k + ' (inc)'] = vals[k]
+						del vals[k]
+				desc.update(vals)
+				
+		def suffix(suf):
+			if 'suffixes' not in desc:
+				desc['suffixes'] = []
+			deg = self.morpheme('VxC', suf[0]).values[0].name
+			suf = self.morpheme('VxC', suf[1]).values[0]
+			desc['suffixes'].append({'code': suf.code, 'name': suf.name, 'degree': deg})
+			
+		self.fillResult(add, suffix)
+		
+		return desc
 	
 	

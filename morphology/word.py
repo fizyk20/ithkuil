@@ -160,7 +160,7 @@ class VerbalAdjunct(Word):
 		return 'Verbal adjunct'
 	
 	def fullDescription(self):
-		return {'type': 'Verbal adjunct'}
+		return {'type': 'Verbal adjunct', 'categories': []}
 	
 
 class PersonalAdjunct(Word):
@@ -218,7 +218,7 @@ class PersonalAdjunct(Word):
 		return 'Personal adjunct'
 		
 	def fullDescription(self):
-		return {'type': 'Personal adjunct'}
+		return {'type': 'Personal adjunct', 'categories': []}
 	
 
 class AffixualAdjunct(Word):
@@ -232,7 +232,7 @@ class AffixualAdjunct(Word):
 		return 'Affixual adjunct'
 		
 	def fullDescription(self):
-		return {'type': 'Affixual adjunct'}
+		return {'type': 'Affixual adjunct', 'categories': []}
 	
 
 class AspectualAdjunct(Word):
@@ -246,7 +246,7 @@ class AspectualAdjunct(Word):
 		return 'Aspectual adjunct'
 		
 	def fullDescription(self):
-		return {'type': 'Aspectual adjunct'}
+		return {'type': 'Aspectual adjunct', 'categories': []}
 	
 
 class BiasAdjunct(Word):
@@ -260,5 +260,5 @@ class BiasAdjunct(Word):
 		return 'Bias adjunct'
 		
 	def fullDescription(self):
-		return {'type': 'Bias adjunct'}
+		return {'type': 'Bias adjunct', 'categories': []}
 	

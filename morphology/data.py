@@ -23,6 +23,8 @@ class ithCategValue(Base):
 	code = Column(String(8))
 	name = Column(String(128))
 	description = Column(Text)
+	category_id = Column(Integer, ForeignKey('ith_category.id'))
+	category = relationship('ithCategory')
 	
 
 class ithWordType(Base):
