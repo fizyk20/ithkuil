@@ -42,9 +42,11 @@ class Word(metaclass=abc.ABCMeta):
 			return self.slots['[tone]']
 		return '\\'
 	
-	def morpheme(self, slot, content):
+	def morpheme(self, slot, content, wordType=None):
+		if not wordType:
+			wordType = self.wordType
 		session = Session()
-		slotObj = session.query(ithSlot).filter(ithSlot.word_type_id == self.wordType.id).filter(ithSlot.name == slot).all()
+		slotObj = session.query(ithSlot).filter(ithSlot.word_type_id == wordType.id).filter(ithSlot.name == slot).all()
 		if len(slotObj) != 1:
 			return content
 		slotObj = slotObj[0]
