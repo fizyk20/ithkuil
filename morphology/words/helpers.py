@@ -24,6 +24,8 @@ def split(s):
     raise InvalidCharacter(s[0])
 
 def isVerbalAdjunct(parts):
+    if len(parts) < 2:
+        return False
     if parts[-1][0] in vowels:
         if '-' in parts[-2]:
             return True
@@ -35,6 +37,8 @@ def isVerbalAdjunct(parts):
     return False
     
 def isPersonalAdjunct(parts):
+    if len(parts) < 2:
+        return False
     count_consonants = 0
     for p in parts:
         if p[0] not in vowels:
