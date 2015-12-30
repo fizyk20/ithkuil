@@ -334,7 +334,7 @@ class Formative(Word):
 		
 		def add(slot):
 			# handle biases
-			if slot == 'Cb':
+			if slot == 'Cb' and slot in self.slots:
 				val = self.slots[slot]
 				if len(val) > 1 and val[-1] == val[-2]:
 					val = (val[:-1], True)
@@ -368,7 +368,7 @@ class Formative(Word):
 		
 		def add(slot):
 			# handle biases
-			if slot == 'Cb':
+			if slot == 'Cb' and slot in self.slots:
 				val = self.slots[slot]
 				if len(val) > 1 and val[-1] == val[-2]:
 					val = (val[:-1], True)
