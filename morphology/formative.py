@@ -360,13 +360,13 @@ class Formative(Word):
 				# handle roots (primary and incorporated)
 				if 'other' in vals:
 					if slot == 'Cr':
-						desc['Root'] = vals['other']
+						desc['Root'] = {'name': vals['other']}
 						del vals['other']
 					elif slot == 'Cx':
-						desc['Incorporated root'] = vals['other']
+						desc['Incorporated root'] = {'name': vals['other']}
 						del vals['other']
 					elif 'other' in desc:
-						desc['other'] = '%s, %s' % (desc['other'], vals['other'])
+						desc['other'] = {'name': '%s, %s' % (desc['other'], vals['other'])}
 						del vals['other']
 				# handle categories for the incorporated root
 				if slot == 'Cx' or slot == 'Vp':
