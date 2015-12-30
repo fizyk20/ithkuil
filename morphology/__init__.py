@@ -7,10 +7,14 @@ __module_path = os.path.dirname(__file__)
 engine = sqlalchemy.create_engine('sqlite:///{0}/morphology.db'.format(__module_path), echo=False)
 Session = scoped_session(sessionmaker(bind=engine))
 
-from .data import *
-from .word import *
 from .helpers import handle_special_chars
-from .formative import Formative
+from .words.helpers import *
+from .words.affixual import AffixualAdjunct
+from .words.aspectual import AspectualAdjunct
+from .words.bias import BiasAdjunct
+from .words.formative import Formative
+from .words.personal import PersonalAdjunct
+from .words.verbal import VerbalAdjunct
 
 def fromString(word):
 	word = handle_special_chars(word)
