@@ -1,7 +1,7 @@
 import abc
-from .helpers import *
-from .data import *
-from .exceptions import *
+from .helpers import vowels, consonants_s, tones
+from .data import ithWordType, ithSlot, ithMorpheme
+from .exceptions import InvalidCharacter
 from . import Session
 
 def split(s):

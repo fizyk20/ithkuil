@@ -1,7 +1,7 @@
 from .word import Word
-from .data import *
-from .helpers import *
-from .exceptions import *
+from .data import ithWordType
+from .helpers import vowels, grave_vowels, acute_vowels, bare_vowels, remove_accents, tones, validation
+from .exceptions import AnalysisException, InvalidStress
 from . import Session
 
 class Formative(Word):
@@ -157,7 +157,7 @@ class Formative(Word):
 			self._slots['[tone]'] = parts[0]
 			parts = parts[1:]
 		
-		# first, we determine if self._slots I-III are filled
+		# first, we determine if slots I-III are filled
 		if parts[0][0] in vowels:
 			if validation(parts[1]) or '-' in parts[1]:
 				self._slots['Vl'] = parts[0]
@@ -186,9 +186,9 @@ class Formative(Word):
 					self._slots['Cs'] = parts[0]
 				self._slots['Vr'] = parts[1]
 				parts = parts[2:]
-		# now self._slots I-IV are determined and parts begin with slot V or VII	 
+		# now slots I-IV are determined and parts begin with slot V or VII	 
 		
-		# are self._slots V and VI filled?
+		# are slots V and VI filled?
 		# check for glottal stop:
 		if 'Vr' in self._slots and self._slots['Vr'][-1] == '’':
 			self._slots[5] = parts[0]
@@ -224,11 +224,11 @@ class Formative(Word):
 			self._slots[6] = parts[1]
 			parts = parts[2:]
 	
-		# now self._slots V and VI are determined and we are at slot VII	
+		# now slots V and VI are determined and we are at slot VII	
 		self._slots['Cr'] = parts[0]
 		self._slots['Vc'] = parts[1]
 		parts = parts[2:]
-		# now we know self._slots VII and VIII
+		# now we know slots VII and VIII
 	
 		if '’' in self._slots['Vc'] and self._slots['Vc'][-1] != '’':
 			# handle xx'V case
@@ -284,7 +284,7 @@ class Formative(Word):
 			else:
 				raise AnalysisException('Format was specified but there is no incorporated root!')
 		
-		# if self._slots V and VI are present, but they are not the incorporated root		
+		# if slots V and VI are present, but they are not the incorporated root		
 		if 5 in self._slots and 6 in self._slots:
 			if 'Cv' in self._slots:
 				raise AnalysisException('Cv defined twice (in slot I and V)!')
