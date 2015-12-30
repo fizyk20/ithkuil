@@ -333,6 +333,18 @@ class Formative(Word):
 			return '/'.join(vals)
 		
 		def add(slot):
+			# handle biases
+			if slot == 'Cb':
+				val = self.slots[slot]
+				if len(val) > 1 and val[-1] == val[-2]:
+					val = (val[:-1], True)
+				elif val == 'xxh':
+					val = ('xh', True)
+				else:
+					val = (val, False)
+				desc.append('%s%s' % (self.morpheme(slot, val[0]).values[0].code, '+' if val[1] else ''))
+				return
+			
 			if slot in self.slots:
 				desc.append(values(self.morpheme(slot, self.slots[slot])))
 				
@@ -355,6 +367,19 @@ class Formative(Word):
 			return vals
 		
 		def add(slot):
+			# handle biases
+			if slot == 'Cb':
+				val = self.slots[slot]
+				if len(val) > 1 and val[-1] == val[-2]:
+					val = (val[:-1], True)
+				elif val == 'xxh':
+					val = ('xh', True)
+				else:
+					val = (val, False)
+				mor = self.morpheme(slot, val[0]).values[0]
+				desc['Bias'] = { 'code': mor.code, 'name': '%s%s' % (mor.name, '+' if val[1] else '')}
+				return
+			
 			if slot in self.slots:
 				vals = values(self.morpheme(slot, self.slots[slot]))
 				# handle roots (primary and incorporated)
