@@ -2,6 +2,7 @@ import abc
 from .helpers import split
 from ..data import ithSlot, ithMorpheme
 from .. import Session
+from ..exceptions import IthkuilException
 
 class Word(metaclass=abc.ABCMeta):
 	
@@ -33,7 +34,12 @@ class Word(metaclass=abc.ABCMeta):
 	@property
 	def slots(self):
 		if not self._slots:
-			self.analyze()
+			try:
+				self.analyze()
+			except IthkuilException:
+				raise
+			except:
+				raise IthkuilException('Invalid Ithkuil word: %s' % self.word)
 		return self._slots
 	
 	@property

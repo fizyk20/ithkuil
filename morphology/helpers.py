@@ -13,6 +13,10 @@ consonants_d = ['c’', 'cʰ', 'č’', 'čʰ', 'dh', 'k’', 'kʰ', 'p’', 'p�
 				'q’', 'qʰ', 't’', 'tʰ', 'xh']
 geminated = ['l', 'm', 'n', 'ň', 'r']
 tones = ['\\', '_','/','ˇ','^','¯']
+	
+def filter_chars(text):
+	valid_chars = vowels + consonants_s + tones + ['\'', '’', '-', ' ', 'ʰ']
+	return ''.join([x for x in text if x in valid_chars])
 
 def handle_special_chars(s):
 	s = s.replace('\'', '’')

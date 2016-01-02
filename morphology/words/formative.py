@@ -349,8 +349,11 @@ class Formative(Word):
 				desc.append(values(self.morpheme(slot, self.slots[slot])))
 				
 		def suffix(suf):
-			deg = self.morpheme('VxC', suf[0]).values[0].code
-			suf = self.morpheme('VxC', suf[1]).values[0].code
+			try:
+				deg = self.morpheme('VxC', suf[0]).values[0].code
+				suf = self.morpheme('VxC', suf[1]).values[0].code
+			except AttributeError:
+				raise AnalysisException('Invalid VxC suffix: %s%s' % (suf[0], suf[1]))
 			desc.append('%s_%s' % (suf, deg))
 			
 		self.fillResult(add, suffix)
