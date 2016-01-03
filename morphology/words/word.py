@@ -2,7 +2,7 @@ import abc
 from .helpers import split
 from ..data import ithSlot, ithMorpheme
 from .. import Session
-from ..exceptions import IthkuilException
+from ..exceptions import IthkuilException, AnalysisException
 
 class Word(metaclass=abc.ABCMeta):
 	
@@ -60,6 +60,9 @@ class Word(metaclass=abc.ABCMeta):
 		if len(morph) > 1:
 			return None
 		if len(morph) == 0:
-			return content
+			if wordType.name == 'Formative' and (slot == 'Cr' or slot == 'Cx'):
+				return content
+			else:
+				raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, wordType.name, content))
 		return morph[0]
 	

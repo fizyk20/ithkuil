@@ -17,7 +17,7 @@ class BiasAdjunct(Word):
             self._slots = {1: self.parts[0], 'plus': False}
         
     def abbreviatedDescription(self):
-        return 'Bias adjunct: %s%s' % (self.morpheme('Cb', self.slots[1], Formative.wordType).values[0].code, '+' if self.slots['plus'] else '') 
+        return 'Bias adjunct: %s%s' % (self.morpheme('Cb', self.slots[1], Formative.wordType).values[0].code, '+' if self.slots['plus'] else '')
         
     def fullDescription(self):
         mor = self.morpheme('Cb', self.slots[1], Formative.wordType).values[0]
