@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from morphology import fromString
+from ithkuil.morphology import fromString
 
 print('Formatives:\n')
 
