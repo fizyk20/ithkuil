@@ -1,8 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name = 'ithkuil',
     version = '0.1',
+    packages = find_packages(),
     
     description = 'A Python module implementing utilities for the Ithkuil constructed language',
     
@@ -25,5 +26,9 @@ setup(
     
     keywords = 'ithkuil',
     
-    install_requires = ['sqlalchemy']
+    install_requires = ['sqlalchemy'],
+    
+    package_data = {
+        '': ['*.db']
+    }
 )
