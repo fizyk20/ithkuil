@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name = 'ithkuil',
     version = '0.1',
-    packages = find_packages(),
+    packages = find_packages(exclude=['tests']),
     
     description = 'A Python module implementing utilities for the Ithkuil constructed language',
     
