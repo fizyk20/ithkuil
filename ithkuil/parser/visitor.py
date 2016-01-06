@@ -39,7 +39,7 @@ def dict_append_visitor(to_append):
         return result
     return visitor
 
-class FormativeVisitor(PTNodeVisitor):
+class IthkuilVisitor(PTNodeVisitor):
 
     visit_consonant = pass_visitor()
 
