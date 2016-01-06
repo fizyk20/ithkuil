@@ -108,7 +108,7 @@ class FormativeVisitor(PTNodeVisitor):
 
     visit_tone = dict_visitor('tone')
 
-    visit_bias = dict_visitor('bias')
+    visit_bias = dict_visitor('Cb')
 
     visit_validation = pass_visitor
 

@@ -180,7 +180,9 @@ suffix_fe_type <- ("tt" / "pk" / "qq" / "tk"
                 / "st’" / "sp’" / "sq’" / "sk’"
                 / "št’" / "šp’" / "šq’" / "šk’") !consonant;
 
-vf_no_format <- ("a" / "i" / "e" / "u") !vowel;
+vf_no_format <- ("a" / "i" / "e" / "u"
+               / "á" / "í" / "é" / "ú"
+               / "à" / "ì" / "è" / "ù") !vowel;
 vf <- vowels;
 vf_format <- !vf_no_format vf;
 
