@@ -166,7 +166,7 @@ civi <- consonant4 vowel;
 
 ca <- consonants;
 
-has_format <- suffixes_fe vf? / suffix* vf_format;
+has_format <- suffixes_fe vf? / suffixes vf_format;
 
 suffix <- vowels !suffix_fe_type consonants;
 
@@ -174,7 +174,7 @@ suffixes <- suffix*;
 
 suffix_format_exp <- vowels suffix_fe_type;
 
-suffixes_fe <- suffix* suffix_format_exp suffix*;
+suffixes_fe <- suffixes suffix_format_exp suffixes;
 
 suffix_fe_type <- ("tt" / "pk" / "qq" / "tk"
                 / "st’" / "sp’" / "sq’" / "sk’"

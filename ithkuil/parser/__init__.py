@@ -6,4 +6,4 @@ from .visitor import FormativeVisitor
 wordParser = ParserPEG(grammar, "word", debug=False)
 
 def parseWord(word):
-    return visit_parse_tree(wordParser.parse(word), FormativeVisitor(debug=True))
+    return visit_parse_tree(wordParser.parse(word), FormativeVisitor(debug=False))

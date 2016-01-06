@@ -96,9 +96,9 @@ class FormativeVisitor(PTNodeVisitor):
 
     def visit_suffix(self, node, children): return { 'type': children[1], 'degree': children[0] }
     
-    def visit_suffixes(self, node, children): return { 'VxC': [ x for x in children ]}
+    def visit_suffixes(self, node, children): return { 'VxC': children }
 
-    def visit_suffixes_fe(self, node, children): return { 'VxC': [ x for x in children ]}
+    def visit_suffixes_fe(self, node, children): return { 'VxC': children }
 
     def visit_stop(self, node, children): return '’'
 
