@@ -32,6 +32,13 @@ def dict_combine_visitor(a, node, children):
         if isinstance(child, dict): result.update(child)
     return result
 
+def dict_append_visitor(to_append):
+    def visitor(a, node, children):
+        result = dict_combine_visitor(a, node, children)
+        result.update(to_append)
+        return result
+    return visitor
+
 class FormativeVisitor(PTNodeVisitor):
 
     visit_consonant = pass_visitor()
@@ -42,7 +49,7 @@ class FormativeVisitor(PTNodeVisitor):
 
     visit_vowels = collect_visitor
     
-    visit_formative = dict_combine_visitor
+    visit_formative = dict_append_visitor({ 'type': 'formative' })
 
     visit_stress_formative = pass_visitor()
 
@@ -120,7 +127,7 @@ class FormativeVisitor(PTNodeVisitor):
     
     # vebal adjuncts
     
-    visit_verbal_adjunct = dict_combine_visitor
+    visit_verbal_adjunct = dict_append_visitor({ 'type': 'verbal adjunct' })
     
     visit_cl = dict_visitor('Cl')
     

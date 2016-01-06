@@ -4,6 +4,7 @@ from ithkuil.parser import parseWord
 words_to_test = [
     
     ('hruštrul-lyö’ň', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': 'hr',
         'Ve': 'u',
@@ -15,6 +16,7 @@ words_to_test = [
     }),
                  
     ('wëtöin-n', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': 'w',
         'Ve': 'ë',
@@ -26,6 +28,7 @@ words_to_test = [
     }),
                  
     ('hëtiun-n', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': 'h',
         'Ve': 'ë',
@@ -37,6 +40,7 @@ words_to_test = [
     }),
                  
     ('on-n', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': None,
         'Ve': None,
@@ -48,6 +52,7 @@ words_to_test = [
     }),
                  
     ('ur-rwu', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': None,
         'Ve': None,
@@ -59,6 +64,7 @@ words_to_test = [
     }),
                  
     ('ulan-n', {
+        'type': 'verbal adjunct',
         'tone': None,
         'Cl': None,
         'Ve': 'u',
@@ -66,6 +72,18 @@ words_to_test = [
         'Vm': 'a',
         'Cs': 'n-n',
         'Vs': None,
+        'Cb': None
+    }),
+                 
+    ('pal-lši', {
+        'type': 'verbal adjunct',
+        'tone': None,
+        'Cl': None,
+        'Ve': None,
+        'Cv': 'p',
+        'Vm': 'a',
+        'Cs': 'l-lš',
+        'Vs': 'i',
         'Cb': None
     })
 

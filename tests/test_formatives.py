@@ -4,6 +4,7 @@ from ithkuil.parser import parseWord
 words_to_test = [
     
     ('iskoùt', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -23,6 +24,7 @@ words_to_test = [
         }),
     
     ('iskoút', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -42,6 +44,7 @@ words_to_test = [
         }),
     
     ('ròihwâl', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -61,6 +64,7 @@ words_to_test = [
         }),
     
     ('òspâtlök', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -80,6 +84,7 @@ words_to_test = [
         }),
     
     ('ksûtpöör', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -99,6 +104,7 @@ words_to_test = [
         }),
     
     ('áksiyor', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -118,6 +124,7 @@ words_to_test = [
         }),
     
     ('ëitlàrrun',  {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -137,6 +144,7 @@ words_to_test = [
         }),
     
     ('ôrümzìl', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -156,6 +164,7 @@ words_to_test = [
         }),
     
     ('öömolûk', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -175,6 +184,7 @@ words_to_test = [
         }),
     
     ('pʰal', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -194,6 +204,7 @@ words_to_test = [
         }),
     
     ('eqoec', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -213,6 +224,7 @@ words_to_test = [
         }),
     
     ('¯üaklaršlá', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -232,6 +244,7 @@ words_to_test = [
         }),
     
     ('uipʰawâtļûxe’ň', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -251,6 +264,7 @@ words_to_test = [
         }),
     
     ('hremsoqaiţsurkoi', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': 'hr',
@@ -270,6 +284,7 @@ words_to_test = [
         }),
     
     ('/qʰûl-lyai’svukšei’arpîptó’ks', {
+            'type': 'formative',
             'Cv': 'qʰ',
             'Vl': 'û',
             'Cg': None,
@@ -289,6 +304,7 @@ words_to_test = [
         }),
     
     ('elal', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -308,6 +324,7 @@ words_to_test = [
         }),
     
     ('pʰall', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -327,6 +344,7 @@ words_to_test = [
         }),
     
     ('upšáll', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -346,6 +364,7 @@ words_to_test = [
         }),
     
     ('eqatļ', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
@@ -365,6 +384,7 @@ words_to_test = [
         }),
     
     ('aukkras', {
+            'type': 'formative',
             'Cv': None,
             'Vl': None,
             'Cg': None,
