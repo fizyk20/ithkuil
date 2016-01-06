@@ -245,7 +245,7 @@ words_to_test = [
             'Ca': 'tļ',
             'VxC': [{ 'type': 'x', 'degree': 'û' }],
             'Vf': 'e',
-            'Cb': '’ň',
+            'Cb': 'ň',
             'tone': None,
             'stress': -2
         }),
@@ -283,7 +283,7 @@ words_to_test = [
             'Ca': 'rp',
             'VxC': [{ 'type': 'pt', 'degree': 'î' }],
             'Vf': 'ó',
-            'Cb': '’ks',
+            'Cb': 'ks',
             'tone': '/',
             'stress': -1
         }),

@@ -120,7 +120,7 @@ preantepenultimate_stress <- stressed_syllable unmarked_syllable unmarked_syllab
 
 // ------------------- formative parsing -------------------------
 
-formative <- tone? stress_formative bias?;
+formative <- tone? stress_formative bias? !vowel !consonant;
 
 stress_formative <- penultimate_stress_formative
                   / ultimate_stress_formative
@@ -193,14 +193,27 @@ validation <- ("hw" / "hr" / "hh" / "hn" / "hm"
              / "řw" / "řy"
              / "w" / "y" / "h") !consonant;
 
-bias <- stop consonant consonant
-      / stop consonant;
+bias <- stop cb;
+
+cb <- consonant consonant
+    / consonant;
+      
+// ----------------------------- verbal adjuncts --------------------------
+
+verbal_adjunct <- tone? (((cl? ve !cs)? cv)? vm)? cs (vs (stop? cb)?)? !vowel !consonant;
+
+cl <- validation !"hh";
+
+vs <- unmarked_vowel unmarked_vowel?;
+
+ve <- unmarked_diphthong / unmarked_vowel;
+
+vm <- unmarked_vowel unmarked_vowel?;
 
 // ----------------------------- other ------------------------------------
 
 // dummy
 
-verbal_adjunct <- "verbal";
 personal_adjunct <- "personal";
 aspectual_adjunct <- "aspectual";
 affixual_adjunct <- "affixual";

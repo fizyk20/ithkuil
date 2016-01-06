@@ -1,7 +1,10 @@
 from arpeggio import PTNodeVisitor
 
-def pass_visitor(a, node, children):
-    return children[0]
+def pass_visitor(num=0):
+    def visitor(a, node, children):
+        print("Passing: ", children[num])
+        return children[num]
+    return visitor
 
 def collect_visitor(a, node, children):
     return ''.join(children)
@@ -11,10 +14,10 @@ def constant_visitor(const):
         return const
     return visitor
 
-def constant_add_visitor(const):
+def constant_add_visitor(const, num=0):
     def visitor(a, node, children):
-        children[0].update(const)
-        return children[0]
+        children[num].update(const)
+        return children[num]
     return visitor
     
 def dict_visitor(key):
@@ -23,6 +26,7 @@ def dict_visitor(key):
     return visitor
 
 def dict_combine_visitor(a, node, children):
+    print("Combining: ", children)
     result = {}
     for child in children:
         if isinstance(child, dict): result.update(child)
@@ -30,9 +34,9 @@ def dict_combine_visitor(a, node, children):
 
 class FormativeVisitor(PTNodeVisitor):
 
-    visit_consonant = pass_visitor
+    visit_consonant = pass_visitor()
 
-    visit_vowel = pass_visitor
+    visit_vowel = pass_visitor()
 
     visit_consonants = collect_visitor
 
@@ -40,7 +44,7 @@ class FormativeVisitor(PTNodeVisitor):
     
     visit_formative = dict_combine_visitor
 
-    visit_stress_formative = pass_visitor
+    visit_stress_formative = pass_visitor()
 
     visit_penultimate_stress_formative = constant_add_visitor({ 'stress': -2 })
 
@@ -88,9 +92,9 @@ class FormativeVisitor(PTNodeVisitor):
 
     visit_vf = dict_visitor('Vf')
 
-    visit_vf_format = pass_visitor
+    visit_vf_format = pass_visitor()
     
-    visit_suffix_fe_type = pass_visitor
+    visit_suffix_fe_type = pass_visitor()
 
     def visit_suffix_format_exp(self, node, children): return { 'type': children[1], 'degree': children[0] }
 
@@ -102,14 +106,28 @@ class FormativeVisitor(PTNodeVisitor):
 
     def visit_stop(self, node, children): return '’'
 
-    visit_geminable = pass_visitor
+    visit_geminable = pass_visitor()
 
-    visit_consonant4 = pass_visitor
+    visit_consonant4 = pass_visitor()
 
     visit_tone = dict_visitor('tone')
+    
+    visit_cb = dict_visitor('Cb')
 
-    visit_bias = dict_visitor('Cb')
+    visit_bias = pass_visitor(1)
 
-    visit_validation = pass_visitor
+    visit_validation = pass_visitor()
+    
+    # vebal adjuncts
+    
+    visit_verbal_adjunct = dict_combine_visitor
+    
+    visit_cl = dict_visitor('Cl')
+    
+    visit_vs = dict_visitor('Vs')
+    
+    visit_ve = dict_visitor('Ve')
+    
+    visit_vm = dict_visitor('Vm')
 
-    visit_word = pass_visitor
+    visit_word = pass_visitor()
