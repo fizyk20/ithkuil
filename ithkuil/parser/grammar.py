@@ -76,7 +76,7 @@ syllable <- sep (diphthong / vowel);
 
 bare_syllable <- sep (bare_diphthong / bare_vowel);
 
-unmarked_syllable <- sep (unmarked_diphthong / not_diphthong / unmarked_vowel);
+unmarked_syllable <- sep !double_syllable (unmarked_diphthong / not_diphthong / unmarked_vowel);
 
 decorated_syllable <-  sep ("öu" / "ëu" / "öi" / "ëi" / decorated_vowel);
 
