@@ -26,7 +26,7 @@ setup(
     
     keywords = 'ithkuil',
     
-    install_requires = ['sqlalchemy'],
+    install_requires = ['sqlalchemy', 'arpeggio'],
     
     package_data = {
         '': ['*.db']
