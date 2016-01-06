@@ -76,6 +76,8 @@ syllable <- sep (diphthong / vowel);
 
 bare_syllable <- sep (bare_diphthong / bare_vowel);
 
+unmarked_vocalic_block <- !double_syllable (unmarked_diphthong / not_diphthong / unmarked_vowel);
+
 unmarked_syllable <- sep !double_syllable (unmarked_diphthong / not_diphthong / unmarked_vowel);
 
 decorated_syllable <-  sep ("öu" / "ëu" / "öi" / "ëi" / decorated_vowel);
@@ -204,18 +206,72 @@ verbal_adjunct <- tone? (((cl? ve !cs)? cv)? vm)? cs (vs (stop? cb)?)? !vowel !c
 
 cl <- validation !"hh";
 
-vs <- unmarked_vowel unmarked_vowel?;
+vs <- unmarked_vocalic_block unmarked_vocalic_block?;
 
-ve <- unmarked_diphthong / unmarked_vowel;
+ve <- unmarked_vocalic_block;
 
-vm <- unmarked_vowel unmarked_vowel?;
+vm <- unmarked_vocalic_block unmarked_vocalic_block?;
 
-// ----------------------------- other ------------------------------------
+// ------------------------------ personal adjuncts -------------------------
 
-// dummy
+personal_adjunct <- (single_referent / dual_referent) !vowel !consonant;
+                  
+single_referent <- high_tone? (conjunct_form
+                  / long_form
+                  / collapsed_form
+                  / short_form);
+                  
+short_form <- c1 vcp1;
 
-personal_adjunct <- "personal";
-aspectual_adjunct <- "aspectual";
-affixual_adjunct <- "affixual";
-bias_adjunct <- "bias";
+long_form <- c1 vcp1 cz vz (stop cb)?;
+
+c1 <- consonant;
+
+vcp <- unmarked_vocalic_block unmarked_vocalic_block?;
+
+vcp1 <- vcp;
+
+vcp2 <- vcp;
+
+cz <- "hw" / "’h" / "’y" / "’w"
+    / "’" / "h" / "y" / "w";
+    
+vz <- "a" / "u" / "i" / "e" / "o" / "ö" / "ü"
+    / "ai" / "au" / "ei" / "eu" / "oi" / "iu";
+    
+conjunct_form <- rev_suffixes long_form;
+
+rev_suffixes <- rev_suffix+;
+
+rev_suffix <- csp vsp;
+
+csp <- consonant+;
+
+vsp <- unmarked_vocalic_block unmarked_vocalic_block?;
+
+collapsed_form <- vcp2 c1 vcp1;
+
+high_tone <- '¯';
+
+dual_referent <- four_tone? (vw? c2)? vcp2 ck vcp1 (cz vz (stop cb)?)?;
+
+vw <- "ö" / "e" / "a" / "ü" / "o" / "u" / "ë";
+
+c2 <- "hw" / "w" / "y" / "h";
+
+ck <- consonant+;
+
+four_tone <- "\" / "/" / "¯" / "_";
+
+// ------------------------------ aspectual adjuncts ------------------------
+
+aspectual_adjunct <- unmarked_vocalic_block+ !vowel !consonant;
+
+// ------------------------------ affixual adjuncts -------------------------
+
+affixual_adjunct <- unmarked_vocalic_block+ consonants !vowel !consonant;
+
+//------------------------------- bias adjuncts -----------------------------
+
+bias_adjunct <- cb !vowel !consonant;
 """

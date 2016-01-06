@@ -138,3 +138,59 @@ class IthkuilVisitor(PTNodeVisitor):
     visit_vm = dict_visitor('Vm')
 
     visit_word = pass_visitor()
+    
+    # personal adjuncts
+    
+    visit_personal_adjunct = dict_append_visitor({ 'type': 'personal adjunct' })
+    
+    visit_single_referent = dict_combine_visitor
+    
+    visit_short_form = dict_combine_visitor
+    
+    visit_long_form = dict_combine_visitor
+    
+    visit_c1 = dict_visitor('C1')
+    
+    visit_vcp = collect_visitor
+    
+    visit_vcp1 = dict_visitor('Vc')
+    
+    visit_vcp2 = dict_visitor('Vc2')
+    
+    visit_cz = dict_visitor('Cz')
+    
+    visit_vz = dict_visitor('Vz')
+    
+    visit_csp = collect_visitor
+    
+    visit_vsp = collect_visitor
+    
+    def visit_rev_suffix(self, node, children):
+        return { 'type': children[0], 'degree': children[1] }
+    
+    def visit_rev_suffixes(self, node, children):
+        return { 'VxC': children }
+    
+    visit_conjunct_form = dict_combine_visitor
+    
+    visit_collapsed_form = dict_combine_visitor
+    
+    visit_high_tone = dict_visitor('tone')
+    
+    visit_four_tone = dict_visitor('tone')
+    
+    visit_dual_referent = dict_combine_visitor
+    
+    visit_vw = dict_visitor('Vw')
+    
+    visit_ck = dict_visitor('Ck')
+    
+    visit_c2 = dict_visitor('C2')
+    
+    def visit_aspectual_adjunct(self, node, children):
+        return { 'type': 'aspectual adjunct', 'Vs': ''.join(children) }
+    
+    def visit_affixual_adjunct(self, node, children):
+        return { 'type': 'affixual adjunct', 'VxC': { 'type': children[1], 'degree': ''.join(children[:-1]) } }
+    
+    visit_bias_adjunct = dict_append_visitor({ 'type': 'bias adjunct' })
