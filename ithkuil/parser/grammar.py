@@ -239,9 +239,8 @@ cz <- "hw" / "’h" / "’y" / "’w"
 vz <- "a" / "u" / "i" / "e" / "o" / "ö" / "ü"
     / "ai" / "au" / "ei" / "eu" / "oi" / "iu";
     
-conjunct_form <- rev_suffixes long_form;
-
-rev_suffixes <- rev_suffix+;
+conjunct_form <- long_form
+               / rev_suffix long_form;
 
 rev_suffix <- csp vsp;
 
@@ -251,7 +250,7 @@ vsp <- unmarked_vocalic_block unmarked_vocalic_block?;
 
 collapsed_form <- vcp2 c1 vcp1;
 
-high_tone <- '¯';
+high_tone <- "\\" / "¯";
 
 dual_referent <- four_tone? (vw? c2)? vcp2 ck vcp1 (cz vz (stop cb)?)?;
 
@@ -261,7 +260,7 @@ c2 <- "hw" / "w" / "y" / "h";
 
 ck <- consonant+;
 
-four_tone <- "\" / "/" / "¯" / "_";
+four_tone <- "\\" / "/" / "¯" / "_";
 
 // ------------------------------ aspectual adjuncts ------------------------
 

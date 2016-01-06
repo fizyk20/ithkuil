@@ -2,7 +2,6 @@ from arpeggio import PTNodeVisitor
 
 def pass_visitor(num=0):
     def visitor(a, node, children):
-        print("Passing: ", children[num])
         return children[num]
     return visitor
 
@@ -26,7 +25,6 @@ def dict_visitor(key):
     return visitor
 
 def dict_combine_visitor(a, node, children):
-    print("Combining: ", children)
     result = {}
     for child in children:
         if isinstance(child, dict): result.update(child)
@@ -171,7 +169,15 @@ class IthkuilVisitor(PTNodeVisitor):
     def visit_rev_suffixes(self, node, children):
         return { 'VxC': children }
     
-    visit_conjunct_form = dict_combine_visitor
+    def visit_conjunct_form(self, node, children):
+        if len(children) == 2:
+            if 'VxC' in children[1]:
+                children[1]['VxC'].append(children[0])
+            else:
+                children[1]['VxC'] = [children[0]]
+            return children[1]
+        else:
+            return children[0]             
     
     visit_collapsed_form = dict_combine_visitor
     
