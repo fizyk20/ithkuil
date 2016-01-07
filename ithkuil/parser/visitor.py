@@ -139,7 +139,11 @@ class IthkuilVisitor(PTNodeVisitor):
     
     # personal adjuncts
     
-    visit_personal_adjunct = dict_append_visitor({ 'type': 'personal adjunct' })
+    visit_personal_adjunct = constant_add_visitor({ 'type': 'personal adjunct' })
+    
+    visit_single_referent_penultimate = constant_add_visitor({ 'stress': -2 })
+    
+    visit_single_referent_ultimate = constant_add_visitor({ 'stress': -1 })
     
     visit_single_referent = dict_combine_visitor
     
@@ -184,6 +188,14 @@ class IthkuilVisitor(PTNodeVisitor):
     visit_high_tone = dict_visitor('tone')
     
     visit_four_tone = dict_visitor('tone')
+    
+    visit_dual_referent_penultimate = constant_add_visitor({ 'stress' : -2 })
+    
+    visit_dual_referent_ultimate = constant_add_visitor({ 'stress' : -1 })
+    
+    visit_dual_referent_antepenultimate = constant_add_visitor({ 'stress' : -3 })
+    
+    visit_dual_referent_preantepenultimate = constant_add_visitor({ 'stress' : -4 })
     
     visit_dual_referent = dict_combine_visitor
     

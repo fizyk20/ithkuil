@@ -6,6 +6,7 @@ words_to_test = [
     ('poi', {
         'type': 'personal adjunct',
         'tone': None,
+        'stress': -2,
         'C1': 'p',
         'Vc': 'oi',
         'Cz': None,
@@ -21,6 +22,7 @@ words_to_test = [
     ('¯tiwu', {
         'type': 'personal adjunct',
         'tone': '¯',
+        'stress': -2,
         'C1': 't',
         'Vc': 'i',
         'Cz': 'w',
@@ -36,6 +38,7 @@ words_to_test = [
     ('foteuye’çç', {
         'type': 'personal adjunct',
         'tone': None,
+        'stress': -2,
         'C1': 't',
         'Vc': 'eu',
         'Cz': 'y',
@@ -51,6 +54,7 @@ words_to_test = [
     ('epoi', {
         'type': 'personal adjunct',
         'tone': None,
+        'stress': -2,
         'C1': 'p',
         'Vc': 'oi',
         'Cz': None,
@@ -61,6 +65,54 @@ words_to_test = [
         'C2': None,
         'Ck': None,
         'Cb': None
+    }),
+    
+    ('_uda', {
+        'type': 'personal adjunct',
+        'tone': '_',
+        'stress': -2,
+        'C1': None,
+        'Vc': 'a',
+        'Cz': None,
+        'Vz': None,
+        'VxC': None,
+        'Vc2': 'u',
+        'Vw': None,
+        'C2': None,
+        'Ck': 'd',
+        'Cb': None
+    }),
+    
+    ('awuçkʰoewi', {
+        'type': 'personal adjunct',
+        'tone': None,
+        'stress': -2,
+        'C1': None,
+        'Vc': 'oe',
+        'Cz': 'w',
+        'Vz': 'i',
+        'VxC': None,
+        'Vc2': 'u',
+        'Vw': 'a',
+        'C2': 'w',
+        'Ck': 'çkʰ',
+        'Cb': None
+    }),
+    
+    ('uhiaksai’wé’ks', {
+        'type': 'personal adjunct',
+        'tone': None,
+        'stress': -1,
+        'C1': None,
+        'Vc': 'ai',
+        'Cz': '’w',
+        'Vz': 'é',
+        'VxC': None,
+        'Vc2': 'ia',
+        'Vw': 'u',
+        'C2': 'h',
+        'Ck': 'ks',
+        'Cb': 'ks'
     })
 
 ]

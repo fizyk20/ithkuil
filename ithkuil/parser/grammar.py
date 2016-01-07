@@ -214,7 +214,24 @@ vm <- unmarked_vocalic_block unmarked_vocalic_block?;
 
 // ------------------------------ personal adjuncts -------------------------
 
-personal_adjunct <- (single_referent / dual_referent) !vowel !consonant;
+personal_adjunct <- single_referent_penultimate 
+                   / single_referent_ultimate
+                   / dual_referent_penultimate
+                   / dual_referent_ultimate
+                   / dual_referent_antepenultimate
+                   / dual_referent_preantepenultimate;
+
+single_referent_penultimate <- &penultimate_stress single_referent !vowel !consonant;
+
+single_referent_ultimate <- &ultimate_stress single_referent !vowel !consonant;
+
+dual_referent_penultimate <- &penultimate_stress dual_referent !vowel !consonant;
+
+dual_referent_ultimate <- &ultimate_stress dual_referent!vowel !consonant;
+
+dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !consonant;
+
+dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent !vowel !consonant;
                   
 single_referent <- high_tone? (conjunct_form
                   / long_form
@@ -225,9 +242,11 @@ short_form <- c1 vcp1;
 
 long_form <- c1 vcp1 cz vz (stop cb)?;
 
-c1 <- consonant;
+c1 <- "t" / "s" / "š" / "k" / "p" / "q" / "xh"
+    / "ç" / "l" / "v" / "r" / "ř" / "ţ" / "n"
+    / "x" / "ň" / "f" / "m" / "h" / "z" / "ļ" / "ž";
 
-vcp <- unmarked_vocalic_block unmarked_vocalic_block?;
+vcp <- vowel+;
 
 vcp1 <- vcp;
 
@@ -237,7 +256,11 @@ cz <- "hw" / "’h" / "’y" / "’w"
     / "’" / "h" / "y" / "w";
     
 vz <- "a" / "u" / "i" / "e" / "o" / "ö" / "ü"
-    / "ai" / "au" / "ei" / "eu" / "oi" / "iu";
+    / "ai" / "au" / "ei" / "eu" / "oi" / "iu"
+    / "á" / "é" / "í" / "ó" / "ú"
+    / "à" / "è" / "ì" / "ò" / "ù"
+    / "ái" / "áu" / "éi" / "éu" / "ói" / "íu"
+    / "ài" / "àu" / "èi" / "èu" / "òi" / "ìu";
     
 conjunct_form <- long_form
                / rev_suffix long_form;
@@ -246,7 +269,7 @@ rev_suffix <- csp vsp;
 
 csp <- consonant+;
 
-vsp <- unmarked_vocalic_block unmarked_vocalic_block?;
+vsp <- vowel+;
 
 collapsed_form <- vcp2 c1 vcp1;
 
@@ -254,11 +277,13 @@ high_tone <- "\\" / "¯";
 
 dual_referent <- four_tone? (vw? c2)? vcp2 ck vcp1 (cz vz (stop cb)?)?;
 
-vw <- "ö" / "e" / "a" / "ü" / "o" / "u" / "ë";
+vw <- "ö" / "e" / "a" / "ü" / "o" / "u" / "ë"
+    / "é" / "á" / "ó" / "ú"
+    / "è" / "à" / "ò" / "ù";
 
 c2 <- "hw" / "w" / "y" / "h";
 
-ck <- consonant+;
+ck <- !(c1 !consonant) consonant+;
 
 four_tone <- "\\" / "/" / "¯" / "_";
 
