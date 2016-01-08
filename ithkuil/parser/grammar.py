@@ -239,7 +239,7 @@ single_referent <- (conjunct_form
                   / collapsed_form
                   / short_form);
                   
-short_form <- high_tone? c1 vcp1;
+short_form <- four_tone? c1 vcp1;
 
 long_form <- four_tone_single? c1 vcp1 cz vz (stop cb)?;
 
