@@ -1,6 +1,6 @@
 import abc
 from .helpers import split
-from ..data import ithSlot, ithMorpheme
+from ..data import ithSlot, ithMorphemeSlot
 from .. import Session
 from ..exceptions import IthkuilException, AnalysisException
 
@@ -52,11 +52,11 @@ class Word(metaclass=abc.ABCMeta):
 		if not wordType:
 			wordType = self.wordType
 		session = Session()
-		slotObj = session.query(ithSlot).filter(ithSlot.word_type_id == wordType.id).filter(ithSlot.name == slot).all()
+		slotObj = session.query(ithSlot).filter(ithSlot.wordtype_id == wordType.id).filter(ithSlot.name == slot).all()
 		if len(slotObj) != 1:
 			return content
 		slotObj = slotObj[0]
-		morph = session.query(ithMorpheme).filter(ithMorpheme.slot_id == slotObj.id).filter(ithMorpheme.content == content).all()
+		morph = session.query(ithMorphemeSlot).filter(ithMorphemeSlot.slot_id == slotObj.id).filter(ithMorphemeSlot.morpheme.has(morpheme = content)).all()
 		if len(morph) > 1:
 			return None
 		if len(morph) == 0:
