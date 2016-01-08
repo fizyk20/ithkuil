@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 __all__ = ['ithCategory', 'ithCategValue', 'ithWordType', 'ithSlot', 'ithMorpheme', 'ithMorphemeSlot']
 
@@ -72,4 +72,3 @@ class ithCategValue(Base):
     category_id = Column(Integer, ForeignKey('ith_category.id'))
     category = relationship('ithCategory')
     morpheme_slots = relationship('ithMorphemeSlot', secondary=morpheme_slots_values, backref='values')
-	
