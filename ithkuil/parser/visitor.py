@@ -189,6 +189,8 @@ class IthkuilVisitor(PTNodeVisitor):
     
     visit_four_tone = dict_visitor('tone')
     
+    visit_four_tone_single = dict_visitor('tone')
+    
     visit_dual_referent_penultimate = constant_add_visitor({ 'stress' : -2 })
     
     visit_dual_referent_ultimate = constant_add_visitor({ 'stress' : -1 })

@@ -113,6 +113,38 @@ words_to_test = [
         'C2': 'h',
         'Ck': 'ks',
         'Cb': 'ks'
+    }),
+    
+    ('ˇxhoehwe', {
+        'type': 'personal adjunct',
+        'tone': 'ˇ',
+        'stress': -2,
+        'C1': 'xh',
+        'Vc': 'oe',
+        'Cz': 'hw',
+        'Vz': 'e',
+        'VxC': None,
+        'Vc2': None,
+        'Vw': None,
+        'C2': None,
+        'Ck': None,
+        'Cb': None
+    }),
+    
+    ('mrerîwa', {
+        'type': 'personal adjunct',
+        'tone': None,
+        'stress': -2,
+        'C1': 'r',
+        'Vc': 'î',
+        'Cz': 'w',
+        'Vz': 'a',
+        'VxC': [{ 'type': 'mr', 'degree': 'e' }],
+        'Vc2': None,
+        'Vw': None,
+        'C2': None,
+        'Ck': None,
+        'Cb': None
     })
 
 ]

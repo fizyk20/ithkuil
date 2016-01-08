@@ -197,7 +197,8 @@ validation <- ("hw" / "hr" / "hh" / "hn" / "hm"
 
 bias <- stop cb;
 
-cb <- consonant consonant
+cb <- consonant consonant consonant
+    / consonant consonant
     / consonant;
       
 // ----------------------------- verbal adjuncts --------------------------
@@ -233,14 +234,14 @@ dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !c
 
 dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent !vowel !consonant;
                   
-single_referent <- high_tone? (conjunct_form
+single_referent <- (conjunct_form
                   / long_form
                   / collapsed_form
                   / short_form);
                   
-short_form <- c1 vcp1;
+short_form <- high_tone? c1 vcp1;
 
-long_form <- c1 vcp1 cz vz (stop cb)?;
+long_form <- four_tone_single? c1 vcp1 cz vz (stop cb)?;
 
 c1 <- "t" / "s" / "š" / "k" / "p" / "q" / "xh"
     / "ç" / "l" / "v" / "r" / "ř" / "ţ" / "n"
@@ -271,7 +272,7 @@ csp <- consonant+;
 
 vsp <- vowel+;
 
-collapsed_form <- vcp2 c1 vcp1;
+collapsed_form <- high_tone? vcp2 c1 vcp1;
 
 high_tone <- "\\" / "¯";
 
@@ -286,6 +287,7 @@ c2 <- "hw" / "w" / "y" / "h";
 ck <- !(c1 !consonant) consonant+;
 
 four_tone <- "\\" / "/" / "¯" / "_";
+four_tone_single <- "\\" / "¯" / "^" / "ˇ";
 
 // ------------------------------ aspectual adjuncts ------------------------
 
