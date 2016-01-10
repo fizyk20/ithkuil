@@ -1,6 +1,6 @@
 import abc
 from .helpers import split
-from ..data import ithSlot, ithMorphemeSlot, Session
+from ..data import ithSlot, ithMorphemeSlot, ithAtom, Session
 from ..exceptions import IthkuilException, AnalysisException
 
 class Word(metaclass=abc.ABCMeta):
@@ -47,11 +47,9 @@ class Word(metaclass=abc.ABCMeta):
 			return self.slots['[tone]']
 		return '\\'
 	
-	def morpheme(self, slot, content, wordType=None):
-		if not wordType:
-			wordType = self.wordType
+	def morpheme(self, slot, content):
 		session = Session()
-		slotObj = session.query(ithSlot).filter(ithSlot.wordtype_id == wordType.id).filter(ithSlot.name == slot).all()
+		slotObj = session.query(ithSlot).filter(ithSlot.wordtype == self.wordType).filter(ithSlot.name == slot).all()
 		if len(slotObj) != 1:
 			return content
 		slotObj = slotObj[0]
@@ -59,9 +57,25 @@ class Word(metaclass=abc.ABCMeta):
 		if len(morph) > 1:
 			return None
 		if len(morph) == 0:
-			if wordType.name == 'Formative' and (slot == 'Cr' or slot == 'Cx'):
+			if self.wordType.name == 'Formative' and (slot == 'Cr' or slot == 'Cx'):
 				return content
 			else:
-				raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, wordType.name, content))
+				raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, self.wordType.name, content))
 		return morph[0]
+	
+	def atom(self, *morphemes):
+		if len(morphemes) == 1 and isinstance(morphemes[0], str):
+			return morphemes[0]
+		session = Session()
+		query = session.query(ithAtom)
+		for morpheme in morphemes:
+			query = query.filter(ithAtom.morpheme_slots.contains(morpheme))
+		result = query.all()
+		if len(result) == 0:
+			return None
+		elif len(result) == 1:
+			return result[0]
+		else:
+			raise AnalysisException('Non-unique atom defined by morphemes: %s' %
+				', '.join(map(lambda x: '%s=%s' % (x.slot.name, x.morpheme.morpheme), morphemes)))
 	

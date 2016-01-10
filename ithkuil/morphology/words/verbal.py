@@ -46,10 +46,10 @@ class VerbalAdjunct(Word):
     def abbreviatedDescription(self):
         desc = []
         
-        def values(morph):
-            if isinstance(morph, str):
-                return morph
-            vals = [x.code for x in morph.values]
+        def values(atom):
+            if isinstance(atom, str):
+                return atom
+            vals = [x.code for x in atom.values]
             return '/'.join(vals)
         
         def add(slot):
@@ -62,11 +62,12 @@ class VerbalAdjunct(Word):
                     val = ('xh', True)
                 else:
                     val = (val, False)
-                desc.append('%s%s' % (self.morpheme(slot, val[0]).values[0].code, '+' if val[1] else ''))
+                morph = self.morpheme(slot, val[0])
+                desc.append('%s%s' % (self.atom(morph).values[0].code, '+' if val[1] else ''))
                 return
             
             if slot in self.slots:
-                desc.append(values(self.morpheme(slot, self.slots[slot])))
+                desc.append(values(self.atom(self.morpheme(slot, self.slots[slot]))))
             
         self.fillResult(add)
         

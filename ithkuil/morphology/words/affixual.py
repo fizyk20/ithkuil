@@ -10,13 +10,13 @@ class AffixualAdjunct(Word):
         self._slots = {1: (self.parts[0], self.parts[1])}
         
     def abbreviatedDescription(self):
-        deg = self.morpheme('VxC', self.slots[1][0], Formative.wordType).values[0].code
-        suf = self.morpheme('VxC', self.slots[1][1], Formative.wordType).values[0].code
+        deg = self.atom(self.morpheme('VxC', self.slots[1][0])).values[0].code
+        suf = self.atom(self.morpheme('VxC', self.slots[1][1])).values[0].code
         return '%s_%s' % (suf, deg)
         
     def fullDescription(self):
-        deg = self.morpheme('VxC', self.slots[1][0], Formative.wordType).values[0]
-        suf = self.morpheme('VxC', self.slots[1][1], Formative.wordType).values[0]
+        deg = self.atom(self.morpheme('VxC', self.slots[1][0])).values[0]
+        suf = self.atom(self.morpheme('VxC', self.slots[1][1])).values[0]
         return { 
             'type': 'Affixual adjunct', 
             'categories': ['Type', 'Degree'],
