@@ -1,8 +1,7 @@
 from .word import Word
-from ..data import ithWordType
+from ..data import ithWordType, Session
 from ..helpers import vowels, grave_vowels, acute_vowels, bare_vowels, remove_accents, tones, validation
 from ..exceptions import AnalysisException, InvalidStress
-from .. import Session
 
 class Formative(Word):
 	

@@ -1,8 +1,11 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker
+from . import engine
 
-__all__ = ['ithCategory', 'ithCategValue', 'ithWordType', 'ithSlot', 'ithMorpheme', 'ithMorphemeSlot']
+Session = scoped_session(sessionmaker(bind=engine))
+
+__all__ = ['Session', 'ithAtom', 'ithCategory', 'ithCategValue', 'ithWordType', 'ithSlot', 'ithMorpheme', 'ithMorphemeSlot']
 
 Base = declarative_base()
 
@@ -80,4 +83,3 @@ class ithCategValue(Base):
     category_id = Column(Integer, ForeignKey('ith_category.id'))
     category = relationship('ithCategory')
     atoms = relationship('ithAtom', secondary=atom_value, backref='values')
-	

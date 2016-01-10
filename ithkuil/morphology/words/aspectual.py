@@ -1,7 +1,6 @@
 from .word import Word
 #from .verbal import VerbalAdjunct
-from ..data import ithWordType
-from .. import Session  
+from ..data import ithWordType, Session
     
 class AspectualAdjunct(Word):
     

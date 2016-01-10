@@ -1,7 +1,6 @@
 from .word import Word
 from .formative import Formative
-from ..data import ithWordType
-from .. import Session  
+from ..data import ithWordType, Session
 
 class AffixualAdjunct(Word):
     

@@ -1,7 +1,6 @@
 import abc
 from .helpers import split
-from ..data import ithSlot, ithMorphemeSlot
-from .. import Session
+from ..data import ithSlot, ithMorphemeSlot, Session
 from ..exceptions import IthkuilException, AnalysisException
 
 class Word(metaclass=abc.ABCMeta):

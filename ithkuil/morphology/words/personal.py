@@ -1,7 +1,6 @@
 from .word import Word
-from ..data import ithWordType
+from ..data import ithWordType, Session
 from ..helpers import vowels, tones
-from .. import Session
 
 class PersonalAdjunct(Word):
     

@@ -1,11 +1,9 @@
 import sqlalchemy
-from sqlalchemy.orm import sessionmaker, scoped_session
 
 import os
 __module_path = os.path.dirname(__file__)
 
 engine = sqlalchemy.create_engine('sqlite:///{0}/morphology.db'.format(__module_path), echo=False)
-Session = scoped_session(sessionmaker(bind=engine))
 
 from .helpers import handle_special_chars, filter_chars
 from .words.helpers import *
