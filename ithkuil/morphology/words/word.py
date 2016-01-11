@@ -1,17 +1,16 @@
 import abc
-from .helpers import split
 from ithkuil.morphology.database import ithSlot, ithMorphemeSlot, ithAtom, Session
-from ..exceptions import IthkuilException, AnalysisException
+from ..exceptions import AnalysisException
 
 class Word(metaclass=abc.ABCMeta):
 	
 	wordType = None
 	_slots = None
 	
-	def __init__(self, word):
+	def __init__(self, word, slots):
 		self.word = word
-		self.parts = split(word)
-		self.type = self.wordType.name
+		self._slots = slots
+		self.analyze()
 		
 	def __getattr__(self, attr):
 		if self.slots and attr in self.slots:
@@ -32,13 +31,6 @@ class Word(metaclass=abc.ABCMeta):
 	
 	@property
 	def slots(self):
-		if not self._slots:
-			try:
-				self.analyze()
-			except IthkuilException:
-				raise
-			except:
-				raise IthkuilException('Invalid Ithkuil word: %s' % self.word)
 		return self._slots
 	
 	@property
@@ -46,6 +38,12 @@ class Word(metaclass=abc.ABCMeta):
 		if '[tone]' in self.slots:
 			return self.slots['[tone]']
 		return '\\'
+	
+	@property
+	def stress(self):
+		if '[stress]' in self.slots:
+			return self.slots['[stress]']
+		return -2
 	
 	def morpheme(self, slot, content):
 		session = Session()
@@ -57,10 +55,7 @@ class Word(metaclass=abc.ABCMeta):
 		if len(morph) > 1:
 			return None
 		if len(morph) == 0:
-			if self.wordType.name == 'Formative' and (slot == 'Cr' or slot == 'Cx'):
-				return content
-			else:
-				raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, self.wordType.name, content))
+			raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, self.wordType.name, content))
 		return morph[0]
 	
 	def atom(self, *morphemes):
