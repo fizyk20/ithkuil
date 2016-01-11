@@ -48,7 +48,8 @@ words_to_test = [
         'Vw': None,
         'C2': None,
         'Ck': None,
-        'Cb': 'çç'
+        'Cb': 'ç',
+        'Cb+': True
     }),
     
     ('epoi', {
@@ -112,7 +113,8 @@ words_to_test = [
         'Vw': 'u',
         'C2': 'h',
         'Ck': 'ks',
-        'Cb': 'ks'
+        'Cb': 'ks',
+        'Cb+': False
     }),
     
     ('ˇxhoehwe', {
@@ -153,7 +155,7 @@ words_to_test = [
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:
-        if not expected[key]:
+        if expected[key] is None:
             assert key not in parsedWord
         else:
             assert parsedWord[key] == expected[key]

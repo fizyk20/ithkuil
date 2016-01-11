@@ -25,17 +25,20 @@ words_to_test = [
     
     ('ss', {
         'type': 'bias adjunct',
-        'Cb': 'ss'
+        'Cb': 's',
+        'Cb+': True
     }),
     
     ('çç', {
         'type': 'bias adjunct',
-        'Cb': 'çç'
+        'Cb': 'ç',
+        'Cb+': True
     }),
     
     ('kšš', {
         'type': 'bias adjunct',
-        'Cb': 'kšš'
+        'Cb': 'kš',
+        'Cb+': True
     })
 
 ]
@@ -44,7 +47,7 @@ words_to_test = [
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:
-        if not expected[key]:
+        if expected[key] is None:
             assert key not in parsedWord
         else:
             assert parsedWord[key] == expected[key]

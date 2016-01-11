@@ -12,7 +12,8 @@ words_to_test = [
         'Vm': 'u',
         'Cs': 'l-ly',
         'Vs': 'ö',
-        'Cb': 'ň'
+        'Cb': 'ň',
+        'Cb+': False
     }),
                  
     ('wëtöin-n', {
@@ -93,7 +94,7 @@ words_to_test = [
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:
-        if not expected[key]:
+        if expected[key] is None:
             assert key not in parsedWord
         else:
             assert parsedWord[key] == expected[key]

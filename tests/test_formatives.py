@@ -259,6 +259,7 @@ words_to_test = [
             'VxC': [{ 'type': 'x', 'degree': 'û' }],
             'Vf': 'e',
             'Cb': 'ň',
+            'Cb+': False,
             'tone': None,
             'stress': -2
         }),
@@ -299,6 +300,7 @@ words_to_test = [
             'VxC': [{ 'type': 'pt', 'degree': 'î' }],
             'Vf': 'ó',
             'Cb': 'ks',
+            'Cb+': False,
             'tone': '/',
             'stress': -1
         }),
@@ -408,7 +410,7 @@ words_to_test = [
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:
-        if not expected[key]:
+        if expected[key] is None:
             assert key not in parsedWord
         else:
             assert parsedWord[key] == expected[key]
