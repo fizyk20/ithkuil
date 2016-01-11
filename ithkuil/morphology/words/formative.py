@@ -1,8 +1,7 @@
 from .word import Word
-from ..data import ithWordType
+from ..data import ithWordType, Session
 from ..helpers import vowels, grave_vowels, acute_vowels, bare_vowels, remove_accents, tones, validation
 from ..exceptions import AnalysisException, InvalidStress
-from .. import Session
 
 class Formative(Word):
 	
@@ -326,10 +325,10 @@ class Formative(Word):
 	def abbreviatedDescription(self):
 		desc = []
 		
-		def values(morph):
-			if isinstance(morph, str):
-				return morph
-			vals = [x.code for x in morph.values]
+		def values(atom):
+			if isinstance(atom, str):
+				return atom
+			vals = [x.code for x in atom.values]
 			return '/'.join(vals)
 		
 		def add(slot):
@@ -342,15 +341,16 @@ class Formative(Word):
 					val = ('xh', True)
 				else:
 					val = (val, False)
-				desc.append('%s%s' % (self.morpheme(slot, val[0]).values[0].code, '+' if val[1] else ''))
+				morph = self.morpheme(slot, val[0])
+				desc.append('%s%s' % (self.atom(morph).values[0].code, '+' if val[1] else ''))
 				return
 			
 			if slot in self.slots:
-				desc.append(values(self.morpheme(slot, self.slots[slot])))
+				desc.append(values(self.atom(self.morpheme(slot, self.slots[slot]))))
 				
 		def suffix(suf):
-			deg = self.morpheme('VxC', suf[0]).values[0].code
-			suf = self.morpheme('VxC', suf[1]).values[0].code
+			deg = self.atom(self.morpheme('VxC', suf[0])).values[0].code
+			suf = self.atom(self.morpheme('VxC', suf[1])).values[0].code
 			desc.append('%s_%s' % (suf, deg))
 			
 		self.fillResult(add, suffix)
@@ -360,10 +360,10 @@ class Formative(Word):
 	def fullDescription(self):
 		desc = {'type': 'Formative', 'categories': self.categories }
 		
-		def values(morph):
-			if isinstance(morph, str):
-				return { 'other': morph }
-			vals = { x.category.name: {'code': x.code, 'name': x.name} for x in morph.values }
+		def values(atom):
+			if isinstance(atom, str):
+				return { 'other': atom }
+			vals = { x.category.name: {'code': x.code, 'name': x.name} for x in atom.values }
 			return vals
 		
 		def add(slot):
@@ -376,12 +376,13 @@ class Formative(Word):
 					val = ('xh', True)
 				else:
 					val = (val, False)
-				mor = self.morpheme(slot, val[0]).values[0]
+				mor = self.morpheme(slot, val[0])
+				val = self.atom(mor).values[0]
 				desc['Bias'] = { 'code': mor.code, 'name': '%s%s' % (mor.name, '+' if val[1] else '')}
 				return
 			
 			if slot in self.slots:
-				vals = values(self.morpheme(slot, self.slots[slot]))
+				vals = values(self.atom(self.morpheme(slot, self.slots[slot])))
 				# handle roots (primary and incorporated)
 				if 'other' in vals:
 					if slot == 'Cr':
@@ -404,8 +405,8 @@ class Formative(Word):
 		def suffix(suf):
 			if 'suffixes' not in desc:
 				desc['suffixes'] = []
-			deg = self.morpheme('VxC', suf[0]).values[0].name
-			suf = self.morpheme('VxC', suf[1]).values[0]
+			deg = self.atom(self.morpheme('VxC', suf[0])).values[0].name
+			suf = self.atom(self.morpheme('VxC', suf[1])).values[0]
 			desc['suffixes'].append({'code': suf.code, 'name': suf.name, 'degree': deg})
 			
 		self.fillResult(add, suffix)

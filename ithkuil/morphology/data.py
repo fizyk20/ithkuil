@@ -1,8 +1,11 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker
+from . import engine
 
-__all__ = ['ithCategory', 'ithCategValue', 'ithWordType', 'ithSlot', 'ithMorpheme', 'ithMorphemeSlot']
+Session = scoped_session(sessionmaker(bind=engine))
+
+__all__ = ['Session', 'ithAtom', 'ithCategory', 'ithCategValue', 'ithWordType', 'ithSlot', 'ithMorpheme', 'ithMorphemeSlot']
 
 Base = declarative_base()
 
@@ -55,11 +58,19 @@ class ithMorphemeSlot(Base):
     morpheme = relationship('ithMorpheme', backref='slots')
     slot = relationship('ithSlot', backref='morphemes')
     
+morpheme_slot_atom = Table('ith_morpheme_slot_atom', Base.metadata,
+                        Column('atom_id', Integer, ForeignKey('ith_atom.id')),
+                        Column('morpheme_slot_id', Integer, ForeignKey('ith_morpheme_slot.id')))
 
-morpheme_slots_values = Table('ith_morpheme_slots_values', Base.metadata,
-                        Column('morpheme_slot_id', Integer, ForeignKey('ith_morpheme_slot.id')),
-                        Column('categvalue_id', Integer, ForeignKey('ith_categvalue.id')))
+class ithAtom(Base):
+    __tablename__ = 'ith_atom'
     
+    id = Column(Integer, primary_key=True)
+    morpheme_slots = relationship('ithMorphemeSlot', secondary=morpheme_slot_atom, backref='atoms')    
+
+atom_value = Table('ith_atom_value', Base.metadata,
+                        Column('atom_id', Integer, ForeignKey('ith_atom.id')),
+                        Column('categvalue_id', Integer, ForeignKey('ith_categvalue.id')))
 
 class ithCategValue(Base):
     '''Class representing a value of a grammatical category'''
@@ -71,4 +82,4 @@ class ithCategValue(Base):
     description = Column(Text)
     category_id = Column(Integer, ForeignKey('ith_category.id'))
     category = relationship('ithCategory')
-    morpheme_slots = relationship('ithMorphemeSlot', secondary=morpheme_slots_values, backref='values')
+    atoms = relationship('ithAtom', secondary=atom_value, backref='values')
