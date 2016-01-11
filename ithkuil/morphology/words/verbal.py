@@ -1,5 +1,5 @@
 from .word import Word
-from ..data import ithWordType, Session
+from ithkuil.morphology.database import ithWordType, Session
 from ..helpers import vowels, tones
 
 class VerbalAdjunct(Word):

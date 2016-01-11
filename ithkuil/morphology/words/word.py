@@ -1,6 +1,6 @@
 import abc
 from .helpers import split
-from ..data import ithSlot, ithMorphemeSlot, ithAtom, Session
+from ithkuil.morphology.database import ithSlot, ithMorphemeSlot, ithAtom, Session
 from ..exceptions import IthkuilException, AnalysisException
 
 class Word(metaclass=abc.ABCMeta):

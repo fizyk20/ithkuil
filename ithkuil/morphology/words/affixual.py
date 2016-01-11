@@ -1,6 +1,6 @@
 from .word import Word
 from .formative import Formative
-from ..data import ithWordType, Session
+from ithkuil.morphology.database import ithWordType, Session
 
 class AffixualAdjunct(Word):
     
