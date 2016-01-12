@@ -11,6 +11,9 @@ class Word(metaclass=abc.ABCMeta):
 		self.word = word
 		self._slots = slots
 		self.analyze()
+		
+	def slot_map(self, slot):
+		return slot
 
 	def __getattr__(self, attr):
 		if self.slots and attr in self.slots:
@@ -47,7 +50,7 @@ class Word(metaclass=abc.ABCMeta):
 
 	def morpheme(self, slot, content):
 		session = Session()
-		slotObj = session.query(ithSlot).filter(ithSlot.wordtype == self.wordType).filter(ithSlot.name == slot).all()
+		slotObj = session.query(ithSlot).filter(ithSlot.wordtype == self.wordType).filter(ithSlot.name == self.slot_map(slot)).all()
 		if len(slotObj) != 1:
 			return content
 		slotObj = slotObj[0]
@@ -71,7 +74,7 @@ class Word(metaclass=abc.ABCMeta):
 			result = [x for x in result if len(x.morpheme_slots) == len(morphemes)]
 			
 		if len(result) == 0:
-			return None
+			raise AnalysisException('Couldn\'t find an atom for values: %s' % (', '.join(map(lambda x: '%s=%s' % (x.slot.name, x.morpheme.morpheme), morphemes))))
 		elif len(result) == 1:
 			return result[0]
 		else:
