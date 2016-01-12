@@ -1,50 +1,10 @@
 from .word import Word
 from ithkuil.morphology.database import ithWordType, Session
+from ..exceptions import AnalysisException
 
 class Formative(Word):
 
     wordType = Session().query(ithWordType).filter(ithWordType.name == 'Formative').first()
-
-    categories = [
-        'Root',
-        'Stem and Pattern',
-        'Designation',
-        'Incorporated root',
-        'Stem and Pattern (inc)',
-        'Designation (inc)',
-        'Perspective (inc)',
-        'Configuration (inc)',
-        'Case (inc)',
-        'Format',
-        'Relation',
-        'Function',
-        'Case',
-        'Essence',
-        'Extension',
-        'Perspective',
-        'Affiliation',
-        'Configuration',
-        'Context',
-        'Aspect',
-        'Mood',
-        'Phase',
-        'Sanction',
-        'Illocution',
-        'Version',
-        'Valence',
-        'Bias'
-    ]
-
-    formats = [
-        '',
-        'SCH',
-        'ISR',
-        'ATH',
-        'RSL',
-        'SBQ',
-        'CCM',
-        'OBJ'
-    ]
 
     def analyze(self):
         vc = self.slots['Vc']
@@ -53,7 +13,7 @@ class Formative(Word):
             self.slots['Vc'] = vcparts[0] + '’V'
             vr = vcparts[1]
             if 'Vr' in self.slots and self.slots['Vr'] != 'a' and vr != 'a':
-                raise AnalysisError('Duplicate Vr: in slots IV and VII!')
+                raise AnalysisException('Duplicate Vr: in slots IV and VII!')
             else:
                 self.slots['Vr'] = vr
 
