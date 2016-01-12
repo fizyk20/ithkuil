@@ -2,7 +2,7 @@ import pytest
 from ithkuil.parser import parseWord
 
 words_to_test = [
-    
+
     ('iskoùt', {
             'type': 'formative',
             'Cv': None,
@@ -19,10 +19,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('iskoút', {
             'type': 'formative',
             'Cv': None,
@@ -39,10 +39,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -1
+            '[tone]': None,
+            '[stress]': -1
         }),
-    
+
     ('ròihwâl', {
             'type': 'formative',
             'Cv': None,
@@ -59,10 +59,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -1
+            '[tone]': None,
+            '[stress]': -1
         }),
-    
+
     ('òspâtlök', {
             'type': 'formative',
             'Cv': None,
@@ -79,10 +79,10 @@ words_to_test = [
             'VxC': [{ 'type': 'k', 'degree': 'ö' }],
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -1
+            '[tone]': None,
+            '[stress]': -1
         }),
-    
+
     ('ksûtpöör', {
             'type': 'formative',
             'Cv': None,
@@ -99,10 +99,10 @@ words_to_test = [
             'VxC': [{ 'type': 'r', 'degree': 'öö' }],
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -1
+            '[tone]': None,
+            '[stress]': -1
         }),
-    
+
     ('áksiyor', {
             'type': 'formative',
             'Cv': None,
@@ -119,10 +119,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -3
+            '[tone]': None,
+            '[stress]': -3
         }),
-    
+
     ('ëitlàrrun',  {
             'type': 'formative',
             'Cv': None,
@@ -139,10 +139,10 @@ words_to_test = [
             'VxC': [{ 'type': 'n', 'degree': 'u' }],
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -3
+            '[tone]': None,
+            '[stress]': -3
         }),
-    
+
     ('ôrümzìl', {
             'type': 'formative',
             'Cv': None,
@@ -159,10 +159,10 @@ words_to_test = [
             'VxC': [{ 'type': 'l', 'degree': 'ì' }],
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -3
+            '[tone]': None,
+            '[stress]': -3
         }),
-    
+
     ('öömolûk', {
             'type': 'formative',
             'Cv': None,
@@ -179,10 +179,10 @@ words_to_test = [
             'VxC': [{ 'type': 'k', 'degree': 'û' }],
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -3
+            '[tone]': None,
+            '[stress]': -3
         }),
-    
+
     ('pʰal', {
             'type': 'formative',
             'Cv': None,
@@ -199,10 +199,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('eqoec', {
             'type': 'formative',
             'Cv': None,
@@ -219,10 +219,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('¯üaklaršlá', {
             'type': 'formative',
             'Cv': None,
@@ -239,10 +239,10 @@ words_to_test = [
             'VxC': None,
             'Vf': 'á',
             'Cb': None,
-            'tone': '¯',
-            'stress': -1
+            '[tone]': '¯',
+            '[stress]': -1
         }),
-    
+
     ('uipʰawâtļûxe’ň', {
             'type': 'formative',
             'Cv': None,
@@ -260,10 +260,10 @@ words_to_test = [
             'Vf': 'e',
             'Cb': 'ň',
             'Cb+': False,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('hremsoqaiţsurkoi', {
             'type': 'formative',
             'Cv': None,
@@ -280,10 +280,10 @@ words_to_test = [
             'VxC': [{ 'type': 'rk', 'degree': 'u' }],
             'Vf': 'oi',
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('/qʰûl-lyai’svukšei’arpîptó’ks', {
             'type': 'formative',
             'Cv': 'qʰ',
@@ -301,10 +301,10 @@ words_to_test = [
             'Vf': 'ó',
             'Cb': 'ks',
             'Cb+': False,
-            'tone': '/',
-            'stress': -1
+            '[tone]': '/',
+            '[stress]': -1
         }),
-    
+
     ('elal', {
             'type': 'formative',
             'Cv': None,
@@ -321,10 +321,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('pʰall', {
             'type': 'formative',
             'Cv': None,
@@ -341,10 +341,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('upšáll', {
             'type': 'formative',
             'Cv': None,
@@ -361,10 +361,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -1
+            '[tone]': None,
+            '[stress]': -1
         }),
-    
+
     ('eqatļ', {
             'type': 'formative',
             'Cv': None,
@@ -381,10 +381,10 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
+            '[tone]': None,
+            '[stress]': -2
         }),
-    
+
     ('aukkras', {
             'type': 'formative',
             'Cv': None,
@@ -401,12 +401,12 @@ words_to_test = [
             'VxC': None,
             'Vf': None,
             'Cb': None,
-            'tone': None,
-            'stress': -2
-        })  
+            '[tone]': None,
+            '[stress]': -2
+        })
 ]
 
-@pytest.mark.parametrize('word, expected', words_to_test)  
+@pytest.mark.parametrize('word, expected', words_to_test)
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:

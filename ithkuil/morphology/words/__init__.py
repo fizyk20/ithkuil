@@ -11,41 +11,41 @@ from ..helpers import handle_special_chars, filter_chars
 import re
 
 class Factory(IthkuilVisitor):
-    
+
     def visit_formative(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
         return Formative(word, result)
-    
+
     def visit_verbal_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
-    
+        return VerbalAdjunct(word, result)
+
     def visit_personal_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
-    
+        return PersonalAdjunct(word, result)
+
     def visit_affixual_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
-    
+        return AffixualAdjunct(word, result)
+
     def visit_aspectual_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
-    
+        return AspectualAdjunct(word, result)
+
     def visit_bias_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
-        
+        return BiasAdjunct(word, result)
+
     def visit_vowels(self, node, children):
         '''This visiting function will remove stress marks from the vowels'''
         temp = ''.join(children)
-        
+
         def remove_accents(m):
             s = m.group(0)
             return s.replace('á', 'a')\
@@ -58,7 +58,7 @@ class Factory(IthkuilVisitor):
                     .replace('ò', 'o')\
                     .replace('ì', 'i')\
                     .replace('ù', 'u')
-        
+
         stressed = {
             r'([ëöüâêîôû])\1': r'\1',
             'áu': 'au',
@@ -72,15 +72,14 @@ class Factory(IthkuilVisitor):
             '([aeou])í': r'\1ì',
             '([aeio])ú': r'\1ù'
         }
-        
+
         for k, v in stressed.items():
             temp = re.sub(k, v, temp)
-            
+
         return temp
-    
+
     @classmethod
     def parseWord(cls, word):
         word = filter_chars(handle_special_chars(word.lower()))
         parse_tree = wordParser.parse(word)
         return visit_parse_tree(parse_tree, cls())
-        

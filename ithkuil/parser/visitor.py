@@ -23,7 +23,7 @@ def constant_add_visitor(const, num=0):
         children[num].update(const)
         return children[num]
     return visitor
-    
+
 def dict_visitor(key):
     '''A visiting function that joins the children into a string and returns it as a value in a dict'''
     def visitor(a, node, children):
@@ -50,7 +50,7 @@ class IthkuilVisitor(PTNodeVisitor):
 
     # do nothing with a recognized word, the dict is already generated
     visit_word = pass_visitor()
-    
+
     ### Formatives
 
     # do nothing with single consonants
@@ -72,7 +72,7 @@ class IthkuilVisitor(PTNodeVisitor):
     visit_consonant4 = pass_visitor()
 
     # tone goes directly into the dict as a slot
-    visit_tone = dict_visitor('tone')
+    visit_tone = dict_visitor('[tone]')
 
     # for a glottal stop just return the character
     def visit_stop(self, node, children): return '’'
@@ -83,7 +83,7 @@ class IthkuilVisitor(PTNodeVisitor):
     # add Vl slot to the dict
     visit_vl = dict_visitor('Vl')
 
-    # '-' gets lost in parsing - reinsert it and add Cs slot to the dict 
+    # '-' gets lost in parsing - reinsert it and add Cs slot to the dict
     def visit_cs(self, node, children):
         children.insert(1, '-')
         return dict_visitor('Cs')(self, node, children)
@@ -116,20 +116,20 @@ class IthkuilVisitor(PTNodeVisitor):
     # add Ca slot
     visit_ca = dict_visitor('Ca')
 
-    # both Vf and Vf without format belong to the Vf slot
+    # both Vf with and without format belong to the Vf slot
     visit_vf_no_format = dict_visitor('Vf')
-    visit_vf = dict_visitor('Vf')
+    visit_vf_format = dict_visitor('Vf')
 
-    # Vf with format uses another rule, so the dict is already created - do nothing
-    visit_vf_format = pass_visitor()
+    # Vf uses another rule, so the dict is already created - do nothing
+    visit_vf = pass_visitor()
 
     # deal with a single suffix - create a dict with the type and degree
     def visit_suffix_format_exp(self, node, children): return { 'type': children[1], 'degree': children[0] }
     def visit_suffix(self, node, children): return { 'type': children[1], 'degree': children[0] }
-    
+
     # do nothing with the recognized format expansion suffix - other rules will take care of it
     visit_suffix_fe_type = pass_visitor()
-    
+
     # combine a list of suffixes into a list in the VxC slot
     def visit_suffixes(self, node, children): return { 'VxC': children }
     def visit_suffixes_fe(self, node, children): return { 'VxC': children }
@@ -145,14 +145,14 @@ class IthkuilVisitor(PTNodeVisitor):
     visit_main_formative = dict_combine_visitor
 
     # stress recognition - add an appropriate key to the dict
-    visit_penultimate_stress_formative = constant_add_visitor({ 'stress': -2 })
-    visit_ultimate_stress_formative = constant_add_visitor({ 'stress': -1 })
-    visit_antepenultimate_stress_formative = constant_add_visitor({ 'stress': -3 })
-    visit_preantepenultimate_stress_formative = constant_add_visitor({ 'stress': -4 })
+    visit_penultimate_stress_formative = constant_add_visitor({ '[stress]': -2 })
+    visit_ultimate_stress_formative = constant_add_visitor({ '[stress]': -1 })
+    visit_antepenultimate_stress_formative = constant_add_visitor({ '[stress]': -3 })
+    visit_preantepenultimate_stress_formative = constant_add_visitor({ '[stress]': -4 })
 
     # the stress is already recognized - do nothing
     visit_stress_formative = pass_visitor()
-    
+
     # recognize intensified bias
     def visit_cb(self, node, children):
         block = ''.join(children)
@@ -173,67 +173,67 @@ class IthkuilVisitor(PTNodeVisitor):
 
     # omit the glottal stop when passing the bias part
     visit_bias = pass_visitor(1)
-    
+
     # append word type information to a recognized formative
     visit_formative = dict_append_visitor({ 'type': 'formative' })
-    
+
     ### vebal adjuncts
-    
+
     # add Cl slot to the dict
     visit_cl = dict_visitor('Cl')
-    
+
     # add Vs slot to the dict
     visit_vs = dict_visitor('Vs')
-    
+
     # add Ve slot to the dict
     visit_ve = dict_visitor('Ve')
-    
+
     # add Vm slot to the dict
     visit_vm = dict_visitor('Vm')
-    
+
     # append word type information
     visit_verbal_adjunct = dict_append_visitor({ 'type': 'verbal adjunct' })
-    
+
     ### personal adjuncts
-    
+
     # add C1 slot to the dict
     visit_c1 = dict_visitor('C1')
-    
+
     # collect the case slot vowels
     visit_vcp = collect_visitor
-    
+
     # add Vc slot to the dict
     visit_vcp1 = dict_visitor('Vc')
-    
+
     # add Vc2 slot to the dict
     visit_vcp2 = dict_visitor('Vc2')
-    
+
     # add Cz slot
     visit_cz = dict_visitor('Cz')
-    
+
     # add Vz slot
     visit_vz = dict_visitor('Vz')
-    
+
     # collect suffix consonants
     visit_csp = collect_visitor
-    
+
     # collect suffix vowels
     visit_vsp = collect_visitor
-    
+
     # combine slots into suffix info
     def visit_rev_suffix(self, node, children):
         return { 'type': children[0], 'degree': children[1] }
-    
+
     # collect all suffixes
     def visit_rev_suffixes(self, node, children):
         return { 'VxC': children }
-    
+
     # collect recognized short form information
     visit_short_form = dict_combine_visitor
-    
+
     # collect recognized long form information
     visit_long_form = dict_combine_visitor
-    
+
     # collect recognized conjunct form information
     def visit_conjunct_form(self, node, children):
         if len(children) == 2:
@@ -243,58 +243,58 @@ class IthkuilVisitor(PTNodeVisitor):
                 children[1]['VxC'] = [children[0]]
             return children[1]
         else:
-            return children[0]             
-    
+            return children[0]
+
     # collect recognized collapsed form information
     visit_collapsed_form = dict_combine_visitor
-    
+
     # collect single referent adjunct info
     visit_single_referent = dict_combine_visitor
-    
+
     # recognize stress
-    visit_single_referent_penultimate = constant_add_visitor({ 'stress': -2 })  
-    visit_single_referent_ultimate = constant_add_visitor({ 'stress': -1 })
-    
+    visit_single_referent_penultimate = constant_add_visitor({ '[stress]': -2 })
+    visit_single_referent_ultimate = constant_add_visitor({ '[stress]': -1 })
+
     # add tone slot
-    visit_high_tone = dict_visitor('tone') 
-    visit_four_tone = dict_visitor('tone')  
-    visit_four_tone_single = dict_visitor('tone')
-    
+    visit_high_tone = dict_visitor('[tone]')
+    visit_four_tone = dict_visitor('[tone]')
+    visit_four_tone_single = dict_visitor('[tone]')
+
     # add Vw slot to the dict
     visit_vw = dict_visitor('Vw')
-    
+
     # add Ck slot to the dict
     visit_ck = dict_visitor('Ck')
-    
+
     # add C2 slot to the dict
     visit_c2 = dict_visitor('C2')
-    
+
     # collect dual referent adjunct info
     visit_dual_referent = dict_combine_visitor
-    
+
     # recognize stress
-    visit_dual_referent_penultimate = constant_add_visitor({ 'stress' : -2 }) 
-    visit_dual_referent_ultimate = constant_add_visitor({ 'stress' : -1 })
-    visit_dual_referent_antepenultimate = constant_add_visitor({ 'stress' : -3 })
-    visit_dual_referent_preantepenultimate = constant_add_visitor({ 'stress' : -4 })
-    
+    visit_dual_referent_penultimate = constant_add_visitor({ '[stress]' : -2 })
+    visit_dual_referent_ultimate = constant_add_visitor({ '[stress]' : -1 })
+    visit_dual_referent_antepenultimate = constant_add_visitor({ '[stress]' : -3 })
+    visit_dual_referent_preantepenultimate = constant_add_visitor({ '[stress]' : -4 })
+
     # add word type info
     visit_personal_adjunct = constant_add_visitor({ 'type': 'personal adjunct' })
-    
+
     # handle aspectual adjuncts
     def visit_aspectual_adjunct(self, node, children):
         return { 'type': 'aspectual adjunct', 'Vs': ''.join(children) }
-    
+
     # handle affixual adjuncts
     def visit_affixual_adjunct(self, node, children):
         return { 'type': 'affixual adjunct', 'VxC': { 'type': children[1], 'degree': ''.join(children[:-1]) } }
-    
+
     # handle bias adjuncts
     visit_bias_adjunct = dict_append_visitor({ 'type': 'bias adjunct' })
-    
+
 class CombineVisitor(PTNodeVisitor):
     '''Class representing a visitor that just combines the symbols back into a part of the input stream'''
-    
+
     def __getattr__(self, attr):
         def visitor(node, children):
             return ''.join(children)

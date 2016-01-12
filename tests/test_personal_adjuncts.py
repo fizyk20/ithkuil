@@ -2,11 +2,11 @@ import pytest
 from ithkuil.parser import parseWord
 
 words_to_test = [
-    
+
     ('poi', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -2,
+        '[tone]': None,
+        '[stress]': -2,
         'C1': 'p',
         'Vc': 'oi',
         'Cz': None,
@@ -18,11 +18,11 @@ words_to_test = [
         'Ck': None,
         'Cb': None
     }),
-    
+
     ('¯tiwu', {
         'type': 'personal adjunct',
-        'tone': '¯',
-        'stress': -2,
+        '[tone]': '¯',
+        '[stress]': -2,
         'C1': 't',
         'Vc': 'i',
         'Cz': 'w',
@@ -34,11 +34,11 @@ words_to_test = [
         'Ck': None,
         'Cb': None
     }),
-    
+
     ('foteuye’çç', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -2,
+        '[tone]': None,
+        '[stress]': -2,
         'C1': 't',
         'Vc': 'eu',
         'Cz': 'y',
@@ -51,11 +51,11 @@ words_to_test = [
         'Cb': 'ç',
         'Cb+': True
     }),
-    
+
     ('epoi', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -2,
+        '[tone]': None,
+        '[stress]': -2,
         'C1': 'p',
         'Vc': 'oi',
         'Cz': None,
@@ -67,11 +67,11 @@ words_to_test = [
         'Ck': None,
         'Cb': None
     }),
-    
+
     ('_uda', {
         'type': 'personal adjunct',
-        'tone': '_',
-        'stress': -2,
+        '[tone]': '_',
+        '[stress]': -2,
         'C1': None,
         'Vc': 'a',
         'Cz': None,
@@ -83,11 +83,11 @@ words_to_test = [
         'Ck': 'd',
         'Cb': None
     }),
-    
+
     ('awuçkʰoewi', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -2,
+        '[tone]': None,
+        '[stress]': -2,
         'C1': None,
         'Vc': 'oe',
         'Cz': 'w',
@@ -99,11 +99,11 @@ words_to_test = [
         'Ck': 'çkʰ',
         'Cb': None
     }),
-    
+
     ('uhiaksai’wé’ks', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -1,
+        '[tone]': None,
+        '[stress]': -1,
         'C1': None,
         'Vc': 'ai',
         'Cz': '’w',
@@ -116,11 +116,11 @@ words_to_test = [
         'Cb': 'ks',
         'Cb+': False
     }),
-    
+
     ('ˇxhoehwe', {
         'type': 'personal adjunct',
-        'tone': 'ˇ',
-        'stress': -2,
+        '[tone]': 'ˇ',
+        '[stress]': -2,
         'C1': 'xh',
         'Vc': 'oe',
         'Cz': 'hw',
@@ -132,11 +132,11 @@ words_to_test = [
         'Ck': None,
         'Cb': None
     }),
-    
+
     ('mrerîwa', {
         'type': 'personal adjunct',
-        'tone': None,
-        'stress': -2,
+        '[tone]': None,
+        '[stress]': -2,
         'C1': 'r',
         'Vc': 'î',
         'Cz': 'w',
@@ -151,7 +151,7 @@ words_to_test = [
 
 ]
 
-@pytest.mark.parametrize('word, expected', words_to_test)  
+@pytest.mark.parametrize('word, expected', words_to_test)
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:

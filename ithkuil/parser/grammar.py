@@ -185,8 +185,8 @@ suffix_fe_type <- ("tt" / "pk" / "qq" / "tk"
 vf_no_format <- ("a" / "i" / "e" / "u"
                / "á" / "í" / "é" / "ú"
                / "à" / "ì" / "è" / "ù") !vowel;
-vf <- vowels;
-vf_format <- !vf_no_format vf;
+vf_format <- !vf_no_format vowels;
+vf <- vf_format / vf_no_format;
 
 incorporated_root <- root vowels;
 
@@ -200,7 +200,7 @@ bias <- stop cb;
 cb <- consonant consonant consonant
     / consonant consonant
     / consonant;
-      
+
 // ----------------------------- verbal adjuncts --------------------------
 
 verbal_adjunct <- tone? (((cl? ve !cs)? cv)? vm)? cs (vs (stop? cb)?)? !vowel !consonant;
@@ -215,7 +215,7 @@ vm <- unmarked_vocalic_block unmarked_vocalic_block?;
 
 // ------------------------------ personal adjuncts -------------------------
 
-personal_adjunct <- single_referent_penultimate 
+personal_adjunct <- single_referent_penultimate
                    / single_referent_ultimate
                    / dual_referent_penultimate
                    / dual_referent_ultimate
@@ -233,12 +233,12 @@ dual_referent_ultimate <- &ultimate_stress dual_referent!vowel !consonant;
 dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !consonant;
 
 dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent !vowel !consonant;
-                  
+
 single_referent <- (conjunct_form
                   / long_form
                   / collapsed_form
                   / short_form);
-                  
+
 short_form <- four_tone? c1 vcp1;
 
 long_form <- four_tone_single? c1 vcp1 cz vz (stop cb)?;
@@ -255,14 +255,14 @@ vcp2 <- vcp;
 
 cz <- "hw" / "’h" / "’y" / "’w"
     / "’" / "h" / "y" / "w";
-    
+
 vz <- "a" / "u" / "i" / "e" / "o" / "ö" / "ü"
     / "ai" / "au" / "ei" / "eu" / "oi" / "iu"
     / "á" / "é" / "í" / "ó" / "ú"
     / "à" / "è" / "ì" / "ò" / "ù"
     / "ái" / "áu" / "éi" / "éu" / "ói" / "íu"
     / "ài" / "àu" / "èi" / "èu" / "òi" / "ìu";
-    
+
 conjunct_form <- long_form
                / rev_suffix long_form;
 

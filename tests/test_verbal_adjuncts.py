@@ -2,10 +2,10 @@ import pytest
 from ithkuil.parser import parseWord
 
 words_to_test = [
-    
+
     ('hruštrul-lyö’ň', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': 'hr',
         'Ve': 'u',
         'Cv': 'štr',
@@ -15,10 +15,10 @@ words_to_test = [
         'Cb': 'ň',
         'Cb+': False
     }),
-                 
+
     ('wëtöin-n', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': 'w',
         'Ve': 'ë',
         'Cv': 't',
@@ -27,10 +27,10 @@ words_to_test = [
         'Vs': None,
         'Cb': None
     }),
-                 
+
     ('hëtiun-n', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': 'h',
         'Ve': 'ë',
         'Cv': 't',
@@ -39,10 +39,10 @@ words_to_test = [
         'Vs': None,
         'Cb': None
     }),
-                 
+
     ('on-n', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': None,
         'Ve': None,
         'Cv': None,
@@ -51,10 +51,10 @@ words_to_test = [
         'Vs': None,
         'Cb': None
     }),
-                 
+
     ('ur-rwu', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': None,
         'Ve': None,
         'Cv': None,
@@ -63,10 +63,10 @@ words_to_test = [
         'Vs': 'u',
         'Cb': None
     }),
-                 
+
     ('ulan-n', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': None,
         'Ve': 'u',
         'Cv': 'l',
@@ -75,10 +75,10 @@ words_to_test = [
         'Vs': None,
         'Cb': None
     }),
-                 
+
     ('pal-lši', {
         'type': 'verbal adjunct',
-        'tone': None,
+        '[tone]': None,
         'Cl': None,
         'Ve': None,
         'Cv': 'p',
@@ -90,7 +90,7 @@ words_to_test = [
 
 ]
 
-@pytest.mark.parametrize('word, expected', words_to_test)  
+@pytest.mark.parametrize('word, expected', words_to_test)
 def test_word(word, expected):
     parsedWord = parseWord(word)
     for key in expected:
