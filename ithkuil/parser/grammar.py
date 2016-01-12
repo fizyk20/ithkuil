@@ -243,9 +243,9 @@ short_form <- four_tone? c1 vcp1;
 
 long_form <- four_tone_single? c1 vcp1 cz vz (stop cb)?;
 
-c1 <- "t" / "s" / "š" / "k" / "p" / "q" / "xh"
-    / "ç" / "l" / "v" / "r" / "ř" / "ţ" / "n"
-    / "x" / "ň" / "f" / "m" / "h" / "z" / "ļ" / "ž";
+c1 <- ("t" / "s" / "š" / "k" / "p" / "q" / "xh"
+     / "ç" / "l" / "v" / "r" / "ř" / "ţ" / "n"
+     / "x" / "ň" / "f" / "m" / "h" / "z" / "ļ" / "ž") !consonant !"ʰ" !"’";
 
 vcp <- vowel+;
 
@@ -284,7 +284,7 @@ vw <- "ö" / "i" / "a" / "ü" / "e" / "o" / "u" / "ë"
 
 c2 <- "hw" / "w" / "y" / "h";
 
-ck <- !(c1 !consonant) consonant+;
+ck <- !c1 consonant+;
 
 four_tone <- "\\" / "/" / "¯" / "_";
 four_tone_single <- "\\" / "¯" / "^" / "ˇ";
