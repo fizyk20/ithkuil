@@ -1,5 +1,4 @@
 from .word import Word
-from .formative import Formative
 from ithkuil.morphology.database import ithWordType, Session
 
 class AffixualAdjunct(Word):
@@ -19,7 +18,6 @@ class AffixualAdjunct(Word):
         suf = self.atom(self.morpheme('VxC', self.slots['VxC']['type'])).values[0]
         return {
             'type': 'Affixual adjunct',
-            'categories': ['Type', 'Degree'],
             'Type': { 'code': suf.code, 'name': suf.code },
             'Degree': { 'name': deg.name }
         }

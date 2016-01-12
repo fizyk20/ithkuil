@@ -1,5 +1,4 @@
 from .word import Word
-from .formative import Formative
 from ithkuil.morphology.database import ithWordType, Session
 
 class BiasAdjunct(Word):
@@ -10,12 +9,11 @@ class BiasAdjunct(Word):
         pass
 
     def abbreviatedDescription(self):
-        return 'Bias adjunct: %s%s' % (self.morpheme('Cb', self.slots[1], Formative.wordType).values[0].code, '+' if self.slots['Cb+'] else '')
+        return 'Bias adjunct: %s%s' % (self.slots_values('Cb')[0].code, '+' if self.slots['Cb+'] else '')
 
     def fullDescription(self):
-        mor = self.morpheme('Cb', self.slots[1], Formative.wordType).values[0]
+        mor = self.slots_values('Cb')[0]
         return {
             'type': 'Bias adjunct',
-            'categories': ['Bias'],
-            'Bias': {'code': mor.code, 'name': mor.name}
+            'Bias': {'code': mor.code + '+' if self.slots['Cb+'] else '', 'name': mor.name}
         }

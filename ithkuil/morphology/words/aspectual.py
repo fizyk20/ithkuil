@@ -1,5 +1,4 @@
 from .word import Word
-#from .verbal import VerbalAdjunct
 from ithkuil.morphology.database import ithWordType, Session
 
 class AspectualAdjunct(Word):
@@ -9,16 +8,12 @@ class AspectualAdjunct(Word):
     def analyze(self):
         pass
 
-    # TODO when database is complete
-
     def abbreviatedDescription(self):
-        #return self.morpheme('F', self.slots[1], VerbalAdjunct.wordType).values[0].code
-        return 'Aspectual adjunct'
+        return self.slots_values('Vs')[0].code
 
     def fullDescription(self):
-        #mor = self.morpheme('F', self.slots[1], VerbalAdjunct.wordType).values[0]
+        val = self.slots_values('Vs')[0]
         return {
             'type': 'Aspectual adjunct',
-        #    'categories': ['Aspect'],
-        #    'Aspect': {'code': mor.code, 'name': mor.name }
+            'Aspect': {'code': val.code, 'name': val.name }
         }
