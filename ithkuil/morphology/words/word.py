@@ -73,3 +73,10 @@ class Word(metaclass=abc.ABCMeta):
 		else:
 			raise AnalysisException('Non-unique atom defined by morphemes: %s' %
 				', '.join(map(lambda x: '%s=%s' % (x.slot.name, x.morpheme.morpheme), morphemes)))
+			
+	def slots_values(self, *slots):
+		morphemes = [self.morpheme(x, self.slots[x]) for x in slots if x in self.slots]
+		if not morphemes:
+			return []
+		atom = self.atom(*morphemes)
+		return atom.values

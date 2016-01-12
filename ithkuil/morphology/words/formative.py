@@ -45,28 +45,20 @@ class Formative(Word):
     def abbreviatedDescription(self):
         desc = []
 
-        def values(atom):
-            if isinstance(atom, str):
-                return atom
-            vals = [x.code for x in atom.values]
-            return '/'.join(vals)
+        def values(slot):
+            if slot == 'Cx' or slot == 'Cr':
+                return self.slots[slot]
+            vals = self.slots_values(slot)
+            codes = map(lambda x: x.code, vals)
+            return '/'.join(codes)
 
         def add(slot):
-            # handle biases
-            if slot == 'Cb' and slot in self.slots:
-                val = self.slots[slot]
-                if len(val) > 1 and val[-1] == val[-2]:
-                    val = (val[:-1], True)
-                elif val == 'xxh':
-                    val = ('xh', True)
-                else:
-                    val = (val, False)
-                morph = self.morpheme(slot, val[0])
-                desc.append('%s%s' % (self.atom(morph).values[0].code, '+' if val[1] else ''))
+            if slot not in self.slots:
                 return
-
-            if slot in self.slots:
-                desc.append(values(self.atom(self.morpheme(slot, self.slots[slot]))))
+            vals = values(slot)
+            if slot == 'Cb' and 'Cb+' in self.slots:
+                vals += '+' if self.slots['Cb+'] else ''
+            desc.append(vals) 
 
         def suffix(suf):
             deg = self.atom(self.morpheme('VxC', suf['degree'])).values[0].code
@@ -78,49 +70,26 @@ class Formative(Word):
         return '-'.join(desc)
 
     def fullDescription(self):
-        desc = {'type': 'Formative', 'categories': self.categories }
+        desc = {'type': 'Formative' }
 
-        def values(atom):
-            if isinstance(atom, str):
-                return { 'other': atom }
-            vals = { x.category.name: {'code': x.code, 'name': x.name} for x in atom.values }
-            return vals
+        def values(slot):
+            if slot == 'Cx':
+                return { 'Incorporated root': self.slots[slot] }
+            elif slot == 'Cr':
+                return { 'Root': self.slots[slot] }
+            vals = self.slots_values(slot)
+            result = { x.category.name: {'code': x.code, 'name': x.name} for x in vals }
+            if slot == 'Vp':
+                result = { k + ' (inc)': v for k, v in result}
+            return result
 
-        def add(slot):
-            # handle biases
-            if slot == 'Cb' and slot in self.slots:
-                val = self.slots[slot]
-                if len(val) > 1 and val[-1] == val[-2]:
-                    val = (val[:-1], True)
-                elif val == 'xxh':
-                    val = ('xh', True)
-                else:
-                    val = (val, False)
-                mor = self.morpheme(slot, val[0])
-                val = self.atom(mor).values[0]
-                desc['Bias'] = { 'code': mor.code, 'name': '%s%s' % (mor.name, '+' if val[1] else '')}
+        def add(slot):   
+            if slot not in self.slots:
                 return
-
-            if slot in self.slots:
-                vals = values(self.atom(self.morpheme(slot, self.slots[slot])))
-                # handle roots (primary and incorporated)
-                if 'other' in vals:
-                    if slot == 'Cr':
-                        desc['Root'] = {'name': vals['other']}
-                        del vals['other']
-                    elif slot == 'Cx':
-                        desc['Incorporated root'] = {'name': vals['other']}
-                        del vals['other']
-                    elif 'other' in desc:
-                        desc['other'] = {'name': '%s, %s' % (desc['other'], vals['other'])}
-                        del vals['other']
-                # handle categories for the incorporated root
-                if slot == 'Cx' or slot == 'Vp':
-                    keys = list(vals.keys())
-                    for k in keys:
-                        vals[k + ' (inc)'] = vals[k]
-                        del vals[k]
-                desc.update(vals)
+            vals = values(slot)
+            if slot == 'Cb' and 'Cb+' in self.slots:
+                vals['Bias'] += '+' if self.slots['Cb+'] else ''
+            desc.update(vals) 
 
         def suffix(suf):
             if 'suffixes' not in desc:
