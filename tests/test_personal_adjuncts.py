@@ -68,6 +68,22 @@ words_to_test = [
         'Cb': None
     }),
 
+    ('ükʰu', {
+        'type': 'personal adjunct',
+        '[tone]': None,
+        '[stress]': -2,
+        'C1': None,
+        'Vc': 'u',
+        'Cz': None,
+        'Vz': None,
+        'VxC': None,
+        'Vc2': 'ü',
+        'Vw': None,
+        'C2': None,
+        'Ck': 'kʰ',
+        'Cb': None
+    }),
+
     ('_uda', {
         'type': 'personal adjunct',
         '[tone]': '_',
