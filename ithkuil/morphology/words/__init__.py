@@ -32,8 +32,8 @@ def remove_stress(txt):
         'óu': 'ou',
         '[áéó]': remove_accents,
         '[àèò]': remove_accents,
-        '[^aeiou][ìù]': remove_accents,
-        '[^aeiou][íú]': remove_accents,
+        '[^aeiou]?[ìù]': remove_accents,
+        '[^aeiou]?[íú]': remove_accents,
         '([aeou])í': r'\1ì',
         '([aeio])ú': r'\1ù'
     }
