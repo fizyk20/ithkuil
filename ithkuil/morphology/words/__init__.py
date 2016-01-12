@@ -19,27 +19,27 @@ class Factory(IthkuilVisitor):
 
     def visit_verbal_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
-        result = super().visit_formative(node, children)
+        result = super().visit_verbal_adjunct(node, children)
         return VerbalAdjunct(word, result)
 
     def visit_personal_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
-        result = super().visit_formative(node, children)
+        result = super().visit_personal_adjunct(node, children)
         return PersonalAdjunct(word, result)
 
     def visit_affixual_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
-        result = super().visit_formative(node, children)
+        result = super().visit_affixual_adjunct(node, children)
         return AffixualAdjunct(word, result)
 
     def visit_aspectual_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
-        result = super().visit_formative(node, children)
+        result = super().visit_aspectual_adjunct(node, children)
         return AspectualAdjunct(word, result)
 
     def visit_bias_adjunct(self, node, children):
         word = visit_parse_tree(node, CombineVisitor())
-        result = super().visit_formative(node, children)
+        result = super().visit_bias_adjunct(node, children)
         return BiasAdjunct(word, result)
 
     def visit_vowels(self, node, children):
