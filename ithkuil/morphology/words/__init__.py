@@ -91,6 +91,14 @@ class Factory(IthkuilVisitor):
     def visit_vcp(self, node, children):
         temp = ''.join(children)
         return remove_stress(temp)
+    
+    def visit_vf_format(self, node, children):
+        temp = ''.join(children)
+        return {'Vf': remove_stress(temp)}
+    
+    def visit_vf_no_format(self, node, children):
+        temp = ''.join(children)
+        return {'Vf': remove_stress(temp)}
 
     @classmethod
     def parseWord(cls, word):
