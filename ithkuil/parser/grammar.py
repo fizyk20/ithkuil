@@ -92,7 +92,7 @@ grave_syllable <- sep (grave_diphthong / grave_vowel);
 
 unstressed_syllable <- !stressed_syllable syllable;
 
-vowels <- (vowel vowel / vowel) !vowel;
+vowels <- vowel+;
 
 stop <- "’";
 
@@ -156,7 +156,7 @@ cg <- validation;
 vr <- vowels;
 
 root_part <- root vc civi? ca;
-root_part_we <- root vc "wë" ca;
+root_part_we <- root vc ("wëë" / "wë") ca;
 
 root <- !validation consonants;
 
@@ -164,7 +164,7 @@ vc <- vowels stop vowels
     / vowels stop
     / vowels;
 
-civi <- consonant4 vowel;
+civi <- consonant4 vowels;
 
 ca <- consonants;
 
