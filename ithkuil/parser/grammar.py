@@ -228,7 +228,7 @@ single_referent_ultimate <- &ultimate_stress single_referent !vowel !consonant;
 
 dual_referent_penultimate <- &penultimate_stress dual_referent !vowel !consonant;
 
-dual_referent_ultimate <- &ultimate_stress dual_referent!vowel !consonant;
+dual_referent_ultimate <- &ultimate_stress dual_referent !vowel !consonant;
 
 dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !consonant;
 
@@ -278,9 +278,9 @@ high_tone <- "\\" / "¯";
 
 dual_referent <- four_tone? (vw? c2)? vcp2 ck vcp1 (cz vz (stop cb)?)?;
 
-vw <- "ö" / "e" / "a" / "ü" / "o" / "u" / "ë"
-    / "é" / "á" / "ó" / "ú"
-    / "è" / "à" / "ò" / "ù";
+vw <- "ö" / "i" / "a" / "ü" / "e" / "o" / "u" / "ë"
+    / "í" / "é" / "á" / "ó" / "ú"
+    / "ì" / "è" / "à" / "ò" / "ù";
 
 c2 <- "hw" / "w" / "y" / "h";
 
