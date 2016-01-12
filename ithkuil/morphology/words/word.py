@@ -87,3 +87,10 @@ class Word(metaclass=abc.ABCMeta):
 			return []
 		atom = self.atom(*morphemes)
 		return atom.values
+	
+	def slots_values_dict(self, slots):
+		morphemes = [self.morpheme(k, v) for k, v in slots.items()]
+		if not morphemes:
+			return []
+		atom = self.atom(*morphemes)
+		return atom.values

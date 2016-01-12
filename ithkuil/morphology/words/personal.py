@@ -17,7 +17,7 @@ class PersonalAdjunct(Word):
         super().__init__(*args)
         
     def slot_map(self, slot):
-        if slot == 'Vc2':
+        if slot == 'Vc2' or slot == 'V2':
             return 'Vc'
         else:
             return slot
@@ -26,7 +26,7 @@ class PersonalAdjunct(Word):
         if 'Vc' in self.slots and 'Cz' in self.slots:
             pass
 
-    def fillResult(self, add, suffix):
+    def fillResult(self, add, add_dict, suffix):
         if 'C1' in self.slots:
             if 'VxC' in self.slots:
                 for suf in self.slots['VxC']:
@@ -39,7 +39,17 @@ class PersonalAdjunct(Word):
             add('Vz', '[tone]')
             add('Cb')
         else:
+            add('Vw')
+            add('C2')
+            if 'Vc2' in self.slots:
+                add_dict({'Vc': self.slots['Vc2'], '[tone]': '\\'})
             add('Ck', '[tone]')
+            if 'Vc' in self.slots:
+                add_dict({'Vc': self.slots['Vc'], '[tone]': '\\'})
+            add('Cz')
+            if 'Vz' in self.slots:
+                add_dict({'Vz': self.slots['Vz'], '[tone]': '\\'})
+            add('Cb')
             
     @property
     def slots(self):
@@ -70,14 +80,20 @@ class PersonalAdjunct(Word):
                 self.spoof_defaults = False
             if slots == ['Cb'] and 'Cb+' in self.slots:
                 vals += '+' if self.slots['Cb+'] else ''
-            desc.append(vals) 
+            desc.append(vals)
+            
+        def add_dict(slots):
+            vals = self.slots_values_dict(slots)
+            codes = map(lambda x: x.code, vals)
+            vals = '/'.join(codes)
+            desc.append(vals)
 
         def suffix(suf):
             deg = self.atom(self.morpheme('VxC', suf['degree'])).values[0].code
             suf = self.atom(self.morpheme('VxC', suf['type'])).values[0].code
             desc.append('%s_%s' % (suf, deg))
 
-        self.fillResult(add, suffix)
+        self.fillResult(add, add_dict, suffix)
 
         return '-'.join(desc)
 
