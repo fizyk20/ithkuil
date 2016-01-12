@@ -58,7 +58,7 @@ class Word(metaclass=abc.ABCMeta):
 			raise AnalysisException('Invalid content for slot %s of word type %s: %s' % (slot, self.wordType.name, content))
 		return morph[0]
 
-	def atom(self, *morphemes):
+	def atom(self, *morphemes, exact=True):
 		if len(morphemes) == 1 and isinstance(morphemes[0], str):
 			return morphemes[0]
 		session = Session()
@@ -66,6 +66,10 @@ class Word(metaclass=abc.ABCMeta):
 		for morpheme in morphemes:
 			query = query.filter(ithAtom.morpheme_slots.contains(morpheme))
 		result = query.all()
+		
+		if exact:
+			result = [x for x in result if len(x.morpheme_slots) == len(morphemes)]
+			
 		if len(result) == 0:
 			return None
 		elif len(result) == 1:
