@@ -203,7 +203,7 @@ cb <- consonant consonant consonant
 
 // ----------------------------- verbal adjuncts --------------------------
 
-verbal_adjunct <- tone? (((cl? ve !cs)? cv)? vm)? cs (vs (stop? cb)?)? !vowel !consonant;
+verbal_adjunct <- tone? (((cl? ve !cs)? cv)? vm)? cs (vs (stop? cb)?)? !vowel !consonant !stop;
 
 cl <- validation !"hh";
 
@@ -215,24 +215,24 @@ vm <- unmarked_vocalic_block unmarked_vocalic_block?;
 
 // ------------------------------ personal adjuncts -------------------------
 
-personal_adjunct <- single_referent_penultimate
+personal_adjunct <- (single_referent_penultimate
                    / single_referent_ultimate
                    / dual_referent_penultimate
                    / dual_referent_ultimate
                    / dual_referent_antepenultimate
-                   / dual_referent_preantepenultimate;
+                   / dual_referent_preantepenultimate) !vowel !consonant !stop;
 
-single_referent_penultimate <- &penultimate_stress single_referent !vowel !consonant;
+single_referent_penultimate <- &penultimate_stress single_referent;
 
-single_referent_ultimate <- &ultimate_stress single_referent !vowel !consonant;
+single_referent_ultimate <- &ultimate_stress single_referent;
 
-dual_referent_penultimate <- &penultimate_stress dual_referent !vowel !consonant;
+dual_referent_penultimate <- &penultimate_stress dual_referent;
 
-dual_referent_ultimate <- &ultimate_stress dual_referent !vowel !consonant;
+dual_referent_ultimate <- &ultimate_stress dual_referent;
 
-dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !consonant;
+dual_referent_antepenultimate <- &antepenultimate_stress dual_referent;
 
-dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent !vowel !consonant;
+dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent;
 
 single_referent <- (conjunct_form
                   / long_form
@@ -291,13 +291,13 @@ four_tone_single <- "\\" / "¯" / "^" / "ˇ";
 
 // ------------------------------ aspectual adjuncts ------------------------
 
-aspectual_adjunct <- unmarked_vocalic_block+ !vowel !consonant;
+aspectual_adjunct <- unmarked_vocalic_block+ !vowel !consonant !stop;
 
 // ------------------------------ affixual adjuncts -------------------------
 
-affixual_adjunct <- unmarked_vocalic_block+ consonants !vowel !consonant;
+affixual_adjunct <- unmarked_vocalic_block+ consonants !vowel !consonant !stop;
 
 //------------------------------- bias adjuncts -----------------------------
 
-bias_adjunct <- cb !vowel !consonant;
+bias_adjunct <- cb !vowel !consonant !stop;
 """
