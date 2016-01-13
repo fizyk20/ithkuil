@@ -5,6 +5,9 @@ import sys
 
 words = sys.argv[1:]
 
+if not words:
+    words = sys.stdin.read().split()
+
 for word in words:
     try:
         wordObj = Factory.parseWord(word)
