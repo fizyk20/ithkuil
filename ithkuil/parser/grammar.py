@@ -215,24 +215,24 @@ vm <- unmarked_vocalic_block unmarked_vocalic_block?;
 
 // ------------------------------ personal adjuncts -------------------------
 
-personal_adjunct <- (single_referent_penultimate
+personal_adjunct <- single_referent_penultimate
                    / single_referent_ultimate
                    / dual_referent_penultimate
                    / dual_referent_ultimate
                    / dual_referent_antepenultimate
-                   / dual_referent_preantepenultimate) !vowel !consonant !stop;
+                   / dual_referent_preantepenultimate;
 
-single_referent_penultimate <- &penultimate_stress single_referent;
+single_referent_penultimate <- &penultimate_stress single_referent !vowel !consonant !stop;
 
-single_referent_ultimate <- &ultimate_stress single_referent;
+single_referent_ultimate <- &ultimate_stress single_referent !vowel !consonant !stop;
 
-dual_referent_penultimate <- &penultimate_stress dual_referent;
+dual_referent_penultimate <- &penultimate_stress dual_referent !vowel !consonant !stop;
 
-dual_referent_ultimate <- &ultimate_stress dual_referent;
+dual_referent_ultimate <- &ultimate_stress dual_referent !vowel !consonant !stop;
 
-dual_referent_antepenultimate <- &antepenultimate_stress dual_referent;
+dual_referent_antepenultimate <- &antepenultimate_stress dual_referent !vowel !consonant !stop;
 
-dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent;
+dual_referent_preantepenultimate <- &preantepenultimate_stress dual_referent !vowel !consonant !stop;
 
 single_referent <- (conjunct_form
                   / long_form
