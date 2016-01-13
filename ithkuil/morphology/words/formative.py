@@ -8,7 +8,7 @@ class Formative(Word):
 
     def analyze(self):
         vc = self.slots['Vc']
-        vcparts = vc.split('’')
+        vcparts = [x for x in vc.split('’') if x]
         if len(vcparts) > 1:
             self.slots['Vc'] = vcparts[0] + '’V'
             vr = vcparts[1]
