@@ -385,6 +385,26 @@ words_to_test = [
             '[stress]': -2
         }),
 
+    ('ü’tradnoqalo’kç', {
+            'type': 'formative',
+            'Cv': None,
+            'Vl': None,
+            'Cg': None,
+            'Cs': None,
+            'Vr': 'ü',
+            'Cx': 'tr',
+            'Vp': 'a',
+            'Cr': 'dn',
+            'Vc': 'o',
+            'Ci+Vi': None,
+            'Ca': 'q',
+            'VxC': [{ 'type': 'l', 'degree': 'a' }],
+            'Vf': 'o',
+            'Cb': 'kç',
+            '[tone]': None,
+            '[stress]': -2
+        }),
+
     ('aukkras', {
             'type': 'formative',
             'Cv': None,
