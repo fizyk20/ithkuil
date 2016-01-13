@@ -7,8 +7,7 @@ class Word(metaclass=abc.ABCMeta):
 	wordType = None
 	_slots = None
 
-	def __init__(self, word, slots):
-		self.word = word
+	def __init__(self, slots):
 		self._slots = slots
 		self.analyze()
 		

@@ -291,13 +291,3 @@ class IthkuilVisitor(PTNodeVisitor):
 
     # handle bias adjuncts
     visit_bias_adjunct = dict_append_visitor({ 'type': 'bias adjunct' })
-
-class CombineVisitor(PTNodeVisitor):
-    '''Class representing a visitor that just combines the symbols back into a part of the input stream'''
-
-    def __getattr__(self, attr):
-        def visitor(node, children):
-            return ''.join(children)
-        if attr.startswith('visit_') and attr != 'visit_':
-            return visitor
-        raise AttributeError()

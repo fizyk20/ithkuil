@@ -1,4 +1,4 @@
-from ithkuil.parser.visitor import IthkuilVisitor, CombineVisitor
+from ithkuil.parser.visitor import IthkuilVisitor
 from ithkuil.parser import wordParser
 from arpeggio import visit_parse_tree
 from .formative import Formative
@@ -46,34 +46,28 @@ def remove_stress(txt):
 class Factory(IthkuilVisitor):
 
     def visit_formative(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_formative(node, children)
-        return Formative(word, result)
+        return Formative(result)
 
     def visit_verbal_adjunct(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_verbal_adjunct(node, children)
-        return VerbalAdjunct(word, result)
+        return VerbalAdjunct(result)
 
     def visit_personal_adjunct(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_personal_adjunct(node, children)
-        return PersonalAdjunct(word, result)
+        return PersonalAdjunct(result)
 
     def visit_affixual_adjunct(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_affixual_adjunct(node, children)
-        return AffixualAdjunct(word, result)
+        return AffixualAdjunct(result)
 
     def visit_aspectual_adjunct(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_aspectual_adjunct(node, children)
-        return AspectualAdjunct(word, result)
+        return AspectualAdjunct(result)
 
     def visit_bias_adjunct(self, node, children):
-        word = visit_parse_tree(node, CombineVisitor())
         result = super().visit_bias_adjunct(node, children)
-        return BiasAdjunct(word, result)
+        return BiasAdjunct(result)
 
     def visit_vowels(self, node, children):
         '''This visiting function will remove stress marks from the vowels'''
@@ -104,4 +98,6 @@ class Factory(IthkuilVisitor):
     def parseWord(cls, word):
         word = filter_chars(handle_special_chars(word.lower()))
         parse_tree = wordParser.parse(word)
-        return visit_parse_tree(parse_tree, cls())
+        wordObj = visit_parse_tree(parse_tree, cls())
+        wordObj.word = word
+        return wordObj
