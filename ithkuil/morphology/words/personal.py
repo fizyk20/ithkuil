@@ -129,7 +129,9 @@ class PersonalAdjunct(Word):
             if 'Ck' in slots:
                 for v in vals:
                     if v.category.name == 'Personal referent' and result['Personal referent']['code'] != v.code:
-                        result['Personal referent 2'] = { 'code': v.code, 'name': v.name }
+                        result['Personal referent 2'] = result['Personal referent']
+                        result['Personal referent'] = { 'code': v.code, 'name': v.name }
+                        break
             return result
 
         def add(*slots):
