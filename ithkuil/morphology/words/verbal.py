@@ -4,6 +4,19 @@ from ithkuil.morphology.database import ithWordType, Session
 class VerbalAdjunct(Word):
 
     wordType = Session().query(ithWordType).filter(ithWordType.name == 'Verbal adjunct').first()
+    
+    categories = [
+        'Valence',
+        'Level',
+        'Phase',
+        'Sanction',
+        'Illocution',
+        'Modality',
+        'Aspect',
+        'Aspect 2',
+        'Bias',
+        'Extension'
+    ]
 
     def analyze(self):
         pass
@@ -40,7 +53,7 @@ class VerbalAdjunct(Word):
         return '-'.join(desc)
 
     def fullDescription(self):
-        desc = {'type': 'Verbal adjunct' }
+        desc = { 'type': 'Verbal adjunct', 'categories': self.categories }
 
         def values(slot):
             vals = self.slots_values(slot)
@@ -51,8 +64,16 @@ class VerbalAdjunct(Word):
             if slot not in self.slots:
                 return
             vals = values(slot)
+            if 'Modality' in vals and vals['Modality']['code'] == '(NO-MOD)':
+                del vals['Modality']
             if slot == 'Cb' and 'Cb+' in self.slots:
                 vals['Bias'] += '+' if self.slots['Cb+'] else ''
+            if 'Aspect' in vals and 'Aspect' in desc:
+                vals['Aspect 2'] = vals['Aspect']
+                del vals['Aspect']
             desc.update(vals)
 
         self.fillResult(add)
+        
+        return desc
+

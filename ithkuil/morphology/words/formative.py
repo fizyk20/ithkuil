@@ -5,6 +5,36 @@ from ..exceptions import AnalysisException
 class Formative(Word):
 
     wordType = Session().query(ithWordType).filter(ithWordType.name == 'Formative').first()
+    
+    categories = [
+        'Root',
+        'Stem and Pattern',
+        'Designation',
+        'Incorporated root',
+        'Stem and Pattern (inc)',
+        'Designation (inc)',
+        'Perspective (inc)',
+        'Configuration (inc)',
+        'Case (inc)',
+        'Format',
+        'Relation',
+        'Function',
+        'Case',
+        'Essence',
+        'Extension',
+        'Perspective',
+        'Affiliation',
+        'Configuration',
+        'Context',
+        'Aspect',
+        'Mood',
+        'Phase',
+        'Sanction',
+        'Illocution',
+        'Version',
+        'Valence',
+        'Bias'
+    ]
 
     def analyze(self):
         vc = self.slots['Vc']
@@ -70,7 +100,7 @@ class Formative(Word):
         return '-'.join(desc)
 
     def fullDescription(self):
-        desc = {'type': 'Formative' }
+        desc = { 'type': 'Formative', 'categories': self.categories }
 
         def values(slot):
             if slot == 'Cx':
