@@ -10,6 +10,7 @@ A Python package providing tools for analysing texts in the [Ithkuil](http://ith
 - An SQLite database containing morphological and grammatical data - the relations between morphemes and grammatical categories
 (ithkuil/morphology/morphology.db)
 - _test.py - a test script: morphological analysis of some example words
+- gloss_sentence.py - a script performing the glossing of the text given via command line or standard input
 
 There is also a keyboard layout making it possible to type special characters being used in Ithkuil.
 It has been moved to a separate repository - [ithkuil-utils](https://github.com/fizyk20/ithkuil-utils)
@@ -21,7 +22,7 @@ Near future:
 - Encode the sentence grammar in the PEG
 - Update the grammar to take into account the changes made after November 2014
 - Improve the grammar to accomodate mathematical expressions
-- Complete the database - include morphemes for adjuncts (current version only has formatives)
+- ~~Complete the database - include morphemes for adjuncts (current version only has formatives)~~
 
 Far future:
 
