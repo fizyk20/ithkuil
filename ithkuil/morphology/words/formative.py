@@ -110,7 +110,7 @@ class Formative(Word):
             vals = self.slots_values(slot)
             result = { x.category.name: {'code': x.code, 'name': x.name} for x in vals }
             if slot == 'Vp':
-                result = { k + ' (inc)': v for k, v in result}
+                result = { k + ' (inc)': v for k, v in result.items()}
             return result
 
         def add(slot):   
