@@ -32,15 +32,15 @@ def remove_stress(txt):
         'óu': 'ou',
         '[áéó]': remove_accents,
         '[àèò]': remove_accents,
-        '[^aeiou]?[ìù]': remove_accents,
-        '[^aeiou]?[íú]': remove_accents,
+        '([^aeiou]|^)[ìù]': remove_accents,
+        '([^aeiou]|^)[íú]': remove_accents,
         '([aeou])í': r'\1ì',
         '([aeio])ú': r'\1ù'
     }
 
     for k, v in stressed.items():
         txt = re.sub(k, v, txt)
-    
+
     return txt
 
 class Factory(IthkuilVisitor):
@@ -73,23 +73,23 @@ class Factory(IthkuilVisitor):
         '''This visiting function will remove stress marks from the vowels'''
         temp = ''.join(children)
         return remove_stress(temp)
-    
+
     def visit_vz(self, node, children):
         temp = ''.join(children)
         return { 'Vz': remove_stress(temp) }
-    
+
     def visit_vw(self, node, children):
         temp = ''.join(children)
         return { 'Vw': remove_stress(temp) }
-    
+
     def visit_vcp(self, node, children):
         temp = ''.join(children)
         return remove_stress(temp)
-    
+
     def visit_vf_format(self, node, children):
         temp = ''.join(children)
         return {'Vf': remove_stress(temp)}
-    
+
     def visit_vf_no_format(self, node, children):
         temp = ''.join(children)
         return {'Vf': remove_stress(temp)}
