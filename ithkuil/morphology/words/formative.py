@@ -117,8 +117,9 @@ class Formative(Word):
             if slot not in self.slots:
                 return
             vals = values(slot)
-            if slot == 'Cb' and 'Cb+' in self.slots:
-                vals['Bias'] += '+' if self.slots['Cb+'] else ''
+            if slot == 'Cb' and self.slots.get('Cb+'):
+                vals['Bias']['name'] += '+'
+                vals['Bias']['code'] += '+'
             desc.update(vals) 
 
         def suffix(suf):

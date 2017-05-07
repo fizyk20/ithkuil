@@ -145,8 +145,9 @@ class PersonalAdjunct(Word):
                 self.spoof_defaults = True
                 vals = values(*slots)
                 self.spoof_defaults = False
-            if 'Bias' in vals and 'Cb+' in self.slots:
-                vals['Bias']['name'] += '+' if self.slots['Cb+'] else ''
+            if 'Bias' in vals and self.slots.get('Cb+'):
+                vals['Bias']['code'] += '+'
+                vals['Bias']['name'] += '+'
             desc.update(vals)
             
         def add_dict(slots):

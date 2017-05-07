@@ -66,8 +66,9 @@ class VerbalAdjunct(Word):
             vals = values(slot)
             if 'Modality' in vals and vals['Modality']['code'] == '(NO-MOD)':
                 del vals['Modality']
-            if slot == 'Cb' and 'Cb+' in self.slots:
-                vals['Bias'] += '+' if self.slots['Cb+'] else ''
+            if slot == 'Cb' and self.slots.get('Cb+'):
+                vals['Bias']['code'] += '+'
+                vals['Bias']['name'] += '+'
             if 'Aspect' in vals and 'Aspect' in desc:
                 vals['Aspect 2'] = vals['Aspect']
                 del vals['Aspect']
