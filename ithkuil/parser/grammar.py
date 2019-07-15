@@ -10,7 +10,7 @@ word <- verbal_adjunct
 
 // ------------------ some basic definitions --------------------
 
-tone <- "\\" / "_" / "/" / "ˇ" / "^" / "¯";
+tone <- "\\\\" / "_" / "/" / "ˇ" / "^" / "¯";
 
 consonant4 <- "hw" / "w" / "y" / "h";
 
@@ -274,7 +274,7 @@ vsp <- vowel+;
 
 collapsed_form <- high_tone? vcp2 c1 vcp1;
 
-high_tone <- "\\" / "¯";
+high_tone <- "\\\\" / "¯";
 
 dual_referent <- four_tone? (vw? c2)? vcp2 ck vcp1 (cz vz (stop cb)?)?;
 
@@ -286,8 +286,8 @@ c2 <- "hw" / "w" / "y" / "h";
 
 ck <- !c1 consonant+;
 
-four_tone <- "\\" / "/" / "¯" / "_";
-four_tone_single <- "\\" / "¯" / "^" / "ˇ";
+four_tone <- "\\\\" / "/" / "¯" / "_";
+four_tone_single <- "\\\\" / "¯" / "^" / "ˇ";
 
 // ------------------------------ aspectual adjuncts ------------------------
 
